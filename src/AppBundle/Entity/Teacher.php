@@ -49,6 +49,15 @@ class Teacher
      */
     private $teacherCode;
 
+    /**
+     * @ORM\ManyToMany( targetEntity="AppBundle\Entity\roleType" , inversedBy="teachers", cascade={"persist"})
+     * @ORM\JoinTable( name = "teacher_has_role",
+     *      joinColumns = { @ORM\JoinColumn ( name = "id_teacher", referencedColumnName = "id_teacher" ) },
+     *      inverseJoinColumns = { @ORM\JoinColumn ( name = "id_role_type" , referencedColumnName = "id_role_type" ) },
+     *     )
+     */
+    private $roles;
+
 
     /**
      * Get idTeacher
@@ -106,5 +115,46 @@ class Teacher
     public function getPersonPerson()
     {
         return $this->personPerson;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add role
+     *
+     * @param \AppBundle\Entity\roleType $role
+     *
+     * @return Teacher
+     */
+    public function addRole(\AppBundle\Entity\roleType $role)
+    {
+        $this->roles[] = $role;
+
+        return $this;
+    }
+
+    /**
+     * Remove role
+     *
+     * @param \AppBundle\Entity\roleType $role
+     */
+    public function removeRole(\AppBundle\Entity\roleType $role)
+    {
+        $this->roles->removeElement($role);
+    }
+
+    /**
+     * Get roles
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRoles()
+    {
+        return $this->roles;
     }
 }

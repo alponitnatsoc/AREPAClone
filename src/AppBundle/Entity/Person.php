@@ -41,7 +41,7 @@ class Person
     /**
      * @ORM\Column(type="string",nullable=true)
      */
-    private $lasteName1;
+    private $lastName1;
 
     /**
      * @ORM\Column(type="string",nullable=true)
@@ -49,9 +49,15 @@ class Person
     private $lastName2;
 
     /**
+     * @var string
+     * @ORM\Column(name="document_type", type="string", length=2, nullable=true)
+     */
+    private $documentType;
+
+    /**
      * @ORM\Column(type="string",nullable=true)
      */
-    private $documento;
+    private $document;
 
     /**
      * @var Student
@@ -266,5 +272,77 @@ class Person
     public function getTeacher()
     {
         return $this->teacher;
+    }
+
+    /**
+     * Set documentType
+     *
+     * @param string $documentType
+     *
+     * @return Person
+     */
+    public function setDocumentType($documentType)
+    {
+        $this->documentType = $documentType;
+
+        return $this;
+    }
+
+    /**
+     * Get documentType
+     *
+     * @return string
+     */
+    public function getDocumentType()
+    {
+        return $this->documentType;
+    }
+
+    /**
+     * Set document
+     *
+     * @param string $document
+     *
+     * @return Person
+     */
+    public function setDocument($document)
+    {
+        $this->document = $document;
+
+        return $this;
+    }
+
+    /**
+     * Get document
+     *
+     * @return string
+     */
+    public function getDocument()
+    {
+        return $this->document;
+    }
+
+    /**
+     * Set lastName1
+     *
+     * @param string $lastName1
+     *
+     * @return Person
+     */
+    public function setLastName1($lastName1)
+    {
+        $this->lastName1 = $lastName1;
+
+        return $this;
+    }
+
+    /**
+     * Get lastName1
+     *
+     * @return string
+     */
+    public function getLastName1()
+    {
+        return $this->lastName1;
     }
 }

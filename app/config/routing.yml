@@ -1,3 +1,8 @@
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation
+
+new_person:
+    path: /register/person
+    defaults: {_controller: AppBundle:Person:index}
+
