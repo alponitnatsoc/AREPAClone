@@ -50,7 +50,7 @@ class Teacher
     private $teacherCode;
 
     /**
-     * @ORM\ManyToMany( targetEntity="RoleType.php" , inversedBy="teachers", cascade={"persist"})
+     * @ORM\ManyToMany( targetEntity="RoleType" , inversedBy="teachers", cascade={"persist"})
      * @ORM\JoinTable( name = "teacher_has_role",
      *      joinColumns = { @ORM\JoinColumn ( name = "id_teacher", referencedColumnName = "id_teacher" ) },
      *      inverseJoinColumns = { @ORM\JoinColumn ( name = "id_role_type" , referencedColumnName = "id_role_type" ) },

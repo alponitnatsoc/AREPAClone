@@ -147,4 +147,45 @@ class ClassCourse
     {
         return $this->courseCourse;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->classHasStudents = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add classHasStudent
+     *
+     * @param \AppBundle\Entity\StudentAssistClass $classHasStudent
+     *
+     * @return ClassCourse
+     */
+    public function addClassHasStudent(\AppBundle\Entity\StudentAssistClass $classHasStudent)
+    {
+        $this->classHasStudents[] = $classHasStudent;
+
+        return $this;
+    }
+
+    /**
+     * Remove classHasStudent
+     *
+     * @param \AppBundle\Entity\StudentAssistClass $classHasStudent
+     */
+    public function removeClassHasStudent(\AppBundle\Entity\StudentAssistClass $classHasStudent)
+    {
+        $this->classHasStudents->removeElement($classHasStudent);
+    }
+
+    /**
+     * Get classHasStudents
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getClassHasStudents()
+    {
+        return $this->classHasStudents;
+    }
 }

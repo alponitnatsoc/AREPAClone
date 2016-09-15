@@ -157,4 +157,93 @@ class Student
     {
         return $this->personPerson;
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->studentAssistClasses = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Set aprovedCredits
+     *
+     * @param integer $aprovedCredits
+     *
+     * @return Student
+     */
+    public function setAprovedCredits($aprovedCredits)
+    {
+        $this->aprovedCredits = $aprovedCredits;
+
+        return $this;
+    }
+
+    /**
+     * Get aprovedCredits
+     *
+     * @return integer
+     */
+    public function getAprovedCredits()
+    {
+        return $this->aprovedCredits;
+    }
+
+    /**
+     * Set isMonitor
+     *
+     * @param boolean $isMonitor
+     *
+     * @return Student
+     */
+    public function setIsMonitor($isMonitor)
+    {
+        $this->isMonitor = $isMonitor;
+
+        return $this;
+    }
+
+    /**
+     * Get isMonitor
+     *
+     * @return boolean
+     */
+    public function getIsMonitor()
+    {
+        return $this->isMonitor;
+    }
+
+    /**
+     * Add studentAssistClass
+     *
+     * @param \AppBundle\Entity\StudentAssistClass $studentAssistClass
+     *
+     * @return Student
+     */
+    public function addStudentAssistClass(\AppBundle\Entity\StudentAssistClass $studentAssistClass)
+    {
+        $this->studentAssistClasses[] = $studentAssistClass;
+
+        return $this;
+    }
+
+    /**
+     * Remove studentAssistClass
+     *
+     * @param \AppBundle\Entity\StudentAssistClass $studentAssistClass
+     */
+    public function removeStudentAssistClass(\AppBundle\Entity\StudentAssistClass $studentAssistClass)
+    {
+        $this->studentAssistClasses->removeElement($studentAssistClass);
+    }
+
+    /**
+     * Get studentAssistClasses
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStudentAssistClasses()
+    {
+        return $this->studentAssistClasses;
+    }
 }
