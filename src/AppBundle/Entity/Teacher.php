@@ -50,7 +50,7 @@ class Teacher
     private $teacherCode;
 
     /**
-     * @ORM\ManyToMany( targetEntity="AppBundle\Entity\roleType" , inversedBy="teachers", cascade={"persist"})
+     * @ORM\ManyToMany( targetEntity="RoleType.php" , inversedBy="teachers", cascade={"persist"})
      * @ORM\JoinTable( name = "teacher_has_role",
      *      joinColumns = { @ORM\JoinColumn ( name = "id_teacher", referencedColumnName = "id_teacher" ) },
      *      inverseJoinColumns = { @ORM\JoinColumn ( name = "id_role_type" , referencedColumnName = "id_role_type" ) },
@@ -131,7 +131,7 @@ class Teacher
      *
      * @return Teacher
      */
-    public function addRole(\AppBundle\Entity\roleType $role)
+    public function addRole(\AppBundle\Entity\RoleType $role)
     {
         $this->roles[] = $role;
 
@@ -143,7 +143,7 @@ class Teacher
      *
      * @param \AppBundle\Entity\roleType $role
      */
-    public function removeRole(\AppBundle\Entity\roleType $role)
+    public function removeRole(\AppBundle\Entity\RoleType $role)
     {
         $this->roles->removeElement($role);
     }
