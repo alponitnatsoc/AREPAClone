@@ -9,8 +9,13 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PersonController extends Controller
 {
+    /**
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function indexAction(Request $request)
     {
+        //creating a new person for the form
         $person = new Person();
         $form = $this->createForm(newPersonForm::class,$person);
 

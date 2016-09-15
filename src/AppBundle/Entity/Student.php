@@ -58,6 +58,25 @@ class Student
     private $gradePointAverage=0.0;
 
     /**
+     * @var int
+     *
+     * @ORM\Column(type="integer")
+     */
+    private $aprovedCredits=0;
+
+    /**
+     * @var boolean
+     *
+     * @ORM\Column(name="is_monitor",type="boolean")
+     */
+    private $isMonitor = false;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\StudentAssistClass",mappedBy="studentStudent",cascade={"persist"})
+     */
+    private $studentAssistClasses;
+
+    /**
      * Get idStudent
      *
      * @return integer

@@ -23,12 +23,12 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  *     })
  * @ORM\Entity
  */
-class roleType
+class RoleType
 {
     /**
      * @var integer
      * @ORM\Column(name="id_role_type", type="integer")
-     * @ORM\Id()
+         * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $idRoleType;

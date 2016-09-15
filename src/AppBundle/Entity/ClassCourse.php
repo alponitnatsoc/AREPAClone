@@ -51,14 +51,20 @@ class ClassCourse
      */
     private $ciclolectivo;
 
-
-    // ...
     /**
      * @var Course
+     *
      * @ORM\ManyToOne(targetEntity="Course", inversedBy="classes")
      * @ORM\JoinColumns({@ORM\JoinColumn(name="course_id_course", referencedColumnName="id_course")})
      */
     private $courseCourse;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\StudentAssistClass",mappedBy="classCourseClassCourse",cascade={"persist"})
+     */
+    private $classHasStudents;
+
+    private $classHasTeacher;
 
     /**
      * Get idclass
