@@ -51,11 +51,5 @@ class TeacherHasClass
      */
     private $teacherTeacher;
 
-    /**
-     * @var float
-     * @ORM\Column(type="float", )
-     */
-    private $defGrade = 0.0;
 
-//    private $assesmentTools;
 }
