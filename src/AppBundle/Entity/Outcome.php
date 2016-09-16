@@ -48,4 +48,62 @@ class Outcome
      * @ORM\Column(name="description_outcome",type="string", length=300)
      */
     private $descriptionOutcome;
+
+    /**
+     * Get idOutcome
+     *
+     * @return integer
+     */
+    public function getIdOutcome()
+    {
+        return $this->idOutcome;
+    }
+
+    /**
+     * Set nameOutcome
+     *
+     * @param string $nameOutcome
+     *
+     * @return Outcome
+     */
+    public function setNameOutcome($nameOutcome)
+    {
+        $this->nameOutcome = $nameOutcome;
+
+        return $this;
+    }
+
+    /**
+     * Get nameOutcome
+     *
+     * @return string
+     */
+    public function getNameOutcome()
+    {
+        return $this->nameOutcome;
+    }
+
+    /**
+     * Set descriptionOutcome
+     *
+     * @param string $descriptionOutcome
+     *
+     * @return Outcome
+     */
+    public function setDescriptionOutcome($descriptionOutcome)
+    {
+        $this->descriptionOutcome = $descriptionOutcome;
+
+        return $this;
+    }
+
+    /**
+     * Get descriptionOutcome
+     *
+     * @return string
+     */
+    public function getDescriptionOutcome()
+    {
+        return $this->descriptionOutcome;
+    }
 }

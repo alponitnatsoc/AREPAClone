@@ -59,5 +59,85 @@ class StudentAssistClass
 
 //    private $assesmentTools;
 
+    /**
+     * Get idStudentAssistClass
+     *
+     * @return integer
+     */
+    public function getIdStudentAssistClass()
+    {
+        return $this->idStudentAssistClass;
+    }
 
+    /**
+     * Set defGrade
+     *
+     * @param float $defGrade
+     *
+     * @return StudentAssistClass
+     */
+    public function setDefGrade($defGrade)
+    {
+        $this->defGrade = $defGrade;
+
+        return $this;
+    }
+
+    /**
+     * Get defGrade
+     *
+     * @return float
+     */
+    public function getDefGrade()
+    {
+        return $this->defGrade;
+    }
+
+    /**
+     * Set studentStudent
+     *
+     * @param \AppBundle\Entity\Student $studentStudent
+     *
+     * @return StudentAssistClass
+     */
+    public function setStudentStudent(\AppBundle\Entity\Student $studentStudent = null)
+    {
+        $this->studentStudent = $studentStudent;
+
+        return $this;
+    }
+
+    /**
+     * Get studentStudent
+     *
+     * @return \AppBundle\Entity\Student
+     */
+    public function getStudentStudent()
+    {
+        return $this->studentStudent;
+    }
+
+    /**
+     * Set classCourseClassCourse
+     *
+     * @param \AppBundle\Entity\ClassCourse $classCourseClassCourse
+     *
+     * @return StudentAssistClass
+     */
+    public function setClassCourseClassCourse(\AppBundle\Entity\ClassCourse $classCourseClassCourse = null)
+    {
+        $this->classCourseClassCourse = $classCourseClassCourse;
+
+        return $this;
+    }
+
+    /**
+     * Get classCourseClassCourse
+     *
+     * @return \AppBundle\Entity\ClassCourse
+     */
+    public function getClassCourseClassCourse()
+    {
+        return $this->classCourseClassCourse;
+    }
 }
