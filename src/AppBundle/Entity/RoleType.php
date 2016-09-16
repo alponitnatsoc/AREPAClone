@@ -23,12 +23,12 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  *     })
  * @ORM\Entity
  */
-class roleType
+class RoleType
 {
     /**
      * @var integer
      * @ORM\Column(name="id_role_type", type="integer")
-     * @ORM\Id()
+         * @ORM\Id()
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $idRoleType;
@@ -49,6 +49,7 @@ class roleType
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Teacher",mappedBy="roles")
      */
     private $teachers;
+
     /**
      * Constructor
      */
@@ -72,7 +73,7 @@ class roleType
      *
      * @param string $roleName
      *
-     * @return roleType
+     * @return RoleType
      */
     public function setRoleName($roleName)
     {
@@ -96,7 +97,7 @@ class roleType
      *
      * @param string $roleCode
      *
-     * @return roleType
+     * @return RoleType
      */
     public function setRoleCode($roleCode)
     {
@@ -120,7 +121,7 @@ class roleType
      *
      * @param \AppBundle\Entity\Teacher $teacher
      *
-     * @return roleType
+     * @return RoleType
      */
     public function addTeacher(\AppBundle\Entity\Teacher $teacher)
     {

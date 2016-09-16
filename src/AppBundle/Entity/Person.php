@@ -131,27 +131,27 @@ class Person
     }
 
     /**
-     * Set lasteName1
+     * Set lastName1
      *
-     * @param string $lasteName1
+     * @param string $lastName1
      *
      * @return Person
      */
-    public function setLasteName1($lasteName1)
+    public function setLastName1($lastName1)
     {
-        $this->lasteName1 = $lasteName1;
+        $this->lastName1 = $lastName1;
 
         return $this;
     }
 
     /**
-     * Get lasteName1
+     * Get lastName1
      *
      * @return string
      */
-    public function getLasteName1()
+    public function getLastName1()
     {
-        return $this->lasteName1;
+        return $this->lastName1;
     }
 
     /**
@@ -176,102 +176,6 @@ class Person
     public function getLastName2()
     {
         return $this->lastName2;
-    }
-
-    /**
-     * Set documento
-     *
-     * @param string $documento
-     *
-     * @return Person
-     */
-    public function setDocumento($documento)
-    {
-        $this->documento = $documento;
-
-        return $this;
-    }
-
-    /**
-     * Get documento
-     *
-     * @return string
-     */
-    public function getDocumento()
-    {
-        return $this->documento;
-    }
-
-    /**
-     * Set studentStudent
-     *
-     * @param \AppBundle\Entity\Student $studentStudent
-     *
-     * @return Person
-     */
-    public function setStudentStudent(\AppBundle\Entity\Student $studentStudent = null)
-    {
-        $this->studentStudent = $studentStudent;
-
-        return $this;
-    }
-
-    /**
-     * Get studentStudent
-     *
-     * @return \AppBundle\Entity\Student
-     */
-    public function getStudentStudent()
-    {
-        return $this->studentStudent;
-    }
-
-    /**
-     * Set student
-     *
-     * @param \AppBundle\Entity\Student $student
-     *
-     * @return Person
-     */
-    public function setStudent(\AppBundle\Entity\Student $student = null)
-    {
-        $this->student = $student;
-
-        return $this;
-    }
-
-    /**
-     * Get student
-     *
-     * @return \AppBundle\Entity\Student
-     */
-    public function getStudent()
-    {
-        return $this->student;
-    }
-
-    /**
-     * Set teacher
-     *
-     * @param \AppBundle\Entity\Student $teacher
-     *
-     * @return Person
-     */
-    public function setTeacher(\AppBundle\Entity\Student $teacher = null)
-    {
-        $this->teacher = $teacher;
-
-        return $this;
-    }
-
-    /**
-     * Get teacher
-     *
-     * @return \AppBundle\Entity\Student
-     */
-    public function getTeacher()
-    {
-        return $this->teacher;
     }
 
     /**
@@ -323,26 +227,50 @@ class Person
     }
 
     /**
-     * Set lastName1
+     * Set student
      *
-     * @param string $lastName1
+     * @param \AppBundle\Entity\Student $student
      *
      * @return Person
      */
-    public function setLastName1($lastName1)
+    public function setStudent(\AppBundle\Entity\Student $student = null)
     {
-        $this->lastName1 = $lastName1;
+        $this->student = $student;
 
         return $this;
     }
 
     /**
-     * Get lastName1
+     * Get student
      *
-     * @return string
+     * @return \AppBundle\Entity\Student
      */
-    public function getLastName1()
+    public function getStudent()
     {
-        return $this->lastName1;
+        return $this->student;
+    }
+
+    /**
+     * Set teacher
+     *
+     * @param \AppBundle\Entity\Student $teacher
+     *
+     * @return Person
+     */
+    public function setTeacher(\AppBundle\Entity\Student $teacher = null)
+    {
+        $this->teacher = $teacher;
+
+        return $this;
+    }
+
+    /**
+     * Get teacher
+     *
+     * @return \AppBundle\Entity\Student
+     */
+    public function getTeacher()
+    {
+        return $this->teacher;
     }
 }

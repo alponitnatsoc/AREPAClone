@@ -50,7 +50,7 @@ class Teacher
     private $teacherCode;
 
     /**
-     * @ORM\ManyToMany( targetEntity="AppBundle\Entity\roleType" , inversedBy="teachers", cascade={"persist"})
+     * @ORM\ManyToMany( targetEntity="RoleType" , inversedBy="teachers", cascade={"persist"})
      * @ORM\JoinTable( name = "teacher_has_role",
      *      joinColumns = { @ORM\JoinColumn ( name = "id_teacher", referencedColumnName = "id_teacher" ) },
      *      inverseJoinColumns = { @ORM\JoinColumn ( name = "id_role_type" , referencedColumnName = "id_role_type" ) },
@@ -58,6 +58,19 @@ class Teacher
      */
     private $roles;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TeacherHasClass",mappedBy="teacherTeacher",cascade={"persist"})
+     */
+    private $teacherHasClasses;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->teacherHasClasses = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get idTeacher
@@ -116,22 +129,15 @@ class Teacher
     {
         return $this->personPerson;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add role
      *
-     * @param \AppBundle\Entity\roleType $role
+     * @param \AppBundle\Entity\RoleType $role
      *
      * @return Teacher
      */
-    public function addRole(\AppBundle\Entity\roleType $role)
+    public function addRole(\AppBundle\Entity\RoleType $role)
     {
         $this->roles[] = $role;
 
@@ -141,9 +147,9 @@ class Teacher
     /**
      * Remove role
      *
-     * @param \AppBundle\Entity\roleType $role
+     * @param \AppBundle\Entity\RoleType $role
      */
-    public function removeRole(\AppBundle\Entity\roleType $role)
+    public function removeRole(\AppBundle\Entity\RoleType $role)
     {
         $this->roles->removeElement($role);
     }
@@ -156,5 +162,39 @@ class Teacher
     public function getRoles()
     {
         return $this->roles;
+    }
+
+    /**
+     * Add teacherHasClass
+     *
+     * @param \AppBundle\Entity\TeacherHasClass $teacherHasClass
+     *
+     * @return Teacher
+     */
+    public function addTeacherHasClass(\AppBundle\Entity\TeacherHasClass $teacherHasClass)
+    {
+        $this->teacherHasClasses[] = $teacherHasClass;
+
+        return $this;
+    }
+
+    /**
+     * Remove teacherHasClass
+     *
+     * @param \AppBundle\Entity\TeacherHasClass $teacherHasClass
+     */
+    public function removeTeacherHasClass(\AppBundle\Entity\TeacherHasClass $teacherHasClass)
+    {
+        $this->teacherHasClasses->removeElement($teacherHasClass);
+    }
+
+    /**
+     * Get teacherHasClasses
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getTeacherHasClasses()
+    {
+        return $this->teacherHasClasses;
     }
 }
