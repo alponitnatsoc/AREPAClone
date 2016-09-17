@@ -50,6 +50,29 @@ class Outcome
     private $descriptionOutcome;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="exalumns_outcome_value",type="float")
+     */
+    private $exalumnsOutcomeValue;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="internal_outcome_value",type="float")
+     */
+    private $internalOutcomeValue;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="exalumns_porcentage_value",type="float")
+     */
+    private $exalumnsPorcentageValue;
+
+
+
+    /**
      * Get idOutcome
      *
      * @return integer
@@ -105,5 +128,77 @@ class Outcome
     public function getDescriptionOutcome()
     {
         return $this->descriptionOutcome;
+    }
+
+    /**
+     * Set exalumnsOutcomeValue
+     *
+     * @param float $exalumnsOutcomeValue
+     *
+     * @return Outcome
+     */
+    public function setExalumnsOutcomeValue($exalumnsOutcomeValue)
+    {
+        $this->exalumnsOutcomeValue = $exalumnsOutcomeValue;
+
+        return $this;
+    }
+
+    /**
+     * Get exalumnsOutcomeValue
+     *
+     * @return float
+     */
+    public function getExalumnsOutcomeValue()
+    {
+        return $this->exalumnsOutcomeValue;
+    }
+
+    /**
+     * Set internalOutcomeValue
+     *
+     * @param float $internalOutcomeValue
+     *
+     * @return Outcome
+     */
+    public function setInternalOutcomeValue($internalOutcomeValue)
+    {
+        $this->internalOutcomeValue = $internalOutcomeValue;
+
+        return $this;
+    }
+
+    /**
+     * Get internalOutcomeValue
+     *
+     * @return float
+     */
+    public function getInternalOutcomeValue()
+    {
+        return $this->internalOutcomeValue;
+    }
+
+    /**
+     * Set exalumnsPorcentageValue
+     *
+     * @param float $exalumnsPorcentageValue
+     *
+     * @return Outcome
+     */
+    public function setExalumnsPorcentageValue($exalumnsPorcentageValue)
+    {
+        $this->exalumnsPorcentageValue = $exalumnsPorcentageValue;
+
+        return $this;
+    }
+
+    /**
+     * Get exalumnsPorcentageValue
+     *
+     * @return float
+     */
+    public function getExalumnsPorcentageValue()
+    {
+        return $this->exalumnsPorcentageValue;
     }
 }
