@@ -23,7 +23,6 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  *     })
  * @ORM\Entity
  */
-
 class DocumentType
 {
 

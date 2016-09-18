@@ -29,7 +29,7 @@ class Outcome
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_student",type="integer")
+     * @ORM\Column(name="id_outcome",type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -50,60 +50,7 @@ class Outcome
     private $descriptionOutcome;
 
     /**
-     * Get idOutcome
-     *
-     * @return integer
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\AssessmentTool",mappedBy="outcomeOutcome")
      */
-    public function getIdOutcome()
-    {
-        return $this->idOutcome;
-    }
-
-    /**
-     * Set nameOutcome
-     *
-     * @param string $nameOutcome
-     *
-     * @return Outcome
-     */
-    public function setNameOutcome($nameOutcome)
-    {
-        $this->nameOutcome = $nameOutcome;
-
-        return $this;
-    }
-
-    /**
-     * Get nameOutcome
-     *
-     * @return string
-     */
-    public function getNameOutcome()
-    {
-        return $this->nameOutcome;
-    }
-
-    /**
-     * Set descriptionOutcome
-     *
-     * @param string $descriptionOutcome
-     *
-     * @return Outcome
-     */
-    public function setDescriptionOutcome($descriptionOutcome)
-    {
-        $this->descriptionOutcome = $descriptionOutcome;
-
-        return $this;
-    }
-
-    /**
-     * Get descriptionOutcome
-     *
-     * @return string
-     */
-    public function getDescriptionOutcome()
-    {
-        return $this->descriptionOutcome;
-    }
+    private $assessmentTools;
 }
