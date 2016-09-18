@@ -50,6 +50,29 @@ class Outcome
     private $descriptionOutcome;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="exalumns_outcome_value",type="float")
+     */
+    private $exalumnsOutcomeValue;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="internal_outcome_value",type="float")
+     */
+    private $internalOutcomeValue;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="exalumns_porcentage_value",type="float")
+     */
+    private $exalumnsPorcentageValue;
+
+
+
+    /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\AssessmentTool",mappedBy="outcomeOutcome")
      */
     private $assessmentTools;
