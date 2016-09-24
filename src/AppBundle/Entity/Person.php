@@ -66,14 +66,20 @@ class Person
 
     /**
      * @var Student
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Student", mappedBy="idStudent", cascade={"persist"},)
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Student", mappedBy="personPerson", cascade={"persist","remove"},)
      */
     private $student;
 
     /**
      * @var Teacher
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Teacher", mappedBy="idTeacher", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Teacher", mappedBy="personPerson", cascade={"persist","remove"})
      */
     private $teacher;
+
+    //TODO
+    /**
+     * @var string
+     */
+    private $userUser;
 
 }

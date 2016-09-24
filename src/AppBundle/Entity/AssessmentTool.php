@@ -32,7 +32,7 @@ class AssessmentTool
     /**
      * @var boolean
      */
-    private $aportsOutcome;
+    private $contributeOutcome;
 
     /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Outcome", inversedBy="assessmentTools")
@@ -42,5 +42,15 @@ class AssessmentTool
      * )
      */
     private $outcomeOutcome;
+
+    /**
+     * @ORM\Column(name='percentage_grade', type="float")
+     */
+    private $percentageGrade = 0.0;
+
+
+    private $rubricHasAssessmentTools;
+
+
 
 }

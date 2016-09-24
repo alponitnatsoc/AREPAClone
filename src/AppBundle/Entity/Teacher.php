@@ -37,7 +37,7 @@ class Teacher
 
     /**
      * @var Person
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Person",inversedBy="idPerson", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Person",inversedBy="teacher", cascade={"persist"})
      * @ORM\JoinColumn(name="person_id_person",referencedColumnName="id_person")
      */
     private $personPerson;
@@ -50,12 +50,17 @@ class Teacher
     private $teacherCode;
 
     /**
-     * @ORM\OneToMany( targetEntity="AppBundle\Entity\TeacherHasRole" , mappedBy="teacherTeacher", cascade={"persist"})
+     * @ORM\OneToMany( targetEntity="AppBundle\Entity\TeacherHasRole" , mappedBy="teacherTeacher", cascade={"persist","remove"})
      */
     private $teacherHasRoles;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TeacherDictatesCourse",mappedBy="teacherTeacher",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TeacherDictatesCourse",mappedBy="teacherTeacher",cascade={"persist","remove"})
      */
     private $teacherDictatesCourses;
+
+    /**
+     * TODO
+     */
+    private $notifications;
 }

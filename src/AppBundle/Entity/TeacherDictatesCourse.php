@@ -25,11 +25,11 @@ class TeacherDictatesCourse
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_teacher_has_class",type="integer")
+     * @ORM\Column(name="id_teacher_dictates_course",type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $idTeacherHasClass;
+    private $idTeacherDicatesCourse;
 
     /**
      * @var ClassCourse
@@ -50,5 +50,10 @@ class TeacherDictatesCourse
      * })
      */
     private $courseCourse;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Rubric",mappedBy="teacherDictatesCourse")
+     */
+    private $rubrics;
 
 }

@@ -35,7 +35,6 @@ class ClassCourse
      */
     private $idclass;
 
-
     /**
      * @var string
      *
@@ -62,5 +61,10 @@ class ClassCourse
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\StudentAssistClass",mappedBy="classCourseClassCourse",cascade={"persist"})
      */
     private $classHasStudents;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Rubric", mappedBy="classCourseClassCourse", cascade={"persist"})
+     */
+    private $rubrics;
 
 }
