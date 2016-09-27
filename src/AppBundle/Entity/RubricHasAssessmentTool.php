@@ -35,12 +35,16 @@ class RubricHasAssessmentTool
     private $contents;
 
     /**
+     * @var Rubric
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Rubric",inversedBy="rubricHasAssessmentTools")
      * @ORM\JoinColumn(name="rubric_id", referencedColumnName="id_rubric")
      */
     private $rubricRubric;
 
     /**
+     * @var AssessmentTool
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AssessmentTool", inversedBy="rubricHasAssessmentTools")
      * @ORM\JoinColumn(name="assessment_tool_id",referencedColumnName="id_assessment_tool")
      */

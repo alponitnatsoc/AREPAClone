@@ -65,12 +65,12 @@ Class Course
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="ClassCourse", mappedBy="idclass", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="ClassCourse", mappedBy="idclass", cascade={"persist", "remove"})
      */
     private $classes;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TeacherDictatesCourse", mappedBy="courseCourse")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TeacherDictatesCourse", mappedBy="courseCourse", cascade={"persist", "remove"})
      */
     private $courseIsDictatedByTeachers;
 

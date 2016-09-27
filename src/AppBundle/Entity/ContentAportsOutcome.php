@@ -38,23 +38,27 @@ class ContentAportsOutcome
 
     /**
      * @var string
-     * @ORM\Column(name="below_standard",type="string", length=1000)
+     * @ORM\Column(name="competent",type="string", length=1000)
      */
     private $competent;
 
     /**
      * @var string
-     * @ORM\Column(name="below_standard",type="string", length=1000)
+     * @ORM\Column(name="exemplary",type="string", length=1000)
      */
     private $exemplary;
 
     /**
+     * @var Content
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Content", inversedBy="contentAportsoutcomes")
      * @ORM\JoinColumn(name="content_id", referencedColumnName="id_content")
      */
     private $contentContent;
 
     /**
+     * @var Outcome
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Outcome", inversedBy="contentAportsOutcome")
      * @ORM\JoinColumn(name="outcome_id", referencedColumnName="id_outcome")
      */

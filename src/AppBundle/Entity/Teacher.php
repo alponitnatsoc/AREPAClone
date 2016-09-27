@@ -58,9 +58,4 @@ class Teacher
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\TeacherDictatesCourse",mappedBy="teacherTeacher",cascade={"persist","remove"})
      */
     private $teacherDictatesCourses;
-
-    /**
-     * TODO
-     */
-    private $notifications;
 }

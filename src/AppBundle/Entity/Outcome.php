@@ -71,12 +71,12 @@ class Outcome
     private $exalumnsPorcentageValue;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\AssessmentTool",mappedBy="outcomeOutcome")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\AssessmentToolContributeOutcomes", mappedBy="outcomeOutcome", cascade={"persist", "remove"})
      */
-    private $assessmentTools;
+    private $assessmentToolContributeOutcomes;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ContentAportsOutcome", mappedBy="outcomeoutcome")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ContentAportsOutcome", mappedBy="outcomeoutcome", cascade={"persist", "remove"})
      */
     private $contentAportsOutcome;
 }

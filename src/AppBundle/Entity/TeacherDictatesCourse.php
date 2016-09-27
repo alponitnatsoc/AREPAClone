@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @package AppBundle\Entity
  *
  * @ORM\Table(name="teacher_has_class",
- *     indexes={@ORM\Index(name="fk_class_has_teachers",columns={"class_course_id_class_course"}),
+ *     indexes={@ORM\Index(name="fk_class_has_teachers",columns={"course_id_course"}),
  *              @ORM\Index(name="fk_teacher_has_classes",columns={"teacher_id_teacher"})
  *     })
  * @ORM\Entity
@@ -32,7 +32,7 @@ class TeacherDictatesCourse
     private $idTeacherDicatesCourse;
 
     /**
-     * @var ClassCourse
+     * @var Teacher
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Teacher",inversedBy="teacherDictatesCourses")
      * @ORM\JoinColumns({
@@ -46,7 +46,7 @@ class TeacherDictatesCourse
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Course",inversedBy="courseIsDictatedByTeachers")
      * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="class_course_id_class_course",referencedColumnName="id_class")
+     *     @ORM\JoinColumn(name="course_id_course",referencedColumnName="id_course")
      * })
      */
     private $courseCourse;

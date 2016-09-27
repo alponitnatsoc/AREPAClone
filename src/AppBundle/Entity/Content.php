@@ -30,12 +30,12 @@ class Content
     private $idContent;
 
     /**
-     * @ORM\Column(name='percentage_grade', type="float")
+     * @ORM\Column(name="percentage_grade", type="float")
      */
     private $percentageGrade=0.0;
 
     /**
-     * @ORM\Column(name='percentage_grade', type="float")
+     * @ORM\Column(name="percentage_assessment_tool", type="float")
      */
     private $percentageAssessmentTool=0.0;
 
@@ -45,19 +45,21 @@ class Content
     private $contributeOutcome;
 
     /**
+     * @var RubricHasAssessmentTool
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\RubricHasAssessmentTool", inversedBy="contents", cascade={"persist"})
      * @ORM\JoinColumn(name="rubric_has_assessment_tool_id", referencedColumnName="id_rubric_has_assessment_tool")
      */
     private $rubricHasAssesmentTool;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ContentAportsOutcome", mappedBy="contentContent")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ContentAportsOutcome", mappedBy="contentContent", cascade={"persist", "remove"})
      */
     private $contentAportsoutcomes;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ContentGrade", mappedBy="contentContent")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ContentGrade", mappedBy="contentContent", cascade={"persist", "remove"})
      */
-    private $contentGrades;
+    private $contentGrade;
 
 }

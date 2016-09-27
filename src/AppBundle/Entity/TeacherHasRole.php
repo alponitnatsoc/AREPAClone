@@ -31,12 +31,16 @@ class TeacherHasRole
     private $idTeacherHasRole;
 
     /**
+     * @var Teacher
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Teacher", inversedBy="teacherHasRoles")
      * @ORM\JoinColumn(name="teacher_id", referencedColumnName="id_teacher")
      */
     private $teacherTeacher;
 
     /**
+     * @var RoleType
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\RoleType", inversedBy="teacherHasRoles")
      * @ORM\JoinColumn(name="role_type_id", referencedColumnName="id_role_type")
      */

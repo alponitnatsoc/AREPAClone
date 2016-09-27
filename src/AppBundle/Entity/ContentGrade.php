@@ -34,9 +34,20 @@ class ContentGrade
      */
     private $grade=0.0;
 
-
+    /**
+     * @var Content
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Content", inversedBy="contentGrade", cascade={"persist"})
+     * @ORM\JoinColumn(name="content_id", referencedColumnName="id_content")
+     */
     private $contentContent;
 
+    /**
+     * @var AssessmentToolGrade
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AssessmentToolGrade", inversedBy="contentGrade", cascade={"persist"})
+     * @ORM\JoinColumn(name="assessment_tool_grade_id", referencedColumnName="id_assessment_tool_grade")
+     */
     private $assessmentToolGrade;
 
 }

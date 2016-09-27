@@ -35,17 +35,21 @@ class Rubric
     private $period='';
 
     /**
+     * @var TeacherDictatesCourse
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\TeacherDictatesCourse", inversedBy="rubrics")
      * @ORM\JoinColumn(name="teacher_dictates_course_id", referencedColumnName="id_teacher_dictates_course")
      */
     private $teacherDictatesCourse;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\RubricHasAssessmentTool", mappedBy="rubricRubric")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\RubricHasAssessmentTool", mappedBy="rubricRubric", cascade={"persist","remove"})
      */
     private $rubricHasAssessmentTools;
 
     /**
+     * @var ClassCourse
+     *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ClassCourse",inversedBy="rubrics")
      * @ORM\JoinColumn(name="class_course_id", referencedColumnName="id_class")
      */

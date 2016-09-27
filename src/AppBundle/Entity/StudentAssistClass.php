@@ -56,8 +56,8 @@ class StudentAssistClass
     private $defGrade = 0.0;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\AssessmentTool",mappedBy="studentAssistClass")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\AssessmentToolGrade",mappedBy="studentAssistClass", cascade={"persist", "remove"})
      */
-    private $assesmentToolsGrades;
+    private $assessmentToolGrades;
 
 }

@@ -36,13 +36,6 @@ class Student
     private $idStudent;
 
     /**
-     * @var Person
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Person",inversedBy="idPerson", cascade={"persist"})
-     * @ORM\JoinColumn(name="person_id_person",referencedColumnName="id_person")
-     */
-    private $personPerson;
-
-    /**
      * @var string
      *
      * @ORM\Column(name="code_student",type="string",nullable=true)
@@ -71,7 +64,14 @@ class Student
     private $isMonitor = false;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\StudentAssistClass",mappedBy="studentStudent",cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\StudentAssistClass",mappedBy="studentStudent",cascade={"persist", "remove"})
      */
     private $studentAssistClasses;
+
+    /**
+     * @var Person
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Person",inversedBy="idPerson", cascade={"persist"})
+     * @ORM\JoinColumn(name="person_id_person",referencedColumnName="id_person")
+     */
+    private $personPerson;
 }

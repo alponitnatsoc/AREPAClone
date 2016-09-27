@@ -76,6 +76,11 @@ class Person
      */
     private $teacher;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PersonNotification", mappedBy="personPerson", cascade={"persist", "remove"})
+     */
+    private $personNotification;
+
     //TODO
     /**
      * @var string

@@ -35,22 +35,23 @@ class AssessmentTool
     private $contributeOutcome;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Outcome", inversedBy="assessmentTools")
-     * @ORM\JoinTable(name="assessment_tool_contributes_outcome",
-     *      joinColumns={@ORM\JoinColumn(name="assessment_tool_id",referencedColumnName="id_assessment_tool")},
-     *     inverseJoinColumns={@ORM\JoinColumn(name="outcome_id",referencedColumnName="id_outcome")}
-     * )
-     */
-    private $outcomeOutcome;
-
-    /**
-     * @ORM\Column(name='percentage_grade', type="float")
+     * @ORM\Column(name="percentage_grade", type="float")
      */
     private $percentageGrade = 0.0;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\AssessmentToolContributeOutcomes", mappedBy="assessmentTool", cascade={"persist", "remove"})
+     */
+    private $assessmentToolContributeOutcomes;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\RubricHasAssessmentTool", mappedBy="assessmentToolassessmentTools", cascade={"persist", "remove"})
+     */
     private $rubricHasAssessmentTools;
 
-
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\AssessmentToolGrade", mappedBy="assessmentTool", cascade={"persist", "remove"})
+     */
+    private $assessmentToolGrade;
 
 }
