@@ -15,6 +15,7 @@ class ComposerStaticInitcb84976f06208737c5906295d4741c1c
         '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
         '6a47392539ca2329373e0d33e1dba053' => __DIR__ . '/..' . '/symfony/polyfill-intl-icu/bootstrap.php',
         '32dcc8afd4335739640db7d200c1971d' => __DIR__ . '/..' . '/symfony/polyfill-apcu/bootstrap.php',
+        'ce89ac35a6c330c55f4710717db9ff78' => __DIR__ . '/..' . '/kriswallsmith/assetic/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -31,6 +32,7 @@ class ComposerStaticInitcb84976f06208737c5906295d4741c1c
             'Symfony\\Component\\' => 18,
             'Symfony\\Bundle\\SwiftmailerBundle\\' => 33,
             'Symfony\\Bundle\\MonologBundle\\' => 29,
+            'Symfony\\Bundle\\AsseticBundle\\' => 29,
             'Symfony\\Bundle\\' => 15,
             'Symfony\\Bridge\\Twig\\' => 20,
             'Symfony\\Bridge\\Swiftmailer\\' => 27,
@@ -44,6 +46,7 @@ class ComposerStaticInitcb84976f06208737c5906295d4741c1c
         ),
         'P' => 
         array (
+            'Psr\\Log\\' => 8,
             'Psr\\Cache\\' => 10,
         ),
         'M' => 
@@ -97,6 +100,10 @@ class ComposerStaticInitcb84976f06208737c5906295d4741c1c
         array (
             0 => __DIR__ . '/..' . '/symfony/monolog-bundle',
         ),
+        'Symfony\\Bundle\\AsseticBundle\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/symfony/assetic-bundle',
+        ),
         'Symfony\\Bundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/symfony/src/Symfony/Bundle',
@@ -136,6 +143,10 @@ class ComposerStaticInitcb84976f06208737c5906295d4741c1c
         'Sensio\\Bundle\\DistributionBundle\\' => 
         array (
             0 => __DIR__ . '/..' . '/sensio/distribution-bundle',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/Psr/Log',
         ),
         'Psr\\Cache\\' => 
         array (
@@ -190,13 +201,6 @@ class ComposerStaticInitcb84976f06208737c5906295d4741c1c
                 0 => __DIR__ . '/..' . '/sensiolabs/security-checker',
             ),
         ),
-        'P' => 
-        array (
-            'Psr\\Log\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/psr/log',
-            ),
-        ),
         'D' => 
         array (
             'Doctrine\\ORM\\' => 
@@ -222,6 +226,13 @@ class ComposerStaticInitcb84976f06208737c5906295d4741c1c
             'Doctrine\\Common\\Annotations\\' => 
             array (
                 0 => __DIR__ . '/..' . '/doctrine/annotations/lib',
+            ),
+        ),
+        'A' => 
+        array (
+            'Assetic' => 
+            array (
+                0 => __DIR__ . '/..' . '/kriswallsmith/assetic/src',
             ),
         ),
     );
