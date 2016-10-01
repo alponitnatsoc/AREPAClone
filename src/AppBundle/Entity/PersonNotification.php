@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  * @ORM\Table(name="person_notification")
  * @ORM\Entity
  */
-class personNotification
+class PersonNotification
 {
     /**
      * @var integer
