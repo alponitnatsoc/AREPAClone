@@ -5,7 +5,7 @@
 !/var/cache
 /var/cache/*
 !var/cache/.gitkeep
-!/var/logs
+!/var/logs/*
 /var/logs/*
 !var/logs/.gitkeep
 !/var/sessions
@@ -13,5 +13,9 @@
 !var/sessions/.gitkeep
 !var/SymfonyRequirements.php
 /.idea
-/vendor
-/web
+/web/assets/
+/web/assets/*
+/web/uploads
+/web/uploads/
+/web/uploads/*
+/var/bootstrap.php.cache
