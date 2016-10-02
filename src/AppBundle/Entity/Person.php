@@ -29,21 +29,25 @@ class Person
     private $idPerson;
 
     /**
+     * @var string
      * @ORM\Column(type="string",nullable=true)
      */
     private $firstName;
 
     /**
+     * @var string
      * @ORM\Column(type="string",nullable=true)
      */
     private $secondName;
 
     /**
+     * @var string
      * @ORM\Column(type="string",nullable=true)
      */
     private $lastName1;
 
     /**
+     * @var string
      * @ORM\Column(type="string",nullable=true)
      */
     private $lastName2;
@@ -55,22 +59,41 @@ class Person
     private $documentType;
 
     /**
+     * @var string
      * @ORM\Column(type="string",nullable=true)
      */
     private $document;
 
     /**
      * @var Student
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Student", mappedBy="idStudent", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Student", mappedBy="personPerson", cascade={"persist","remove"},)
      */
     private $student;
 
     /**
      * @var Teacher
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Student", mappedBy="idTeacher", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Teacher", mappedBy="personPerson", cascade={"persist","remove"})
      */
     private $teacher;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PersonNotification", mappedBy="personPerson", cascade={"persist", "remove"})
+     */
+    private $personNotification;
+
+    //TODO
+    /**
+     * @var string
+     */
+    private $userUser;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->personNotification = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get idPerson
@@ -253,11 +276,11 @@ class Person
     /**
      * Set teacher
      *
-     * @param \AppBundle\Entity\Student $teacher
+     * @param \AppBundle\Entity\Teacher $teacher
      *
      * @return Person
      */
-    public function setTeacher(\AppBundle\Entity\Student $teacher = null)
+    public function setTeacher(\AppBundle\Entity\Teacher $teacher = null)
     {
         $this->teacher = $teacher;
 
@@ -267,10 +290,44 @@ class Person
     /**
      * Get teacher
      *
-     * @return \AppBundle\Entity\Student
+     * @return \AppBundle\Entity\Teacher
      */
     public function getTeacher()
     {
         return $this->teacher;
+    }
+
+    /**
+     * Add personNotification
+     *
+     * @param \AppBundle\Entity\PersonNotification $personNotification
+     *
+     * @return Person
+     */
+    public function addPersonNotification(\AppBundle\Entity\PersonNotification $personNotification)
+    {
+        $this->personNotification[] = $personNotification;
+
+        return $this;
+    }
+
+    /**
+     * Remove personNotification
+     *
+     * @param \AppBundle\Entity\PersonNotification $personNotification
+     */
+    public function removePersonNotification(\AppBundle\Entity\PersonNotification $personNotification)
+    {
+        $this->personNotification->removeElement($personNotification);
+    }
+
+    /**
+     * Get personNotification
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPersonNotification()
+    {
+        return $this->personNotification;
     }
 }

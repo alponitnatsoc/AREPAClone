@@ -23,7 +23,6 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  *     })
  * @ORM\Entity
  */
-
 class DocumentType
 {
 
@@ -56,6 +55,8 @@ class DocumentType
      * @ORM\Column(name="template", type="string", length=20, nullable=true)
      */
     private $template;
+
+
 
     /**
      * Get idDocumentType

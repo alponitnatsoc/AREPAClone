@@ -29,7 +29,7 @@ class Outcome
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_student",type="integer")
+     * @ORM\Column(name="id_outcome",type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -50,60 +50,33 @@ class Outcome
     private $descriptionOutcome;
 
     /**
-     * Get idOutcome
+     * @var float
      *
-     * @return integer
+     * @ORM\Column(name="exalumns_outcome_value",type="float")
      */
-    public function getIdOutcome()
-    {
-        return $this->idOutcome;
-    }
+    private $exalumnsOutcomeValue;
 
     /**
-     * Set nameOutcome
+     * @var float
      *
-     * @param string $nameOutcome
-     *
-     * @return Outcome
+     * @ORM\Column(name="internal_outcome_value",type="float")
      */
-    public function setNameOutcome($nameOutcome)
-    {
-        $this->nameOutcome = $nameOutcome;
-
-        return $this;
-    }
+    private $internalOutcomeValue;
 
     /**
-     * Get nameOutcome
+     * @var float
      *
-     * @return string
+     * @ORM\Column(name="exalumns_porcentage_value",type="float")
      */
-    public function getNameOutcome()
-    {
-        return $this->nameOutcome;
-    }
+    private $exalumnsPorcentageValue;
 
     /**
-     * Set descriptionOutcome
-     *
-     * @param string $descriptionOutcome
-     *
-     * @return Outcome
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\AssessmentToolContributeOutcomes", mappedBy="outcomeOutcome", cascade={"persist", "remove"})
      */
-    public function setDescriptionOutcome($descriptionOutcome)
-    {
-        $this->descriptionOutcome = $descriptionOutcome;
-
-        return $this;
-    }
+    private $assessmentToolContributeOutcomes;
 
     /**
-     * Get descriptionOutcome
-     *
-     * @return string
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ContentAportsOutcome", mappedBy="outcomeoutcome", cascade={"persist", "remove"})
      */
-    public function getDescriptionOutcome()
-    {
-        return $this->descriptionOutcome;
-    }
+    private $contentAportsOutcome;
 }
