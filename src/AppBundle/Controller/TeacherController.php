@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\Request;
 class TeacherController extends Controller
 {
 
+    public function indexTeacherAction(){
 
+    }
 
 }
