@@ -1,8 +1,19 @@
+#AppBundle
 app:
-    resource: "@AppBundle/Controller/"
-    type:     annotation
+    resource: "@AppBundle/Resources/config/routing.yml"
+    prefix: /
 
-new_person:
-    path: /register/person
-    defaults: {_controller: AppBundle:Person:index}
+#FOSUser
+fos_user:
+    resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
+#Public Pages
+home:
+    path: /
+    defaults: {_controller: AppBundle:Default:index}
+
+#Secure Pages
+
+admin_dashboard:
+    path: /admin
+    defaults: {_controller: AppB}

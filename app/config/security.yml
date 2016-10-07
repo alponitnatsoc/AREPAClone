@@ -1,44 +1,48 @@
 # To get started with security, check out the documentation:
 # http://symfony.com/doc/current/book/security.html
+
 security:
+
     encoders:
         FOS\UserBundle\Model\UserInterface: bcrypt
 
     role_hierarchy:
-        ROLE_NEW:         ROLE_USER
-        ROLE_STUDENT:     ROLE_USER
-        ROLE_TEACHER:     ROLE_USER
-        ROLE_ADMIN:       [ROLE_USER , ROLE_ADMIN]
-        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_TEACHER, ROLE_STUDENT, ROLE_ADMIN]
 
-    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+        ROLE_NEW: [ ROLE_USER ]
+        ROLE_STUDENT: [ ROLE_USER ]
+        ROLE_MONITOR: [ ROLE_USER ]
+        ROLE_TEACHER: [ ROLE_USER , ROLE_MONITOR ]
+        ROLE_ADMIN:       [ ROLE_USER , ROLE_TEACHER, ROLE_STUDENT ]
+        ROLE_SUPER_ADMIN: [ ROLE_ADMIN , ROLE_ALLOWED_TO_SWITCH ]
+
     providers:
-        #in_memory:
-            #memory: ~
         fos_userbundle:
             id: fos_user.user_provider.username
+#        app_users:
+#            ldap:
+#                service: app.ldap
+#                base_dn: ou=People, o=javeriana.edu.co, o=edu
+#                search_dn: cd =a.ramirezb, o=javeriana.edu.co, o=edu
+#                search_password: alponitnatsnoc
+##                filter: "(&(aptAccountEnabled=1)(ObjectClass=aptAccount)(uid={username}))"
+#                default_roles: ROLE_USER
 
+
+    # Preserve plain text password in token for refresh the user.
+    # Analyze the security considerations before turn off this setting.
+    erase_credentials: false
 
     firewalls:
-        # disables authentication for assets and the profiler, adapt it according to your needs
-        dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
-            security: false
-
         main:
-            pattern: ^/
+            pattern:    ^/
             form_login:
                 provider: fos_userbundle
                 csrf_token_generator: security.csrf.token_manager
-                # if you are using Symfony < 2.8, use the following config instead:
-                # csrf_provider: form.csrf_provider
+            logout:     true
+            anonymous:  true
 
-            logout:       true
-            anonymous:    true
-
-            # activate different ways to authenticate
-#        access_control:
-#            - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
-#            - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
-#            - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-#            - { path: ^/admin/, role: ROLE_ADMIN }
+    access_control:
+        - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/admin*, role: ROLE_ADMIN }
