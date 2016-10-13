@@ -17,7 +17,8 @@
 /vendor/*
 /web/assets/vendors
 /web/assets/vendors/*
-/web/uploads
 /web/uploads/
 /web/uploads/*
 /var/bootstrap.php.cache
+/web/bundles/
+/web/bundles/*
