@@ -1,29 +1,24 @@
 <!doctype html>
-<!--[if lt IE 7]>
-<html class="no-js lt-ie9 lt-ie8 lt-ie7" lang=""> <![endif]-->
-<!--[if IE 7]>
-<html class="no-js lt-ie9 lt-ie8" lang=""> <![endif]-->
-<!--[if IE 8]>
-<html class="no-js lt-ie9" lang=""> <![endif]-->
-<!--[if gt IE 8]><!-->
-<html class="no-js" lang=""> <!--<![endif]-->
-    <head>
-        <meta charset="UTF-8" />
-        <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap-theme.css') }}">
-        <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
-        <link rel="script" href="{{ asset('assets/vendor/jquery/dist/jquery.min.js') }}">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
-        <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
-    </head>
-    <body>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <!-- Meta, title, CSS, favicons, etc. -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}AREPAsoft - ABET Report and Analysis web aplocation{% endblock %}</title>
+    {% block stylesheets %}
+        <!-- Bootstrap -->
+        <link href="{{ asset('assets/vendors/bootstrap/dist/css/bootstrap.min.css') }}" rel="stylesheet">
+        <!-- Font Awesome -->
+        <link href="{{ asset('assets/vendors/font-awesome/css/font-awesome.min.css') }}" rel="stylesheet">
+    {% endblock %}
+    <!-- Custom Theme Style -->
+    {% block scriptImport %}
+
+    {% endblock %}
+</head>
+
+<body class="nav-md">
 
 
-        {% block javascripts %}{% endblock %}
-        {% block body %}
-        {% endblock %}
-
-
-    </body>
+</body>
 </html>

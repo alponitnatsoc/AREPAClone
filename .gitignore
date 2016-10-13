@@ -13,8 +13,8 @@
 !var/sessions/.gitkeep
 !var/SymfonyRequirements.php
 /.idea
-/web/assets/
-/web/assets/*
+/web/assets/vendors
+/web/assets/vendors/*
 /web/uploads
 /web/uploads/
 /web/uploads/*

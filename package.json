@@ -1,0 +1,11 @@
+{
+  "name": "arepasoft",
+  "version": "1.0.0",
+  "description": "ABET Report And Analysis Software",
+  "dependencies": {
+    "bower": "^1.7.9"
+  },
+  "engines": {
+    "node": "4.6.0"
+  }
+}

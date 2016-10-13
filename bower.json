@@ -1,0 +1,36 @@
+{
+  "name": "AREPAsoft",
+  "authors": [
+    "Andres Felipe Ramirez <alponitnatsnoc@gmail.com>"
+  ],
+  "description": "ABET Report And Analysis Software",
+  "main": "",
+  "license": "MIT",
+  "homepage": "/",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "web/assets/vendors",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.1",
+    "bootstrap": "^3.3.7",
+    "font-awesome": "fontawesome#^4.6.3",
+    "animate.css": "^3.5.2"
+  },
+  "devDependencies": {
+    "jquery": "^3.1.1",
+    "bootstrap": "^3.3.7",
+    "font-awesome": "fontawesome#^4.6.3",
+    "animate.css": "^3.5.2"
+  },
+  "resolutions": {
+    "jquery": "^3.1.1",
+    "bootstrap": "^3.3.7",
+    "font-awesome": "fontawesome#^4.6.3",
+    "animate.css": "^3.5.2"
+  }
+}
