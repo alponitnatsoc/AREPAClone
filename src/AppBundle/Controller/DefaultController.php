@@ -12,19 +12,6 @@ class DefaultController extends Controller
 {
     public function indexAction( Request $request)
     {
-
-        $person = new Person();
-        $form = $this->createForm(newPersonForm::class,$person);
-        $form->handleRequest($request);
-        if($form->isValid()){
-            $name = $form->get('firstName')->getData();
-            return $this->render('base.html.twig', array(
-                'form'=>$form->createView(),
-                'value'=>$name,
-            ));
-        }
-        $a = 10;
-
 //        $obj = \PHPExcel_IOFactory::load("notas.xlsx");
 ////        $obj = $this->get("phpexcel")->createPHPExcelObject();
 //        echo date('H:i:s') ." Iterate worksheets" ."<br>";
@@ -54,10 +41,7 @@ class DefaultController extends Controller
 //        $writer = $this->get("phpexcel")->createWriter($obj);
 //        $writer->save("notas.xlsx");
 //        dump("Lo Logre");
-        return $this->render('base.html.twig', array(
-            'form'=>$form->createView(),
-            'value'=>$a,
-        ));
+        return $this->render('user/base.html.twig');
 //        return $this->render('default/index.html.twig', [
 //            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
 //        ]);root_dir
