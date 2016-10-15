@@ -9,8 +9,8 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="">
                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        <img src="{{ asset('assets/images/img.jpg') }}" alt="">admin
-                        {#{{ app.user.username }}#}
+                        <img src="{{ asset('assets/images/profile_pic.jpg') }}" alt="">
+                        {{ app.user.username }}
                         <span class=" fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right">
@@ -29,65 +29,31 @@
                 <li role="presentation" class="dropdown">
                     <a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
                         <i class="fa fa-envelope"></i>
-                        <span class="badge bg-green">8</span>
+                        <span class="badge bg-green">
+                            {% if notifications is defined %}
+                                {{ notifications|length }}
+                            {% else %}
+                                0
+                            {% endif %}
+                        </span>
                     </a>
                     <ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
-                        <li>
-                            <a>
-                                <span class="image"><img src="{{ asset('assets/images/img.jpg') }}" alt="Profile Image" /></span>
-                                <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                                <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a>
-                                <span class="image"><img src="{{ asset('assets/images/img.jpg') }}" alt="Profile Image" /></span>
-                                <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                                <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a>
-                                <span class="image"><img src="{{ asset('assets/images/img.jpg') }}" alt="Profile Image" /></span>
-                                <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                                <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a>
-                                <span class="image"><img src="{{ asset('assets/images/img.jpg') }}" alt="Profile Image" /></span>
-                                <span>
-                          <span>John Smith</span>
-                          <span class="time">3 mins ago</span>
-                        </span>
-                                <span class="message">
-                          Film festivals used to be do-or-die moments for movie makers. They were where...
-                        </span>
-                            </a>
-                        </li>
-                        <li>
-                            <div class="text-center">
-                                <a>
-                                    <strong>Alerts</strong>
-                                    <i class="fa fa-angle-right"></i>
-                                </a>
-                            </div>
-                        </li>
+                        {% if notifications is defined %}
+                            {% for notification in notifications %}
+                                <li>
+                                    <a>
+                                    <span class="image"><img src="{{ notification.sender.profilePic }}" alt="Profile Image" /></span>
+                                        <span>
+                                            <span>{{ notification.sender.names }}</span>
+                                            <span class="time">{{ norification.timeAgo }}</span>
+                                        </span>
+                                        <span class="message">
+                                            {{ notification.message }}
+                                        </span>
+                                    </a>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
                     </ul>
                 </li>
             </ul>
