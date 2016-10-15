@@ -1,0 +1,34 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div>
+    <div class="login_wrapper" style="max-width: 35%">
+        <div class="animate form login_form">
+            <section class="login_content">
+                <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+                    <h1 style="margin: 10px 0 10px;">Reset Password Request</h1>
+                    <div>
+                        <label for="username">{{ 'resetting.request.username'|trans }}</label>
+                        <div class="clearfix"></div>
+                        <input type="text" id="username" name="username" required="required" style="max-width: 50%"/>
+                    </div>
+                    <div class="clearfix"></div>
+                    <div>
+                        <input class="btn btn-default submit" type="submit" style="float: none;margin-left: 0" value="{{ 'resetting.request.submit'|trans }}" />
+                    </div>
+                    <div class="clearfix"></div>
+                    <div class="separator">
+                        <p class="change_link">I want to go back?
+                            <a href="{{ path('fos_user_security_login') }}" class="to_register"> Log in </a>
+                        </p>
+                        <div class="clearfix"></div>
+                        <div>
+                            <img src="{{ asset('assets/images/logo.png') }}" alt="..." style="width: 30%">
+                        </div>
+                        <div class="clearfix"></div>
+                        <p>©2016 All Rights Reserved. <a href="">Privacy and Terms</a></p>
+                    </div>
+                </form>
+            </section>
+        </div>
+    </div>
+</div>

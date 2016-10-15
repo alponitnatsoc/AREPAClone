@@ -1,0 +1,17 @@
+{% extends "FOSUserBundle::layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <div>
+        <div class="login_wrapper" style="margin-top: 10%; min-width: 40%">
+            <h1 style="margin: 30px 0 10px; font-size: 20px">Registration Confirmed</h1>
+            <p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+            <div class="clearfix"></div>
+            {% if targetUrl %}
+                <p><a href="{{ targetUrl }}">back to home</a></p>
+            {% endif %}
+        </div>
+    </div>
+
+{% endblock fos_user_content %}
