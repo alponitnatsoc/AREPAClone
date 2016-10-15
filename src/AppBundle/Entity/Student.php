@@ -70,7 +70,7 @@ class Student
 
     /**
      * @var Person
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Person",inversedBy="idPerson", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Person",inversedBy="student", cascade={"persist"})
      * @ORM\JoinColumn(name="person_id_person",referencedColumnName="id_person")
      */
     private $personPerson;

@@ -30,8 +30,6 @@
         "incenteev/composer-parameter-handler": "^2.0",
         "symfony/assetic-bundle": "^2.8",
         "friendsofsymfony/user-bundle": "~2.0@dev",
-        "zendframework/zend-ldap": "^2.7",
-        "fr3d/ldap-bundle": "3.0.*@dev",
         "liuggio/excelbundle": "^2.1"
     },
     "require-dev": {

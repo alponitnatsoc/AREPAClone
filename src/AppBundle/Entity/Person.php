@@ -66,13 +66,15 @@ class Person
 
     /**
      * @var Student
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Student", mappedBy="personPerson", cascade={"persist","remove"},)
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Student", mappedBy="personPerson", cascade={"persist","remove"})
+     * @ORM\JoinColumn(name="student_id",referencedColumnName="id_student",nullable=true)
      */
     private $student;
 
     /**
      * @var Teacher
      * @ORM\OneToOne(targetEntity="AppBundle\Entity\Teacher", mappedBy="personPerson", cascade={"persist","remove"})
+     * @ORM\JoinColumn(name="teacher_id",referencedColumnName="id_teacher",nullable=true)
      */
     private $teacher;
 

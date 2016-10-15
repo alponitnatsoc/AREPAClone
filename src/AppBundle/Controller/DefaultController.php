@@ -2,16 +2,15 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Person;
+use AppBundle\Form\newPersonForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
 class DefaultController extends Controller
 {
-    /**
-     * @Route("/", name="homepage")
-     */
-    public function indexAction(Request $request)
+    public function indexAction( Request $request)
     {
 //        $obj = \PHPExcel_IOFactory::load("notas.xlsx");
 ////        $obj = $this->get("phpexcel")->createPHPExcelObject();
@@ -42,7 +41,7 @@ class DefaultController extends Controller
 //        $writer = $this->get("phpexcel")->createWriter($obj);
 //        $writer->save("notas.xlsx");
 //        dump("Lo Logre");
-        return $this->render('base.html.twig');
+        return $this->render('user/base.html.twig');
 //        return $this->render('default/index.html.twig', [
 //            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
 //        ]);root_dir

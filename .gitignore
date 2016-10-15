@@ -13,9 +13,12 @@
 !var/sessions/.gitkeep
 !var/SymfonyRequirements.php
 /.idea
-/web/assets/
-/web/assets/*
-/web/uploads
+/vendor/
+/vendor/*
+/web/assets/vendors
+/web/assets/vendors/*
 /web/uploads/
 /web/uploads/*
 /var/bootstrap.php.cache
+/web/bundles/
+/web/bundles/*
