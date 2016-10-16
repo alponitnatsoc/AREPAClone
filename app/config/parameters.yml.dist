@@ -9,16 +9,16 @@ parameters:
     database_password: ~
     # You should uncomment this if you want use pdo_sqlite
     # database_path: "%kernel.root_dir%/data.db3"
-
-   mailer_transport: gmail
-   mailer_encryption: ssl
-   mailer_user: arepasoftadm@gmail.com
-   mailer_password: c727b3d7d861d86795d723e40eba874f
-   mailer_delivery_address: correo@gmail.com
-   from_email_address_registration: arepasoftadm@gmail.com
-   from_email_sender_name_registration: 'AREPAsoft TEAM'
-   from_email_address_resetting: arepasoftadm@gmail.com
-   from_email_sender_name_resetting: 'AREPAsoft TEAM'
+    mailer_host: smtp.gmail.com
+    mailer_transport: gmail
+    mailer_encryption: tls
+    mailer_user: arepasoftadm@gmail.com
+    mailer_password: c727b3d7d861d86795d723e40eba874f
+    mailer_delivery_address: correo@gmail.com
+    from_email_address_registration: arepasoftadm@gmail.com
+    from_email_sender_name_registration: 'AREPAsoft TEAM'
+    from_email_address_resetting: arepasoftadm@gmail.com
+    from_email_sender_name_resetting: 'AREPAsoft TEAM'
 
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
