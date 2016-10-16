@@ -61,10 +61,8 @@ doctrine:
 # Swiftmailer Configuration
 swiftmailer:
     transport: "%mailer_transport%"
-    host:      "%mailer_host%"
     username:  "%mailer_user%"
     password:  "%mailer_password%"
-    encryption: "%mailer_encryption%"
     delivery_address: "%mailer_delivery_address%"
     spool:     { type: memory }
 
@@ -81,6 +79,6 @@ fos_user:
     registration:
         confirmation:
             from_email: # Use this node only if you don't want the global email address for the confirmation email
-                address:        "%%from_email_address_registration%%"
+                address:        "%from_email_address_registration%"
                 sender_name:    "%from_email_sender_name_registration%"
             enabled:    true # change to true for required email confirmation

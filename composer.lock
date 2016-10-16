@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "75682b3a9296c04f605aed6d9ce2be0b",
-    "content-hash": "4e8ad82ff15d1f27f28e6161b03927ae",
+    "hash": "5fbb5067e8913f73b9018138c7a80a34",
+    "content-hash": "cd32c7be3ab92811c9a190f01b965870",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -781,12 +781,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/FriendsOfSymfony/FOSUserBundle.git",
-                "reference": "67197694ab1e74b046eebdf4321cae8bed515218"
+                "reference": "9c64d6fa7ae264828b2ec98aca847840b200bd56"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/67197694ab1e74b046eebdf4321cae8bed515218",
-                "reference": "67197694ab1e74b046eebdf4321cae8bed515218",
+                "url": "https://api.github.com/repos/FriendsOfSymfony/FOSUserBundle/zipball/9c64d6fa7ae264828b2ec98aca847840b200bd56",
+                "reference": "9c64d6fa7ae264828b2ec98aca847840b200bd56",
                 "shasum": ""
             },
             "require": {
@@ -850,7 +850,7 @@
             "keywords": [
                 "User management"
             ],
-            "time": "2016-10-12 12:49:21"
+            "time": "2016-10-14 20:44:45"
         },
         {
             "name": "incenteev/composer-parameter-handler",
@@ -2249,57 +2249,6 @@
             "time": "2016-10-03 19:01:14"
         },
         {
-            "name": "twbs/bootstrap",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/twbs/bootstrap.git",
-                "reference": "9b7d1406b922300c5d01e99026e4fffc67445185"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/twbs/bootstrap/zipball/9b7d1406b922300c5d01e99026e4fffc67445185",
-                "reference": "9b7d1406b922300c5d01e99026e4fffc67445185",
-                "shasum": ""
-            },
-            "replace": {
-                "twitter/bootstrap": "self.version"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.3.x-dev"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Jacob Thornton",
-                    "email": "jacobthornton@gmail.com"
-                },
-                {
-                    "name": "Mark Otto",
-                    "email": "markdotto@gmail.com"
-                }
-            ],
-            "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
-            "homepage": "http://getbootstrap.com",
-            "keywords": [
-                "JS",
-                "css",
-                "framework",
-                "front-end",
-                "less",
-                "mobile-first",
-                "responsive",
-                "web"
-            ],
-            "time": "2016-09-22 10:06:30"
-        },
-        {
             "name": "twig/twig",
             "version": "v1.26.1",
             "source": {
@@ -2589,8 +2538,7 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "friendsofsymfony/user-bundle": 20,
-        "twbs/bootstrap": 20
+        "friendsofsymfony/user-bundle": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
