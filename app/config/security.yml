@@ -30,12 +30,14 @@ security:
 #        ROLE_NEW: [ ROLE_USER ]
 #        ROLE_STUDENT: [ ROLE_USER ]
 #        ROLE_MONITOR: [ ROLE_USER ]
-#        ROLE_TEACHER: [ ROLE_USER , ROLE_MONITOR ]
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
+        ROLE_TEACHER:     [ ROLE_USER ]
+        ROLE_ADMIN:       [ ROLE_TEACHER ]
+        ROLE_SUPER_ADMIN: [ ROLE_ADMIN ]
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/*, role: ROLE_ADMIN }
+        - { path: ^/admin*, role: ROLE_ADMIN }
+#        - { path: ^/, role: IS_AUTHENTICATED_FULLY}
+        - { path: ^/language/switch/, role: IS_AUTHENTICATED_ANONYMOUSLY}

@@ -1,0 +1,20 @@
+security:
+    login:
+        login_title: 'User login'
+        reset: "Lost your password?"
+        new_to_site: 'New to site?'
+        create_account: 'Create account'
+resetting:
+    request:
+        title: 'Reset Password'
+registration:
+    title: 'Create Account'
+    already_member: 'Already a member?'
+    send_request: 'Confirm registration'
+app:
+    messages:
+        all_rigths: 'All Rigths Reserved'
+        privacy_and_terms: 'Privacy and Terms'
+        go_back: 'I want to go back?'
+        to_login: 'Log in'
+        return_to: 'Return to'

@@ -7,10 +7,14 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
+    app_locales: [ en , es ]
 
 framework:
     #esi:             ~
-    translator:      ~
+    translator:
+        fallback: "%locale%"
+        paths:
+            - "%kernel.root_dir%/Resources/translations"
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -36,6 +40,7 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals: "%app_locales%"
 
 # Doctrine Configuration
 doctrine:
@@ -76,9 +81,9 @@ fos_user:
     db_driver: orm
     firewall_name: main
     user_class: AppBundle\Entity\User
+    from_email:
+        address: '%from_email_address%'
+        sender_name: '%from_email_sender_name%'
     registration:
         confirmation:
-            from_email: # Use this node only if you don't want the global email address for the confirmation email
-                address:        "%from_email_address_registration%"
-                sender_name:    "%from_email_sender_name_registration%"
             enabled:    true # change to true for required email confirmation

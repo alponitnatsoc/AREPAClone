@@ -1,0 +1,21 @@
+security:
+    login:
+        login_title: 'Inicio de sesión'
+        reset: "¿Perdiste tu contraseña?"
+        new_to_site: '¿Eres un nuevo usuario?'
+        create_account: 'Crear una cuenta'
+resetting:
+    request:
+        title: 'Cambiar Contraseña'
+
+registration:
+    title: 'Crear Cuenta'
+    already_member: '¿Ya tengo un usuario?'
+    send_request: 'Confirmar registro'
+app:
+    messages:
+        all_rigths: 'Todos los Derechos Reservados'
+        privacy_and_terms: 'Terminos y Condiciones'
+        go_back: '¿Quiero regresar?'
+        to_login: 'Inicio de sesión'
+        return_to: 'Regresar a'

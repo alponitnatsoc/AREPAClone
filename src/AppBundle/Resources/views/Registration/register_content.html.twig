@@ -4,36 +4,41 @@
         list-style: none;
         margin-left: -38px;
         margin-right: 0;
-        margin-top: 0%;
+        margin-top: 1%;
         text-align: -webkit-left;
         margin-bottom: -3%;
+        color: red;
+        font-style: italic;
     }
 </style>
 <div>
-    <div class="login_wrapper" style="margin-top: 4%">
+    <div class="login_wrapper" style="margin-top: 1%">
         <div class="animate form login_form">
-            {%  dump(form) %}
             {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
             <section class="login_content" style="padding: 0px">
-                <h1>Create Account</h1>
-                <div>
+                <h1>{{ 'registration.title'|trans }}</h1>
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                     {{ form_label(form.username) }}
-                    {{ form_widget(form.username,{'attr':{'class':'form-control','placeholder':'Username'}}) }}
+                    {{ form_widget(form.username,{'attr':{'class':'form-control has-feedback-left','placeholder':'form.username'|trans }}) }}
+                    <span class="fa fa-user form-control-feedback left" aria-hidden="true" style="top: 22px;"></span>
                     <div style="color: darkred;">{{ form_errors(form.username) }}</div>
                 </div>
-                <div>
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                     {{ form_label(form.email) }}
-                    {{ form_widget(form.email,{'attr':{'class':'form-control','placeholder':'Email'}}) }}
+                    {{ form_widget(form.email,{'attr':{'class':'form-control has-feedback-left','placeholder':'form.email'|trans}}) }}
+                    <span class="fa fa-envelope-o form-control-feedback left" aria-hidden="true" style="top: 22px;"></span>
                     <div style="color: darkred;">{{ form_errors(form.email) }}</div>
                 </div>
-                <div>
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                     {{ form_label(form.plainPassword.first) }}
-                    {{ form_widget(form.plainPassword.first,{'attr':{'class':'form-control','placeholder':'Password'}}) }}
+                    {{ form_widget(form.plainPassword.first,{'attr':{'class':'form-control has-feedback-left','placeholder':'form.password'|trans}}) }}
+                    <span class="fa fa-lock form-control-feedback left" aria-hidden="true" style="top: 22px;"></span>
                     <div style="color: darkred;">{{ form_errors(form.plainPassword.first) }}</div>
                 </div>
-                <div>
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                     {{ form_label(form.plainPassword.second) }}
-                    {{ form_widget(form.plainPassword.second,{'attr':{'class':'form-control','placeholder':'Password'}}) }}
+                    {{ form_widget(form.plainPassword.second,{'attr':{'class':'form-control has-feedback-left','placeholder':'form.password_confirmation'|trans}}) }}
+                    <span class="fa fa-unlock-alt form-control-feedback left" aria-hidden="true" style="top: 22px;"></span>
                     <div style="color: darkred;">{{ form_errors(form.plainPassword.second) }}</div>
                 </div>
                 <div class="clearfix"></div>
@@ -44,15 +49,19 @@
                 {{ form_widget(form._token) }}
                 {{ form_end(form) }}
                 <div class="clearfix"></div>
+                <br/>
                 <div class="separator">
-                    <p class="change_link">Already a member ?
-                        <a href="{{ path('fos_user_security_login') }}" class="to_register"> Log in </a>
-                    </p>
-                    <div>
-                        <img src="{{ asset('assets/images/logo.png') }}" alt="..." style="width: 30%">
-                    </div>
                     <div class="clearfix"></div>
-                    <p>©2016 All Rights Reserved. <a href="">Privacy and Terms</a></p>
+                    <br/>
+                    <p class="change_link">{{ 'registration.already_member'|trans }}
+                        <a href="{{ path('fos_user_security_login') }}" class="to_register"> {{ 'app.messages.to_login'|trans }} </a>
+                    </p>
+                    {#<div>#}
+                        {#<img src="{{ asset('assets/images/logo.png') }}" alt="..." style="width: 30%">#}
+                    {#</div>#}
+                    <div class="clearfix"></div>
+                    <br/>
+                    <p>©2016 {{ 'app.messages.all_rigths'|trans }}. <a href="">{{ 'app.messages.privacy_and_terms'|trans }}</a></p>
                 </div>
 
             </section>

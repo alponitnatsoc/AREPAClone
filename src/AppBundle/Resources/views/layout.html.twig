@@ -19,7 +19,52 @@
     <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet">
 </head>
 
+<style>
+    .switch{
+        margin: 0;
+    }
+</style>
 <body class="login">
+    <div class="page-title">
+        <div class="title_right" style="float: right;width: 10%">
+            <div class="btn-group">
+                {% set route = app.request.attributes.get('_route') %}
+                {% set route_params = app.request.attributes.get('_route_params') %}
+                {% set params = route_params|merge(app.request.query.all) %}
+                <button data-toggle="dropdown" class="btn btn-default dropdown-toggle" type="button">
+                    {% if app.request.locale == 'en' %}
+                        Languages
+                    {% else %}
+                        Idiomas
+                    {% endif %}
+                    <span class="caret"></span> </button>
+                {% if app.request.locale == 'en' %}
+                    <ul class="dropdown-menu" style="min-width: 80%; margin: 2px auto">
+                        <li class="switch"><a href="{{ path('language_switcher',{'locale':'es'}) }}">Spanish</a>
+                        </li>
+                        <li class="switch"><a href="{{ path('language_switcher',{'locale':'en'}) }}">English</a>
+                        </li>
+                    </ul>
+                {% else %}
+                    <ul class="dropdown-menu" style="min-width: 80%; margin: 2px auto">
+                        <li class="switch"><a href="{{ path('language_switcher',{'locale':'es'}) }}">Español</a>
+                        </li>
+                        <li class="switch"><a href="{{ path('language_switcher',{'locale':'en'}) }}">Ingles</a>
+                        </li>
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 {% block fos_user_content %}{% endblock fos_user_content %}
+    <!-- jQuery -->
+    <script src="{{ asset('assets/vendors/jquery/dist/jquery.min.js') }}"></script>
+    <!-- Bootstrap -->
+    <script src="{{ asset('assets/vendors/bootstrap/dist/js/bootstrap.min.js') }}"></script>
+    <!-- FastClick -->
+    <script src="{{ asset('assets/vendors/fastclick/lib/fastclick.js') }}"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="{{ asset('assets/js/custom.min.js') }}"></script>
 </body>
 </html>

@@ -12,6 +12,12 @@ class DefaultController extends Controller
 {
     public function indexAction( Request $request)
     {
+        $user=$this->getUser();
+        if(empty($user)){
+            return $this->redirectToRoute('fos_user_security_login');
+        }else{
+            return $this->redirectToRoute('dashboard',array('request'=>$request));
+        }
 //        $obj = \PHPExcel_IOFactory::load("notas.xlsx");
 ////        $obj = $this->get("phpexcel")->createPHPExcelObject();
 //        echo date('H:i:s') ." Iterate worksheets" ."<br>";
@@ -41,9 +47,12 @@ class DefaultController extends Controller
 //        $writer = $this->get("phpexcel")->createWriter($obj);
 //        $writer->save("notas.xlsx");
 //        dump("Lo Logre");
-        return $this->render('user/base.html.twig');
-//        return $this->render('default/index.html.twig', [
-//            'base_dir' => realpath($this->getParameter('kernel.root_dir').'/..'),
-//        ]);root_dir
+    }
+
+    public function changeLocaleAction($locale = 'en',Request $request)
+    {
+        $request->attributes->set('_locale',null);
+        $this->get('session')->set('_locale', $locale);
+        return $this->redirect($request->headers->get('referer'));
     }
 }

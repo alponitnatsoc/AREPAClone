@@ -17,8 +17,13 @@ home:
     path: /
     defaults: {_controller: AppBundle:Default:index}
 
+dashboard:
+    path: /dashboard
+    defaults: {_controller: AppBundle:Dashboard:index}
+
+language_switcher:
+    path: /language/switch/{locale}
+    defaults: {_controller: AppBundle:Default:changeLocale, locale: en}
+
 #Secure Pages
 
-admin_dashboard:
-    path: /admin
-    defaults: {_controller: AppB}

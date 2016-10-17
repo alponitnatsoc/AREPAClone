@@ -15,10 +15,7 @@ parameters:
     mailer_user: arepasoftadm@gmail.com
     mailer_password: c727b3d7d861d86795d723e40eba874f
     mailer_delivery_address: correo@gmail.com
-    from_email_address_registration: arepasoftadm@gmail.com
-    from_email_sender_name_registration: 'AREPAsoft TEAM'
-    from_email_address_resetting: arepasoftadm@gmail.com
-    from_email_sender_name_resetting: 'AREPAsoft TEAM'
-
+    from_email_address: arepasoftadm@gmail.com
+    from_email_sender_name: 'AREPAsoft TEAM'
     # A secret key that's used to generate certain security-related tokens
     secret:            ThisTokenIsNotSoSecretChangeIt
