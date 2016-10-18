@@ -9,17 +9,6 @@
             <ul class="nav navbar-nav navbar-right">
                 <li class="">
                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-                        {{ 'app.messages.lenguages'|trans }}
-                        <span class=" fa fa-angle-down"></span>
-                    </a>
-                    <ul class="dropdown-menu dropdown-usermenu pull-right" style="min-width: 100%;width: 100%">
-                        {#<li><a href="{{ path('app_profile')}}"> Profile</a></li>#}
-                        <li><a href="{{ path('language_switcher',{'locale':'en'}) }}">{{ 'app.messages.english'|trans }}</a></li>
-                        <li><a href="{{ path('language_switcher',{'locale':'es'}) }}">{{ 'app.messages.spanish'|trans }}</a></li>
-                    </ul>
-                </li>
-                <li class="">
-                    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <img src="{{ asset('assets/images/profile_pic.jpg') }}" alt="">
                         {{ app.user.username }}
                         <span class=" fa fa-angle-down"></span>
@@ -29,6 +18,17 @@
                         <li><a href="#"><i class="fa fa-cog pull-right"></i><span>{{ 'app.messages.settings'|trans }}</span></a></li>
                         <li><a href="#"><i class="fa fa-question-circle pull-right"><span></i>{{ 'app.messages.help'|trans }}</span></a></li>
                         <li><a href="{{ path('fos_user_security_logout') }}"><i class="fa fa-sign-out pull-right"></i>{{ 'app.messages.logout'|trans }}</a></li>
+                    </ul>
+                </li>
+                <li class="">
+                    <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+                        {{ 'app.messages.lenguages'|trans }}
+                        <span class=" fa fa-angle-down"></span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-usermenu pull-right" style="min-width: 100%;width: 100%">
+                        {#<li><a href="{{ path('app_profile')}}"> Profile</a></li>#}
+                        <li><a href="{{ path('language_switcher',{'locale':'en'}) }}">{{ 'app.messages.english'|trans }}</a></li>
+                        <li><a href="{{ path('language_switcher',{'locale':'es'}) }}">{{ 'app.messages.spanish'|trans }}</a></li>
                     </ul>
                 </li>
 
