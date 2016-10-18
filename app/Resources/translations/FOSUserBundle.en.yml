@@ -7,10 +7,12 @@ security:
 resetting:
     request:
         title: 'Reset Password'
+        sent: 'Request sent'
 registration:
     title: 'Create Account'
     already_member: 'Already a member?'
     send_request: 'Confirm registration'
+    confirm_request: 'Registration completed'
 app:
     messages:
         all_rigths: 'All Rigths Reserved'
@@ -18,3 +20,19 @@ app:
         go_back: 'I want to go back?'
         to_login: 'Log in'
         return_to: 'Return to'
+        go_to: 'Go to'
+        continue: 'Continue'
+        lenguages: 'Lenguages'
+        spanish: 'Spanish'
+        english: 'English'
+        help: 'Help'
+        settings: 'Settings'
+        profile: 'Profile'
+        logout: 'Log Out'
+        welcome: 'Welcome'
+    dashboard:
+        agenda: 'Agenda'
+        developer: 'DEVELOPER'
+        documentation: 'Documentation'
+        calendar: 'Calendar'
+        contacts: 'Contacts'

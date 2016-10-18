@@ -6,12 +6,18 @@
     <div>
         <div class="login_wrapper" style="margin: 10% auto; min-width: 20%; max-width: 21%">
 
-            <h1 style="margin: 30px 0 10px; font-size: 20px">Registration Confirmed</h1>
+            <h1 style="margin: 30px 0 10px; font-size: 20px">{{ 'registration.confirm_request'|trans }}</h1>
             <p>{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
             <div class="clearfix"></div>
             {% if targetUrl %}
                 <p><a href="{{ targetUrl }}">back to home</a></p>
             {% endif %}
+            <div class="separator">
+                <div class="clearfix"></div>
+                <p class="change_link">
+                    <a href="{{ path('dashboard') }}" class="to_register"> {{ 'app.messages.continue'|trans }} </a>
+                </p>
+            </div>
         </div>
     </div>
 

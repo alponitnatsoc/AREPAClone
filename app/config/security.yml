@@ -28,16 +28,19 @@ security:
 
     role_hierarchy:
 #        ROLE_NEW: [ ROLE_USER ]
-#        ROLE_STUDENT: [ ROLE_USER ]
 #        ROLE_MONITOR: [ ROLE_USER ]
+        ROLE_STUDENT:     [ ROLE_USER ]
         ROLE_TEACHER:     [ ROLE_USER ]
-        ROLE_ADMIN:       [ ROLE_TEACHER ]
+        ROLE_ADMIN:       [ ROLE_TEACHER, ROLE_STUDENT ]
         ROLE_SUPER_ADMIN: [ ROLE_ADMIN ]
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/dashboard, role: IS_AUTHENTICATED_FULLY }
         - { path: ^/admin*, role: ROLE_ADMIN }
+        - { path: ^/teacher*, role: ROLE_TEACHER }
+        - { path: ^/student*, role: ROLE_STUDENT }
 #        - { path: ^/, role: IS_AUTHENTICATED_FULLY}
         - { path: ^/language/switch/, role: IS_AUTHENTICATED_ANONYMOUSLY}

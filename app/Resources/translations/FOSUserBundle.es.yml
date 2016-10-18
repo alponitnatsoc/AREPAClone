@@ -7,11 +7,19 @@ security:
 resetting:
     request:
         title: 'Cambiar Contraseña'
+        sent: 'Solicitud enviada'
+    check_email: |
+            Se te ha enviado un email. Contiene un enlace de activación que debes presionar para restablecer tu contraseña.
+            Nota: Solo puedes solicitar un cambio de contraseña cada %tokenLifetime% horas.
+
+            Si no recibes el email revisa la carpeta de spam o intentalo de nuevo.
 
 registration:
     title: 'Crear Cuenta'
     already_member: '¿Ya tengo un usuario?'
     send_request: 'Confirmar registro'
+    confirm_request: 'Registro completado'
+    confirmed: 'felicidades %username%, tu cuenta ha sido activada'
 app:
     messages:
         all_rigths: 'Todos los Derechos Reservados'
@@ -19,3 +27,19 @@ app:
         go_back: '¿Quiero regresar?'
         to_login: 'Inicio de sesión'
         return_to: 'Regresar a'
+        go_to: 'Ir a'
+        continue: 'Continuar'
+        lenguages: 'Idiomas'
+        spanish: 'Español'
+        english: 'Ingles'
+        help: 'Ayuda'
+        settings: 'Ajustes'
+        profile: 'Perfil'
+        logout: 'Salir'
+        welcome: 'Bienvenido'
+    dashboard:
+        agenda: 'Agénda'
+        developer: 'DESARROLLO'
+        documentation: 'Documentación'
+        calendar: 'Calendario'
+        contacts: 'Contactos'
