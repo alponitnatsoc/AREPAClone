@@ -21,15 +21,31 @@
 
 <body class="nav-md footer_fixed">
 <div class="container body">
-    <div class="main_container" style="min-height: 680px">
+    <div class="main_container">
+
+        {% block sidebar %}
+            {% embed 'user/sidebar.html.twig' %}
+                {% trans_default_domain 'FOSUserBundle' %}
+                {% block main_menu %}
+                    <li class=""><a><i class="fa fa-calendar"></i>{{ 'app.dashboard.agenda'|trans }}<span class="fa fa-chevron-down"></span></a>
+                        <ul class="nav child_menu" style="display: none;">
+                            <li><a href="{{ path('home') }}">{{ 'app.dashboard.calendar'|trans }}</a></li>
+                            <li><a href="{{ path('home') }}">{{ 'app.dashboard.contacts'|trans }}</a></li>
+                        </ul>
+                    </li>
+                {% endblock %}
+            {% endembed %}
+        {% endblock %}
 
 
-        {% include 'user/sidebar.html.twig' %}
-        {% include 'user/topnav.html.twig' %}
+        {% block topbar %}
+            {% embed 'user/topnav.html.twig' %}
+            {% endembed %}
+        {% endblock %}
 
 
         <!-- page content -->
-        <div class="right_col" role="main" style="min-height: 680px">
+        <div class="right_col" role="main">
             <div class="">
                 {% block top_content_header %}
                     <div class="page-title">
