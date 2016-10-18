@@ -38,7 +38,7 @@ class SecurityController extends BaseController
         }
 
         if (!$error instanceof AuthenticationException) {
-            $error = null; // The value does not come from the security component.
+            $error = null; // The value does not come from the Security component.
         }
 
         // last username entered by the user
