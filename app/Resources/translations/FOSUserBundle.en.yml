@@ -36,3 +36,34 @@ app:
         documentation: 'Documentation'
         calendar: 'Calendar'
         contacts: 'Contacts'
+        last_add: 'Last created on'
+        courses: 'Courses'
+        teachers: 'Teachers'
+        table_display: 'Display _MENU_ entries'
+        zero_record: 'Nothing found - sorry'
+        table_info: 'Showing page _PAGE_ of _PAGES_'
+        info_empty: 'No records available'
+        info_filtered: '(filtered from _MAX_ total records)'
+        lookup:
+            title: 'Lookup'
+            list_courses: 'Course list'
+            course_id: 'Id'
+            academic_grade: 'Academic grade'
+            course_code: 'Code'
+            course_name: 'Name'
+            component: 'Component'
+            course_credits: 'Credits'
+            course_description: 'Description'
+            course_lookup_message: 'The following list shows course information'
+            teacher_lookup_message: 'The following list shows teacher information'
+            list_teachers: 'Teachers List'
+            teacher_id: 'Id'
+            teacher_full_name: 'Full name'
+            teacher_code: 'Code'
+            document: 'Document number'
+
+
+
+
+
+

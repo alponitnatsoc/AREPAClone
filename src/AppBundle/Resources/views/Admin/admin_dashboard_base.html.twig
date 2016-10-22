@@ -1,0 +1,51 @@
+{% extends ":user:base.html.twig" %}
+    {% trans_default_domain 'FOSUserBundle' %}
+
+    {% block stylesheets %}
+
+        {{ parent() }}
+    {% endblock stylesheets %}
+
+    {% block page_title %}
+    {% endblock%}
+
+    {% block sidebar %}
+        {% embed 'user/sidebar.html.twig' %}
+            {% trans_default_domain 'FOSUserBundle' %}
+            {% block main_menu %}
+                <li class=""><a><i class="fa fa-search"></i>{{ 'app.dashboard.lookup.title'|trans }}<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu" style="display: none;">
+                        <li class=""><a href="{{ path('course_lookup') }}"><i class="fa fa-book"></i>{{ 'app.dashboard.courses'|trans }}</a></li>
+                        <li class=""><a href="{{ path('teacher_lookup') }}"><i class="fa fa-users"></i>{{ 'app.dashboard.teachers'|trans }}</a></li>
+                    </ul>
+                </li>
+            {% endblock %}
+            {% block side_menu %}
+                {#<div class="menu_section">#}
+                    {#<h3>{{ 'app.dashboard.developer'|trans }}</h3>#}
+                    {#<ul class="nav side-menu">#}
+                    {#<li>#}
+                        {#<a><i class="fa fa-book"></i>{{ 'app.dashboard.documentation'|trans }}<span class="fa fa-chevron-down"></span></a>#}
+                        {#<ul class="nav child_menu">#}
+                            {#<li><a class="symfony-docs" href="http://symfony.com/doc/current/index.html">Symfony</a></li>#}
+                        {#</ul>#}
+                    {#</li>#}
+                    {#<li><a href="{{ path('home') }}"><i class="fa fa-search"></i> Template</a></li>#}
+                    {#</ul>#}
+                {#</div>#}
+            {% endblock %}
+        {% endembed %}
+    {% endblock %}
+
+    {% block page_content %}
+
+    {% endblock %}
+
+    {% block scriptImport %}
+        {{ parent() }}
+    {% endblock %}
+
+
+
+
+

@@ -2,7 +2,9 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Course;
 use AppBundle\Entity\Person;
+use AppBundle\Entity\User;
 use AppBundle\Form\newPersonForm;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -12,15 +14,9 @@ class DefaultController extends Controller
 {
     public function indexAction( Request $request)
     {
+        /** @var User $user */
         $user=$this->getUser();
-        if(empty($user)){
-            return $this->redirectToRoute('fos_user_security_login');
-        }else{
-            return $this->redirectToRoute('dashboard',array('request'=>$request));
-        }
-//        $obj = \PHPExcel_IOFactory::load("notas.xlsx");
-////        $obj = $this->get("phpexcel")->createPHPExcelObject();
-//        echo date('H:i:s') ." Iterate worksheets" ."<br>";
+//
 //        foreach ($obj->getWorksheetIterator() as $worksheet) {
 //            echo 'Worksheet - '. $worksheet->getTitle() ."<br>";
 //
@@ -36,6 +32,13 @@ class DefaultController extends Controller
 //                }
 //            }
 //        }
+
+
+        if(empty($user)){
+            return $this->redirectToRoute('fos_user_security_login');
+        }else{
+            return $this->redirectToRoute('dashboard',array('request'=>$request));
+        }
 //        $obj->setActiveSheetIndex(0)->setTitle("Notas-2016");
 //        $sheet = $obj->getActiveSheet();
 //        $sheet->setCellValue('A1','Nombre');

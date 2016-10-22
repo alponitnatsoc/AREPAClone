@@ -98,6 +98,38 @@ class Person
     }
 
     /**
+     * Get FullName
+     *
+     * @return string
+     */
+    public function getFullName()
+    {
+        $fullName = '';
+        if($this->firstName!=''){
+            $fullName .=$this->firstName;
+        }
+        if($this->secondName!=''){
+            if($fullName!=''){
+                $fullName .=' '.$this->secondName;
+            }else{
+                $fullName .=$this->secondName;
+            }
+        }
+        if($this->lastName1!=''){
+            if($fullName!=''){
+                $fullName .=' '.$this->lastName1;
+            }else{
+                $fullName .=$this->lastName1;
+            }
+        }
+        if($this->lastName2!=''){
+            $fullName .=$this->lastName2;
+        }
+        return $fullName;
+    }
+
+
+    /**
      * Get idPerson
      *
      * @return integer

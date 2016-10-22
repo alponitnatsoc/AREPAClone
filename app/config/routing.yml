@@ -21,10 +21,17 @@ language_switcher:
     path: /language/switch/{locale}
     defaults: {_controller: AppBundle:Default:changeLocale, locale: en}
 
+
 #Secure Pages
 admin_dasboard:
     path: /admin/dashboard
     defaults: {_controller: AppBundle:Dashboard:adminDashboard}
+course_lookup:
+    path: /admin/lookup/courses
+    defaults: {_controller: AppBundle:Dashboard:lookupCourses}
+teacher_lookup:
+    path: /admin/lookup/teachers
+    defaults: {_controller: AppBundle:Dashboard:lookupTeachers}
 
 teacher_dashboard:
     path: /teacher/dashboard
