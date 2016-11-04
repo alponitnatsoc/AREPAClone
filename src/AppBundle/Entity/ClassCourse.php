@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  * @ORM\Table(name="class_course",
  *     uniqueConstraints={
  *          @UniqueConstraint(
- *              name="codeClassUnique", columns={"class_code"}
+ *              name="codeClassUnique", columns={"class_code","ciclolectivo"}
  *          )
  *     })
  * @ORM\Entity

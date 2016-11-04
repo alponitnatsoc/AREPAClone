@@ -3,8 +3,6 @@
 
     {% block stylesheets %}
         {{ parent() }}
-        <!-- iCheck -->
-        <link href="{{ asset('assets/vendors/iCheck/skins/flat/green.css') }}" rel="stylesheet">
         <!-- bootstrap-progressbar -->
         <link href="{{ asset('assets/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css') }}" rel="stylesheet">
         <!-- Datatables -->
@@ -103,6 +101,7 @@
         <!-- Datatables -->
         <script>
             $(document).ready(function() {
+
                 $('#datatable-fixed-header').DataTable( {
                     "language": {
                         "lengthMenu": "{{ 'app.dashboard.table_display'|trans }}",

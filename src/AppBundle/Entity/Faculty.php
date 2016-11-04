@@ -18,8 +18,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  * @ORM\Table(name="faculty",
  *     uniqueConstraints={
  *          @UniqueConstraint(
- *              name="codeFacultyUnique", columns={"faculty_code"},
- *              name="nameFacultyUnique", columns={"name"}
+ *              name="codeFacultyUnique", columns={"faculty_code"}
  *          )
  *     })
  * @ORM\Entity
@@ -53,8 +52,13 @@ class Faculty
     private $facultyHasTeacher;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\FacultyHasStudents", mappedBy="facultyFaculty", cascade={"persist", "remove"})
+     */
+    private $facultyHasStudents;
+
+    /**
      * @var string
-     * @ORM\Column(name="name",type="string",length=40,nullable=true,unique=true)
+     * @ORM\Column(name="name",type="string",nullable=true,unique=true)
      */
     private $name;
 
@@ -149,14 +153,6 @@ class Faculty
     {
         return $this->name;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->facultyHasCourses = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->facultyHasTeacher = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Add facultyHasTeacher
@@ -190,5 +186,48 @@ class Faculty
     public function getFacultyHasTeacher()
     {
         return $this->facultyHasTeacher;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->facultyHasCourses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->facultyHasTeacher = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->facultyHasStudents = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add facultyHasStudent
+     *
+     * @param \AppBundle\Entity\FacultyHasStudents $facultyHasStudent
+     *
+     * @return Faculty
+     */
+    public function addFacultyHasStudent(\AppBundle\Entity\FacultyHasStudents $facultyHasStudent)
+    {
+        $this->facultyHasStudents[] = $facultyHasStudent;
+
+        return $this;
+    }
+
+    /**
+     * Remove facultyHasStudent
+     *
+     * @param \AppBundle\Entity\FacultyHasStudents $facultyHasStudent
+     */
+    public function removeFacultyHasStudent(\AppBundle\Entity\FacultyHasStudents $facultyHasStudent)
+    {
+        $this->facultyHasStudents->removeElement($facultyHasStudent);
+    }
+
+    /**
+     * Get facultyHasStudents
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getFacultyHasStudents()
+    {
+        return $this->facultyHasStudents;
     }
 }

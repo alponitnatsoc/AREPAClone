@@ -64,9 +64,9 @@ Class Course
     /**
      * @var string
      *
-     * @ORM\Column(name="id_description",type="string", length=300,nullable=true)
+     * @ORM\Column(name="short_name_course",type="string", length=150,nullable=true)
      */
-    private $description;
+    private $shortNameCourse;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ClassCourse", mappedBy="courseCourse", cascade={"persist", "remove"})
@@ -217,30 +217,6 @@ Class Course
     }
 
     /**
-     * Set description
-     *
-     * @param string $description
-     *
-     * @return Course
-     */
-    public function setDescription($description)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
      * Set component
      *
      * @param string $component
@@ -297,6 +273,7 @@ Class Course
      */
     public function addClass(\AppBundle\Entity\ClassCourse $class)
     {
+        $class->setCourseCourse($this);
         $this->classes[] = $class;
 
         return $this;
@@ -422,5 +399,29 @@ Class Course
     public function getCourseHasfaculty()
     {
         return $this->courseHasfaculty;
+    }
+
+    /**
+     * Set shortNameCourse
+     *
+     * @param string $shortNameCourse
+     *
+     * @return Course
+     */
+    public function setShortNameCourse($shortNameCourse)
+    {
+        $this->shortNameCourse = $shortNameCourse;
+
+        return $this;
+    }
+
+    /**
+     * Get shortNameCourse
+     *
+     * @return string
+     */
+    public function getShortNameCourse()
+    {
+        return $this->shortNameCourse;
     }
 }

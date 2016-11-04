@@ -16,18 +16,24 @@ class DefaultController extends Controller
     {
         /** @var User $user */
         $user=$this->getUser();
-//
-//        foreach ($obj->getWorksheetIterator() as $worksheet) {
-//            echo 'Worksheet - '. $worksheet->getTitle() ."<br>";
-//
-//            foreach ($worksheet->getRowIterator() as $row) {
-//                echo '    Row number - ' . $row->getRowIndex() ."<br>";
-//
-//                $cellIterator = $row->getCellIterator();
-//                $cellIterator->setIterateOnlyExistingCells(false); // Loop all cells, even if it is not set
-//                foreach ($cellIterator as $cell) {
-//                    if (!is_null($cell)) {
-//                        echo '        Cell - ' . $cell->getCoordinate() .' - ' . $cell->getCalculatedValue() ."<br>";
+//        $dir = "uploads/Files/Faculty";
+//        foreach (scandir($dir) as $file) {
+//            if ('.' === $file || '..' === $file) continue;
+//            $inputFileType = \PHPExcel_IOFactory::identify($dir . '/' . $file);
+//            if ($inputFileType != 'CSV') {
+//                $objReader = \PHPExcel_IOFactory::createReader($inputFileType);
+//                /** @var \PHPExcel $obj */
+//                $obj = $objReader->load($dir . '/' . $file);
+//                /** @var \PHPExcel_Worksheet $worksheet */
+//                foreach ($obj->getWorksheetIterator() as $worksheet) {
+//                    $rowCount = 1;
+//                    /** @var \PHPExcel_Worksheet_Row $row */
+//                    foreach ($worksheet->getRowIterator() as $row) {
+//                        if ($rowCount > 1) {
+////                            $worksheet->getCellByColumnAndRow(2, $rowCount);
+//                            dump($worksheet->getCellByColumnAndRow(1, $rowCount)->getValue());
+//                        }
+//                        $rowCount++;
 //                    }
 //                }
 //            }
@@ -36,20 +42,8 @@ class DefaultController extends Controller
 
         if(empty($user)){
             return $this->redirectToRoute('fos_user_security_login');
-        }else{
-            return $this->redirectToRoute('dashboard',array('request'=>$request));
         }
-//        $obj->setActiveSheetIndex(0)->setTitle("Notas-2016");
-//        $sheet = $obj->getActiveSheet();
-//        $sheet->setCellValue('A1','Nombre');
-//        $sheet->setCellValue('A2',"Nota");
-//        $sheet->setCellValue('B1','Andres');
-//        $sheet->setCellValue('B2',"4.0");
-//        $sheet->setCellValue('C1','Erika');
-//        $sheet->setCellValue('C2',"4.0");
-//        $writer = $this->get("phpexcel")->createWriter($obj);
-//        $writer->save("notas.xlsx");
-//        dump("Lo Logre");
+        return $this->redirectToRoute('dashboard',array('request'=>$request));
     }
 
     public function changeLocaleAction($locale = 'en',Request $request)

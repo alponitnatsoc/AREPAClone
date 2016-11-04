@@ -42,7 +42,6 @@ class TeacherDictatesCourse
     private $teacherTeacher;
 
     /**
-     * @var ClassCourse
      *
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Course",inversedBy="courseIsDictatedByTeachers")
      * @ORM\JoinColumns({
@@ -61,6 +60,7 @@ class TeacherDictatesCourse
      */
     private $rubrics;
 
+    
     /**
      * Constructor
      */

@@ -69,6 +69,43 @@ class DashboardController extends Controller
     {
         if($this->isGranted('ROLE_ADMIN')){
 
+            $dir = 'uploads/Courses/Files';
+            foreach (scandir($dir) as $file){
+                if ('.' === $file || '..' === $file) continue;
+                $inputFileType =  \PHPExcel_IOFactory::identify($dir.'/'.$file);
+                /** @var \PHPExcel_Reader_IReader $objReader */
+                $objReader = \PHPExcel_IOFactory::createReader($inputFileType);
+                if($inputFileType == 'CSV'){
+
+                }
+                $obj = $objReader->load($dir.'/'.$file);
+                $worksheet = $obj->getActiveSheet();
+                $rowCount = 1;
+                foreach ($worksheet->getRowIterator() as $row){
+                    if($rowCount>1000) die;
+                    dump($row->getRowIndex());
+                    $cellIterator = $row->getCellIterator();
+                    $cellIterator->setIterateOnlyExistingCells(true);
+                    /** @var \PHPExcel_Cell $cell */
+                    foreach ( $cellIterator as $cell){
+                        dump($cell->getFormattedValue());
+                    }
+                    $rowCount++;
+                }
+                    /** @var \PHPExcel $obj */
+//                    $obj = $objReader->load($dir.'/'.$file);
+//                    $worksheet = $obj->getActiveSheet();
+//                    dump($worksheet->getTitle());
+//                    $obj= \PHPExcel_IOFactory::load($dir.'/'.$file);
+//                    $worksheet = $obj->getActiveSheet();
+//                    dump($worksheet->getTitle());
+//                /** @var \PHPExcel $obj */
+//                $obj = \PHPExcel_IOFactory::load($file);
+//                $worksheet = $obj->getActiveSheet();
+//                dump($worksheet->getTitle());
+            }
+            die;
+
             $em = $this->getDoctrine()->getManager();
             $faculty = $em->getRepository('AppBundle:Faculty')->find(1);
             $facultyHasCourses = $faculty->getFacultyHasCourses();
