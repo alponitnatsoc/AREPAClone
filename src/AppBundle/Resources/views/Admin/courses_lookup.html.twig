@@ -46,16 +46,15 @@
                     <p class="text-muted font-13 m-b-30">
                         {{ 'app.dashboard.lookup.course_lookup_message'|trans }}
                     </p>
-                    <table id="datatable-fixed-header" class="table table-striped table-bordered">
+                    <table id="datatable-fixed-header" class="table table-striped table-bordered" style="margin-bottom: 30px">
                         <thead>
                         <tr>
-                            <th>{{ 'app.dashboard.lookup.course_id'|trans }}</th>
-                            <th>{{ 'app.dashboard.lookup.course_name'|trans }}</th>
-                            <th>{{ 'app.dashboard.lookup.course_code'|trans }}</th>
-                            <th>{{ 'app.dashboard.lookup.academic_grade'|trans }}</th>
-                            <th>{{ 'app.dashboard.lookup.component'|trans }}</th>
-                            <th>{{ 'app.dashboard.lookup.course_credits'|trans }}</th>
-                            <th>{{ 'app.dashboard.lookup.course_description'|trans }}</th>
+                            <th>{{ 'app.dashboard.course_id'|trans }}</th>
+                            <th>{{ 'app.dashboard.course_name'|trans }}</th>
+                            <th>{{ 'app.dashboard.course_code'|trans }}</th>
+                            <th>{{ 'app.dashboard.academic_grade'|trans }}</th>
+                            <th>{{ 'app.dashboard.component'|trans }}</th>
+                            <th>{{ 'app.dashboard.course_credits'|trans }}</th>
                             {#<th>{{ ''|trans }}</th>#}
                         </tr>
                         </thead>
@@ -68,7 +67,6 @@
                                 <td>{{ course.courseCourse.academicGrade }}</td>
                                 <td>{{ course.courseCourse.component }}</td>
                                 <td>{{ course.courseCourse.credits }}</td>
-                                <td>{{ course.courseCourse.description }}</td>
                             </tr>
                         {% endfor %}
 
@@ -157,6 +155,30 @@
                 });
 
                 var table = $('#datatable-fixed-header').DataTable({
+                    "language": {
+                        "sProcessing":     "{{ 'app.dashboard.processing'|trans }}",
+                        "sLengthMenu":     "{{ 'app.dashboard.table_display'|trans }}",
+                        "sZeroRecords":    "{{ 'app.dashboard.zero_record'|trans }}",
+                        "sEmptyTable":     "{{ 'app.dashboard.empty_table'|trans }}",
+                        "sInfo":           "{{ 'app.dashboard.table_info'|trans }}",
+                        "sInfoEmpty":      "{{ 'app.dashboard.info_empty'|trans }}",
+                        "sInfoFiltered":   "{{ 'app.dashboard.info_filtered'|trans }}",
+                        "sInfoPostFix":    "",
+                        "sSearch":         "{{ 'app.dashboard.info_search'|trans }}",
+                        "sUrl":            "",
+                        "sInfoThousands":  ",",
+                        "sLoadingRecords": "{{ 'app.dashboard.loading'|trans }}",
+                        "oPaginate": {
+                            "sFirst":    "{{ 'app.dashboard.first'|trans }}",
+                            "sLast":     "{{ 'app.dashboard.last'|trans }}",
+                            "sNext":     "{{ 'app.dashboard.next'|trans }}",
+                            "sPrevious": "{{ 'app.dashboard.previous'|trans }}"
+                        },
+                        "oAria": {
+                            "sSortAscending": "{{ 'app.dashboard.sortAsc'|trans }}",
+                            "sSortDescending": "{{ 'app.dashboard.sortDesc'|trans }}"
+                        }
+                    },
                     fixedHeader: true
                 });
 

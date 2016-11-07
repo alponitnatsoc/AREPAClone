@@ -14,8 +14,16 @@ class DefaultController extends Controller
 {
     public function indexAction( Request $request)
     {
+
         /** @var User $user */
         $user=$this->getUser();
+        $person = new Person();
+        $form = $this->createForm(newPersonForm::class,$person);
+
+//        if(!$user){
+//            $user = new User();
+//            $user->setUsername('Andres');
+//        }
 //        $dir = "uploads/Files/Faculty";
 //        foreach (scandir($dir) as $file) {
 //            if ('.' === $file || '..' === $file) continue;
@@ -38,7 +46,6 @@ class DefaultController extends Controller
 //                }
 //            }
 //        }
-
 
         if(empty($user)){
             return $this->redirectToRoute('fos_user_security_login');

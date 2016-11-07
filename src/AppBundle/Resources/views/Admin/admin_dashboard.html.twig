@@ -22,19 +22,21 @@
                 <div class="text-center">
                     <span class="count_top"><i class="fa fa-book"></i> {{ 'app.dashboard.courses'|trans }}</span>
                     <div class="count text-center">{{ courses|length }}</div>
-                    <span class="count_bottom">{{ 'app.dashboard.last_add'|trans }}: <br>{{ lastCreated.createdAt|date('d M',"America/Bogota") }}</span>
+                    <span class="count_bottom">{{ 'app.dashboard.last_add'|trans }}: <br>{{ lastCourseCreated.createdAt|date('d M',"America/Bogota") }}</span>
                 </div>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
                 <div class="text-center">
                     <span class="count_top"><i class="fa fa-users"></i> {{ 'app.dashboard.teachers'|trans }}</span>
                     <div class="count text-center">{{ teachers|length }}</div>
-                    <span class="count_bottom">{{ 'app.dashboard.last_add'|trans }}: <br>{{ lastCreated.createdAt|date('d M',"America/Bogota") }}</span>
+                    <span class="count_bottom">{{ 'app.dashboard.last_add'|trans }}: <br>{{ lastTeacherCreated.createdAt|date('d M',"America/Bogota") }}</span>
                 </div>
             </div>
         </div>
 
     {% endblock %}
+
+
 
     {% block scriptImport %}
         {{ parent() }}

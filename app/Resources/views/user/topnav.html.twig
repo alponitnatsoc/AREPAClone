@@ -10,7 +10,12 @@
                 <li class="">
                     <a href="javascript:;" class="user-profile dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
                         <img src="{{ asset('assets/images/profile_pic.jpg') }}" alt="">
-                        {{ app.user.username }}
+                        {% if app.user %}
+                            {{ app.user.username }}
+                        {% else %}
+                            Naiden
+                        {% endif %}
+
                         <span class=" fa fa-angle-down"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-usermenu pull-right" style="min-width: 100%; width: 100%">

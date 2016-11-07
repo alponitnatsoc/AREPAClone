@@ -10,6 +10,7 @@ namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Class Student
@@ -63,6 +64,12 @@ class Teacher
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\FacultyHasTeachers",mappedBy="teacherTeacher",cascade={"persist","remove"})
      */
     private $teacherHasfaculty;
+
+    /**
+     * @ORM\Column(name="created_at",type="datetime", nullable=true)
+     */
+    private $createdAt = null;
+
     /**
      * Constructor
      */
@@ -71,6 +78,7 @@ class Teacher
         $this->teacherHasRoles = new \Doctrine\Common\Collections\ArrayCollection();
         $this->teacherDictatesCourses = new \Doctrine\Common\Collections\ArrayCollection();
         $this->teacherHasfaculty = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->createdAt = new \DateTime();
     }
 
     /**
@@ -231,5 +239,29 @@ class Teacher
     public function getTeacherHasfaculty()
     {
         return $this->teacherHasfaculty;
+    }
+
+    /**
+     * Set createdAt
+     *
+     * @param \DateTime $createdAt
+     *
+     * @return Teacher
+     */
+    public function setCreatedAt($createdAt)
+    {
+        $this->createdAt = $createdAt;
+
+        return $this;
+    }
+
+    /**
+     * Get createdAt
+     *
+     * @return \DateTime
+     */
+    public function getCreatedAt()
+    {
+        return $this->createdAt;
     }
 }

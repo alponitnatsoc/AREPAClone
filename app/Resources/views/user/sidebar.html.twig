@@ -19,7 +19,13 @@
             </div>
             <div class="profile_info">
                 <span>{{ 'app.messages.welcome'|trans }},</span>
-                <h2>{{ app.user.username }}</h2>
+                <h2>
+                    {% if app.user.username is not defined %}
+                        No user
+                    {% else %}
+                        {{ app.user.username }}
+                    {% endif %}
+                </h2>
             </div>
         </div>
         <!-- /menu profile quick info -->

@@ -1,9 +1,48 @@
-{% extends 'base.html.twig' %}
+{% extends 'user/base.html.twig' %}
+{% trans_default_domain 'FOSUserBundle' %}
 
-{% block body %}
+{% block page_content%}
 
     {{ form_start(form) }}
-    {{ form_errors(form) }}
     {{ form_end(form) }}
 
+
+    <script>
+
+    </script>
 {% endblock %}
+
+{% block scriptImport %}
+    <script>
+        $(document).ready(function () {
+            alert('Hola');
+            var validator;
+            $.getScript("{{ asset('assets/vendors/jquery-validation/dist/jquery.validate.min.js') }}").done(function () {
+                validator = $("form[name='new_person_form']").validate({
+                    rules: {
+                        "new_person_form[firstName]": {required: true, minlebgth: 2},
+                        "new_person_form[secondName]": {minlebgth: 2},
+                        "new_person_form[lastName1]": {required: true, minlebgth: 2},
+                        "new_person_form[lastName2]": { minlebgth: 2}
+                    },
+                    messages: {
+                        "new_person_form[firstName]": {required: "Please write a name",minlength: "El nombre es muy corto" },
+                        "new_person_form[secondName]": {minlebgth: "El segundo nombre es muy corto"},
+                        "new_person_form[lastName1]": {required: "Por favor digita tu primer apellido", minlebgth: "El primer apellido es muy corto"},
+                        "new_person_form[lastName2]": {minlebgth: "El segundo apellido es muy corto"}
+                    }
+                });
+            });
+
+            $("#form").on('submit',function (e) {
+                e.preventDefault();
+                var form = $("form");
+                var flagValid = true;
+                if (!form.valid()) {
+                    return;
+                }
+            })
+        });
+    </script>
+{% endblock %}
+

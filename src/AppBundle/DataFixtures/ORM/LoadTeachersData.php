@@ -40,6 +40,17 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
          *
          * El archivo generado debe guardarse en la carpeta web/uploads/Courses/Files con nombre courses
          */
+        $faculty = $manager->getRepository('AppBundle:Faculty')->findOneBy(array('facultyCode'=>'DPT-ISIST'));
+        $teacher = $manager->getRepository('AppBundle:Teacher')->findOneBy(array('teacherCode'=>'ADMINISTRATOR'));
+        if($teacher->getTeacherHasfaculty()->isEmpty()){
+            $facultyHasTeacher=new FacultyHasTeachers();
+            $facultyHasTeacher->setFacultyFaculty($faculty);
+            $facultyHasTeacher->setTeacherTeacher($teacher);
+            $teacher->addTeacherHasfaculty($facultyHasTeacher);
+            $faculty->addFacultyHasTeacher($facultyHasTeacher);
+            $manager->persist($facultyHasTeacher);
+            $manager->flush();
+        }
         $manager->getConnection()->getConfiguration()->setSQLLogger(null);
         echo "  > Memory usage before: " . (memory_get_usage()/1048576) . " MB" . PHP_EOL;
         $dir = "web/uploads/Files/Teachers";

@@ -15,6 +15,7 @@
     {% endblock stylesheets %}
 
     {% block page_title %}
+
         {{ 'app.dashboard.teachers'|trans }}
     {% endblock%}
 
@@ -48,30 +49,25 @@
                     <table id="datatable-fixed-header" class="table table-striped table-bordered">
                         <thead>
                         <tr>
-                            <th>{{ 'app.dashboard.lookup.course_id'|trans }}</th>
-                            <th>{{ 'app.dashboard.lookup.course_name'|trans }}</th>
-                            <th>{{ 'app.dashboard.lookup.course_code'|trans }}</th>
-                            <th>{{ 'app.dashboard.lookup.academic_grade'|trans }}</th>
-                            <th>{{ 'app.dashboard.lookup.component'|trans }}</th>
-                            <th>{{ 'app.dashboard.lookup.course_credits'|trans }}</th>
-                            <th>{{ 'app.dashboard.lookup.course_description'|trans }}</th>
-                            <th></th>
-                            {#<th>{{ ''|trans }}</th>#}
+                            <th>{{ 'app.dashboard.teacher_code'|trans }}</th>
+                            <th>{{ 'app.dashboard.teacher_full_name'|trans }}</th>
+                            <th>{{ 'app.dashboard.document'|trans }}</th>
+                            <th>{{ 'app.dashboard.document_type'|trans }}</th>
+                            <th>{{ 'app.dashboard.email'|trans }}</th>
                         </tr>
                         </thead>
                         <tbody>
-                        {#{% for course in courses %}#}
-                            {#<tr>#}
-                                {#<td>{{ course.courseCourse.idCourse }}</td>#}
-                                {#<td>{{ course.courseCourse.nameCourse }}</td>#}
-                                {#<td>{{ course.courseCourse.courseCode }}</td>#}
-                                {#<td>{{ course.courseCourse.academicGrade }}</td>#}
-                                {#<td>{{ course.courseCourse.component }}</td>#}
-                                {#<td>{{ course.courseCourse.credits }}</td>#}
-                                {#<td>{{ course.courseCourse.description }}</td>#}
-                            {#</tr>#}
-                        {#{% endfor %}#}
-
+                        {% for teacher in teachers %}
+                            {% if teacher.teacherTeacher.teacherCode != 'ADMINISTRATOR' %}
+                            <tr>
+                                <td>{{ teacher.teacherTeacher.teacherCode }}</td>
+                                <td>{{ teacher.teacherTeacher.personPerson.fullName }}</td>
+                                <td>{{ teacher.teacherTeacher.personPerson.document }}</td>
+                                <td>{{ teacher.teacherTeacher.personPerson.documentType }}</td>
+                                <td>{{ teacher.teacherTeacher.personPerson.email }}</td>
+                            </tr>
+                            {% endif %}
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
@@ -101,17 +97,6 @@
         <!-- Datatables -->
         <script>
             $(document).ready(function() {
-
-                $('#datatable-fixed-header').DataTable( {
-                    "language": {
-                        "lengthMenu": "{{ 'app.dashboard.table_display'|trans }}",
-                        "zeroRecords": "{{ 'app.dashboard.zero_record'|trans }}",
-                        "info": "{{ 'app.dashboard.table_info'|trans }}",
-                        "infoEmpty": "{{ 'app.dashboard.table_info'|trans }}",
-                        "infoFiltered": "{{ 'app.dashboard.info_filtered'|trans }}"
-                    }
-                } );
-
 
                 var handleDataTableButtons = function() {
                     if ($("#datatable-buttons").length) {
@@ -169,7 +154,32 @@
                 });
 
                 var table = $('#datatable-fixed-header').DataTable({
+                    "language": {
+                        "sProcessing":     "{{ 'app.dashboard.processing'|trans }}",
+                        "sLengthMenu":     "{{ 'app.dashboard.table_display'|trans }}",
+                        "sZeroRecords":    "{{ 'app.dashboard.zero_record'|trans }}",
+                        "sEmptyTable":     "{{ 'app.dashboard.empty_table'|trans }}",
+                        "sInfo":           "{{ 'app.dashboard.table_info'|trans }}",
+                        "sInfoEmpty":      "{{ 'app.dashboard.info_empty'|trans }}",
+                        "sInfoFiltered":   "{{ 'app.dashboard.info_filtered'|trans }}",
+                        "sInfoPostFix":    "",
+                        "sSearch":         "{{ 'app.dashboard.info_search'|trans }}",
+                        "sUrl":            "",
+                        "sInfoThousands":  ",",
+                        "sLoadingRecords": "{{ 'app.dashboard.loading'|trans }}",
+                        "oPaginate": {
+                            "sFirst":    "{{ 'app.dashboard.first'|trans }}",
+                            "sLast":     "{{ 'app.dashboard.last'|trans }}",
+                            "sNext":     "{{ 'app.dashboard.next'|trans }}",
+                            "sPrevious": "{{ 'app.dashboard.previous'|trans }}"
+                        },
+                        "oAria": {
+                            "sSortAscending": "{{ 'app.dashboard.sortAsc'|trans }}",
+                            "sSortDescending": "{{ 'app.dashboard.sortDesc'|trans }}"
+                        }
+                    },
                     fixedHeader: true
+
                 });
 
                 TableManageButtons.init();

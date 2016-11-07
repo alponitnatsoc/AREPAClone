@@ -3,6 +3,9 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Course;
+use AppBundle\Entity\Faculty;
+use AppBundle\Entity\FacultyHasTeachers;
+use AppBundle\Entity\User;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -68,46 +71,11 @@ class DashboardController extends Controller
     public function adminDashboardAction(Request $request)
     {
         if($this->isGranted('ROLE_ADMIN')){
-
-            $dir = 'uploads/Courses/Files';
-            foreach (scandir($dir) as $file){
-                if ('.' === $file || '..' === $file) continue;
-                $inputFileType =  \PHPExcel_IOFactory::identify($dir.'/'.$file);
-                /** @var \PHPExcel_Reader_IReader $objReader */
-                $objReader = \PHPExcel_IOFactory::createReader($inputFileType);
-                if($inputFileType == 'CSV'){
-
-                }
-                $obj = $objReader->load($dir.'/'.$file);
-                $worksheet = $obj->getActiveSheet();
-                $rowCount = 1;
-                foreach ($worksheet->getRowIterator() as $row){
-                    if($rowCount>1000) die;
-                    dump($row->getRowIndex());
-                    $cellIterator = $row->getCellIterator();
-                    $cellIterator->setIterateOnlyExistingCells(true);
-                    /** @var \PHPExcel_Cell $cell */
-                    foreach ( $cellIterator as $cell){
-                        dump($cell->getFormattedValue());
-                    }
-                    $rowCount++;
-                }
-                    /** @var \PHPExcel $obj */
-//                    $obj = $objReader->load($dir.'/'.$file);
-//                    $worksheet = $obj->getActiveSheet();
-//                    dump($worksheet->getTitle());
-//                    $obj= \PHPExcel_IOFactory::load($dir.'/'.$file);
-//                    $worksheet = $obj->getActiveSheet();
-//                    dump($worksheet->getTitle());
-//                /** @var \PHPExcel $obj */
-//                $obj = \PHPExcel_IOFactory::load($file);
-//                $worksheet = $obj->getActiveSheet();
-//                dump($worksheet->getTitle());
-            }
-            die;
-
             $em = $this->getDoctrine()->getManager();
-            $faculty = $em->getRepository('AppBundle:Faculty')->find(1);
+            /** @var User $user */
+            $user = $this->getUser();
+            /** @var Faculty $faculty */
+            $faculty = $user->getPersonPerson()->getTeacher()->getTeacherHasfaculty()->first()->getFacultyFaculty();
             $facultyHasCourses = $faculty->getFacultyHasCourses();
             $facultyHasTeachers = $faculty->getFacultyHasTeacher();
             /** @var QueryBuilder $query */
@@ -118,12 +86,21 @@ class DashboardController extends Controller
                 ->groupBy('c.idCourse')
                 ->setMaxResults(1)
                 ->orderBy('max_score','DESC');
+            $query2 = $em->createQueryBuilder();
+            $query2
+                ->select('t,MAX(t.createdAt) AS max_score')
+                ->from("AppBundle:Teacher",'t')
+                ->groupBy('t.idTeacher')
+                ->setMaxResults(1)
+                ->orderBy('max_score','DESC');
             /** @var Course $lastCourse */
             $lastCourse = $query->getQuery()->getResult()[0][0];
+            $lastTeacher = $query2->getQuery()->getResult()[0][0];
             return $this->render('@App/Admin/admin_dashboard.html.twig',array(
                 'courses'=>$facultyHasCourses,
                 'teachers'=>$facultyHasTeachers,
-                'lastCreated'=>$lastCourse,
+                'lastCourseCreated'=>$lastCourse,
+                'lastTeacherCreated'=>$lastCourse,
                 'faculty'=>$faculty,
             ));
         }else{
@@ -135,9 +112,8 @@ class DashboardController extends Controller
     public function lookupCoursesAction(Request $request)
     {
         if($this->isGranted('ROLE_ADMIN')){
-
             $em = $this->getDoctrine()->getManager();
-            $faculty = $em->getRepository('AppBundle:Faculty')->find(1);
+            $faculty = $this->getUser()->getPersonPerson()->getTeacher()->getTeacherHasfaculty()->first()->getFacultyFaculty();
             $facultyHasCourses = $faculty->getFacultyHasCourses();
             return $this->render('@App/Admin/courses_lookup.html.twig',array(
                 'courses'=>$facultyHasCourses,
@@ -154,7 +130,7 @@ class DashboardController extends Controller
         if($this->isGranted('ROLE_ADMIN')){
 
             $em = $this->getDoctrine()->getManager();
-            $faculty = $em->getRepository('AppBundle:Faculty')->find(1);
+            $faculty = $this->getUser()->getPersonPerson()->getTeacher()->getTeacherHasfaculty()->first()->getFacultyFaculty();
             $facultyHasTeachers = $faculty->getFacultyHasTeacher();
             return $this->render('@App/Admin/teachers_lookup.html.twig',array(
                 'teachers'=>$facultyHasTeachers,

@@ -2,25 +2,26 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Person;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\NotBlank;
 
-class newPersonForm extends AbstractType
+class newFacultyForm extends AbstractType
 {
+
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('firstName',TextType::class,array(
+            ->add('facultyCode',TextType::class,array(
                 'constraints' => array(
                     new NotBlank(),
                 ),
                 'invalid_message'=>'Este campo es obligatorio',
-                'label'=>'form.firstName',
+                'label'=>'*Primer nombre:',
                 'property_path'=>'firstName',
                 'attr'=>array(
                     'placeholder'=>'Ingresa tu primer nombre'
@@ -44,7 +45,7 @@ class newPersonForm extends AbstractType
                 )
             ))
             ->add('lastName2',TextType::class,array(
-                'required'=>false,
+                'required'=>true,
                 'invalid_message'=>'Este campo es obligatorio',
                 'label'=>' Segundo apellido:',
                 'property_path'=>'lastName2',
@@ -80,12 +81,12 @@ class newPersonForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class'=>'AppBundle\Entity\Person'
+            'data_class'=>'AppBundle\Entity\Faculty'
         ));
     }
 
     public function getName()
     {
-        return 'new_person_form';
+        return 'new_faculty_form';
     }
 }

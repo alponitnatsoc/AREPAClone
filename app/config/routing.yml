@@ -12,36 +12,15 @@ app:
 fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
-#Public Pages
-home:
-    path: /
-    defaults: {_controller: AppBundle:Default:index}
+##Public Pages
+#home:
+#    path: /
+#    defaults: {_controller: AppBundle:Default:index}
 
 language_switcher:
     path: /language/switch/{locale}
     defaults: {_controller: AppBundle:Default:changeLocale, locale: en}
 
 
-#Secure Pages
-admin_dasboard:
-    path: /admin/dashboard
-    defaults: {_controller: AppBundle:Dashboard:adminDashboard}
-course_lookup:
-    path: /admin/lookup/courses
-    defaults: {_controller: AppBundle:Dashboard:lookupCourses}
-teacher_lookup:
-    path: /admin/lookup/teachers
-    defaults: {_controller: AppBundle:Dashboard:lookupTeachers}
 
-teacher_dashboard:
-    path: /teacher/dashboard
-    defaults: {_controller: AppBundle:Dashboard:teacherDashboard}
-
-student_dashboard:
-    path: /student/dashboard
-    defaults: {_controller: AppBundle:Dashboard:studentDashboard}
-
-dashboard:
-    path: /dashboard
-    defaults: {_controller: AppBundle:Dashboard:dashboard}
 

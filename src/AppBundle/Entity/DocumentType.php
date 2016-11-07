@@ -56,8 +56,6 @@ class DocumentType
      */
     private $template;
 
-
-
     /**
      * Get idDocumentType
      *
