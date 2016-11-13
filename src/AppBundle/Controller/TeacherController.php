@@ -11,6 +11,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\ClassCourse;
 use AppBundle\Entity\Faculty;
 use AppBundle\Entity\Period;
+use AppBundle\Entity\Plataform;
 use AppBundle\Entity\Teacher;
 use AppBundle\Entity\TeacherDictatesCourse;
 use AppBundle\Entity\User;
@@ -24,6 +25,7 @@ class TeacherController extends Controller
     {
         if($this->isGranted('ROLE_TEACHER')){
             $em = $this->getDoctrine()->getManager();
+            /** @var Plataform $plataform */
             $plataform = $em->getRepository("AppBundle:Plataform")->find(1);
             /** @var User $user */
             $user = $this->getUser();
@@ -39,10 +41,10 @@ class TeacherController extends Controller
             $classes = array();
             /** @var TeacherDictatesCourse $tc */
             foreach ($teacherDictatesCourses as $tc) {
-                $classes = $tc->getClasses();
+                $class = $tc->getClasses();
                 /** @var ClassCourse $class */
                 foreach ($classes as $class) {
-                    if($class->getActivePeriod()==$plataform->getActivePeriod()->getCode()){
+                    if($class->getActivePeriod()==$plataform->getActivePeriod()){
                         $activeClass[]=$class;
                         $classes[]=$class;
                     }else{
