@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\RoleType;
+use AppBundle\Entity\TeacherHasRole;
 use FOS\UserBundle\Controller\RegistrationController as BaseController;
 use FOS\UserBundle\Event\FilterUserResponseEvent;
 use FOS\UserBundle\Event\FormEvent;
@@ -54,6 +56,7 @@ class RegistrationController extends BaseController
         if ($form->isSubmitted()) {
             $user->setUsername(explode('@',$form->get('email')->getData())[0]);
             if ($form->isValid()) {
+                $em = $this->getDoctrine()->getManager();
                 $event = new FormEvent($form, $request);
                 $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
                 $person = $this->getDoctrine()->getRepository('AppBundle:Person')->findOneBy(array('email'=>$user->getEmail()));
@@ -61,6 +64,15 @@ class RegistrationController extends BaseController
                     $person->setUserName($user->getUsername());
                     if($person->getTeacher()!= null){
                         $rolesArr = array('ROLE_TEACHER');
+                        $teacherHasRole = new TeacherHasRole();
+                        /** @var RoleType $roleType */
+                        $roleType = $em->getRepository('AppBundle:RoleType')->findOneBy(array('roleCode'=>'ROLE_TEACHER'));
+                        $teacherHasRole->setRoleTypeRoleType($roleType);
+                        $roleType->addTeachersHasRole($teacherHasRole);
+                        $teacherHasRole->setTeacherTeacher($person->getTeacher());
+                        $person->getTeacher()->addTeacherHasRole($teacherHasRole);
+                        $em->persist($teacherHasRole);
+                        $em->persist($roleType);
                         $user->setRoles($rolesArr);
                         $userManager->updateUser($user);
                     }elseif($person->getStudent()!=null){
@@ -68,17 +80,16 @@ class RegistrationController extends BaseController
                         $user->setRoles($rolesArr);
                         $userManager->updateUser($user);
                     }
-                    $this->getDoctrine()->getManager()->persist($person);
-                    $this->getDoctrine()->getManager()->flush();
+                    $em->persist($person);
+                    $em->flush();
                 }
                 $userManager->updateUser($user);
-                $tUser = $this->getDoctrine()->getRepository('AppBundle:User')->findOneBy(array('email'=>$user->getEmail()));
+                $tUser = $em->getRepository('AppBundle:User')->findOneBy(array('email'=>$user->getEmail()));
                 if($tUser and $person){
                     $tUser->setPersonPerson($person);
-                    $this->getDoctrine()->getManager()->persist($tUser);
-                    $this->getDoctrine()->getManager()->flush();
+                    $em->persist($tUser);
+                    $em->flush();
                 }
-
                 if (null === $response = $event->getResponse()) {
                     $url = $this->getParameter('fos_user.registration.confirmation.enabled')
                         ? $this->generateUrl('fos_user_registration_confirmed')

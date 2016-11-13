@@ -149,7 +149,7 @@ class Teacher
     public function addTeacherHasRole(\AppBundle\Entity\TeacherHasRole $teacherHasRole)
     {
         $this->teacherHasRoles[] = $teacherHasRole;
-
+        $teacherHasRole->setTeacherTeacher($this);
         return $this;
     }
 

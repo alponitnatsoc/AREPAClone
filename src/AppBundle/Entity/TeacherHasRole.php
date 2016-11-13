@@ -46,10 +46,63 @@ class TeacherHasRole
      */
     private $roleTypeRoleType;
 
-    /**
-     * TODO
-     * @var string
-     */
-    private $configurations;
 
+
+    /**
+     * Get idTeacherHasRole
+     *
+     * @return integer
+     */
+    public function getIdTeacherHasRole()
+    {
+        return $this->idTeacherHasRole;
+    }
+
+    /**
+     * Set teacherTeacher
+     *
+     * @param \AppBundle\Entity\Teacher $teacherTeacher
+     *
+     * @return TeacherHasRole
+     */
+    public function setTeacherTeacher(\AppBundle\Entity\Teacher $teacherTeacher = null)
+    {
+        $this->teacherTeacher = $teacherTeacher;
+
+        return $this;
+    }
+
+    /**
+     * Get teacherTeacher
+     *
+     * @return \AppBundle\Entity\Teacher
+     */
+    public function getTeacherTeacher()
+    {
+        return $this->teacherTeacher;
+    }
+
+    /**
+     * Set roleTypeRoleType
+     *
+     * @param \AppBundle\Entity\RoleType $roleTypeRoleType
+     *
+     * @return TeacherHasRole
+     */
+    public function setRoleTypeRoleType(\AppBundle\Entity\RoleType $roleTypeRoleType = null)
+    {
+        $this->roleTypeRoleType = $roleTypeRoleType;
+
+        return $this;
+    }
+
+    /**
+     * Get roleTypeRoleType
+     *
+     * @return \AppBundle\Entity\RoleType
+     */
+    public function getRoleTypeRoleType()
+    {
+        return $this->roleTypeRoleType;
+    }
 }

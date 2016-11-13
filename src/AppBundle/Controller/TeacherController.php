@@ -8,7 +8,9 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\ClassCourse;
 use AppBundle\Entity\Faculty;
+use AppBundle\Entity\Period;
 use AppBundle\Entity\Teacher;
 use AppBundle\Entity\TeacherDictatesCourse;
 use AppBundle\Entity\User;
@@ -29,11 +31,29 @@ class TeacherController extends Controller
             $faculty = $user->getPersonPerson()->getTeacher()->getTeacherHasfaculty()->first()->getFacultyFaculty();
             /** @var Teacher $teacher */
             $teacher = $user->getPersonPerson()->getTeacher();
-            /** @var TeacherDictatesCourse $teacherDictatesCourses */
+            $teacher->getTeacherHasRoles();
             $teacherDictatesCourses = $teacher->getTeacherDictatesCourses();
+            /** @var TeacherDictatesCourse $lastTC */
+            $lastTC = $teacherDictatesCourses->last();
+            $activeClass=array();
+            $classes = array();
+            /** @var TeacherDictatesCourse $tc */
+            foreach ($teacherDictatesCourses as $tc) {
+                $classes = $tc->getClasses();
+                /** @var ClassCourse $class */
+                foreach ($classes as $class) {
+                    if($class->getActivePeriod()==$plataform->getActivePeriod()->getCode()){
+                        $activeClass[]=$class;
+                        $classes[]=$class;
+                    }else{
+                        $classes[]=$class;
+                    }
+                }
+            }
 
             return $this->render('@App/Teacher/teacher_dashboard.html.twig',array(
                 'teacherCourses'=>$teacherDictatesCourses,
+                'lastTeacherCourse'=>$lastTC,
             ));
         }else{
             $this->createAccessDeniedException();
