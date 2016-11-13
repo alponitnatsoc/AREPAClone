@@ -6,7 +6,7 @@
     {% endblock stylesheets %}
 
     {% block page_title %}
-        {{ 'app.active_course_list'|trans }}
+        {{ 'app.dashboard.lookup.list_classes'|trans }}
     {% endblock%}
 
 
@@ -64,24 +64,22 @@
                         <thead>
                         <tr>
                             <th>Nº</th>
+                            <th>{{ 'app.dashboard.class_code'|trans }}</th>
+                            <th>{{ 'app.dashboard.class_period'|trans }}</th>
+                            <th>{{ 'app.dashboard.course_code_code'|trans }}</th>
                             <th>{{ 'app.dashboard.course_name'|trans }}</th>
-                            <th>{{ 'app.dashboard.course_code'|trans }}</th>
-                            <th>{{ 'app.dashboard.academic_grade'|trans }}</th>
-                            <th>{{ 'app.dashboard.component'|trans }}</th>
-                            <th>{{ 'app.dashboard.course_credits'|trans }}</th>
                             {#<th>{{ ''|trans }}</th>#}
                         </tr>
                         </thead>
                         <tbody>
                         {% set count = 1 %}
-                        {% for course in activeCourses %}
+                        {% for class in classes %}
                             <tr>
                                 <td>{{ count }}</td>
-                                <td><a href="#">{{ course.nameCourse }}</a></td>
-                                <td>{{ course.courseCode }}</td>
-                                <td>{{ course.academicGrade }}</td>
-                                <td>{{ course.component }}</td>
-                                <td>{{ course.credits }}</td>
+                                <td>{{ class.classCode }}</td>
+                                <td>{{ class.activePeriod }}</td>
+                                <td>{{ class.courseCourse.courseCode }}</td>
+                                <td>{{ class.courseCourse.nameCourse }}</td>
                             </tr>
                             {% set count = count + 1 %}
                         {% endfor %}

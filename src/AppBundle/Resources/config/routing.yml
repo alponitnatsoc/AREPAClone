@@ -5,6 +5,7 @@ home:
 
 #Secure Pages
 
+#admin_pages
 admin_dasboard:
     path: /admin/dashboard
     defaults: {_controller: AppBundle:Admin:adminDashboard}
@@ -18,9 +19,10 @@ teacher_lookup:
     path: /admin/lookup/teachers/{active}
     defaults: {_controller: AppBundle:Admin:lookupTeachers,active: null}
 
+#teacher_pages
 teacher_dashboard:
-    path: /teacher/dashboard
-    defaults: {_controller: AppBundle:Teacher:teacherDashboard}
+    path: /teacher/dashboard/{type}
+    defaults: {_controller: AppBundle:Teacher:teacherDashboard,type: 0}
 
 student_dashboard:
     path: /student/dashboard

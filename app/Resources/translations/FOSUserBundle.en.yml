@@ -77,6 +77,8 @@ app:
     import_teachers_help_title: '¿How to import teachers?'
     import_teachers_info_title: 'Import teachers info'
     select_document: 'Select an Excel file'
+    active_course_list: 'Active Courses List'
+    active_class_list: 'Active Classes List'
     messages:
         all_rigths: 'All Rigths Reserved'
         privacy_and_terms: 'Privacy and Terms'
@@ -120,8 +122,8 @@ app:
         sortDesc: ': activate to sort column descending'
         lookup:
             title: 'Lookup'
-            list_classes: 'Classes list'
-            list_courses: 'Course list'
+            list_classes: 'Classes List'
+            list_courses: 'Course List'
             class_lookup_message: 'The following list shows class information'
             course_lookup_message: 'The following list shows course information'
             teacher_lookup_message: 'The following list shows teacher information'

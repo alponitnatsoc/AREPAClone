@@ -3,6 +3,11 @@
 
     {% block stylesheets %}
         {{ parent() }}
+        <style>
+            a{
+                cursor: pointer;
+            }
+        </style>
     {% endblock stylesheets %}
 
     {% block page_title %}
@@ -14,21 +19,21 @@
             {% block main_menu %}
                 <li class=""><a><i class="fa fa-book"></i>{{ 'app.dashboard.courses'|trans }}<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu" style="display: none">
-                        <li><a href="#"></i>{{ 'app.dashboard.courses'|trans }}</a></li>
-                        <li><a href="#"></i>{{ 'app.active_courses'|trans }}</a></li>
+                        <li><a href="{{ path('teacher_dashboard',{'type':1}) }}"></i>{{ 'app.dashboard.courses'|trans }}</a></li>
+                        <li><a href="{{ path('teacher_dashboard',{'type':0}) }}"></i>{{ 'app.active_courses'|trans }}</a></li>
                     </ul>
                 </li>
                 <li class=""><a><i class="fa fa-address-book-o"></i>{{ 'app.dashboard.classes'|trans }}<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu" style="display: none">
-                        <li><a href="#"></i>{{ 'app.dashboard.classes'|trans }}</a></li>
-                        <li><a href="#"></i>{{ 'app.active_classes'|trans }}</a></li>
+                        <li><a href="{{ path('teacher_dashboard',{'type':3}) }}"></i>{{ 'app.dashboard.classes'|trans }}</a></li>
+                        <li><a href="{{ path('teacher_dashboard',{'type':2}) }}"></i>{{ 'app.active_classes'|trans }}</a></li>
                     </ul>
                 </li>
-                <li class=""><a><i class="fa fa-search"></i>{{ 'app.dashboard.lookup.title'|trans }}<span class="fa fa-chevron-down"></span></a>
-                    <ul class="nav child_menu" style="display: none">
-                        <li><a href="{{ path('course_lookup') }}"><i class="fa fa-book"></i>{{ 'app.dashboard.courses'|trans }}</a></li>
-                    </ul>
-                </li>
+                {#<li class=""><a><i class="fa fa-search"></i>{{ 'app.dashboard.lookup.title'|trans }}<span class="fa fa-chevron-down"></span></a>#}
+                    {#<ul class="nav child_menu" style="display: none">#}
+                        {#<li><a href="{{ path('course_lookup') }}"><i class="fa fa-book"></i>{{ 'app.dashboard.courses'|trans }}</a></li>#}
+                    {#</ul>#}
+                {#</li>#}
             {% endblock %}
             {% block side_menu %}
                 <div class="menu_section">

@@ -85,6 +85,8 @@ app:
     import_teachers_help_title: '¿Como importar profesores?'
     import_teachers_info_title: 'Importar información de profesores'
     select_document: 'Seleccione un archivo de Excel'
+    active_course_list: 'Listado de Cursos Activos'
+    active_class_list: 'Listado de Clases Activas'
     messages:
         all_rigths: 'Todos los Derechos Reservados'
         privacy_and_terms: 'Terminos y Condiciones'
@@ -128,8 +130,8 @@ app:
         sortDesc: ': Orden Descendente'
         lookup:
             title: 'Busquedas'
-            list_classes: 'Listado de clases'
-            list_courses: 'Listado de cursos'
+            list_classes: 'Listado de Clases'
+            list_courses: 'Listado de Cursos'
             class_lookup_message: 'La siguiente lista muestra la información de las clases'
             course_lookup_message: 'La siguiente lista muestra la información de los cursos'
             teacher_lookup_message: 'La siguiente lista muestra la información de los profesores'

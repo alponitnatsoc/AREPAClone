@@ -6,7 +6,7 @@
     {% endblock stylesheets %}
 
     {% block page_title %}
-        {{ 'app.active_course_list'|trans }}
+        {{ 'app.dashboard.lookup.list_courses'|trans }}
     {% endblock%}
 
 
@@ -74,10 +74,10 @@
                         </thead>
                         <tbody>
                         {% set count = 1 %}
-                        {% for course in activeCourses %}
+                        {% for course in courses %}
                             <tr>
                                 <td>{{ count }}</td>
-                                <td><a href="#">{{ course.nameCourse }}</a></td>
+                                <td><a >{{ course.nameCourse }}</a></td>
                                 <td>{{ course.courseCode }}</td>
                                 <td>{{ course.academicGrade }}</td>
                                 <td>{{ course.component }}</td>
