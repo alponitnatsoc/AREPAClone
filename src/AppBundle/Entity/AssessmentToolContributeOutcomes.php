@@ -82,6 +82,12 @@ class AssessmentToolContributeOutcomes
     private $outcomeOutcome;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Period")
+     * @ORM\JoinColumn(name="period_id",referencedColumnName="id_period",nullable=true)
+     */
+    private $period;
+
+    /**
      * Get idAssessmentToolContributeOutcomes
      *
      * @return integer
@@ -281,5 +287,29 @@ class AssessmentToolContributeOutcomes
     public function getOutcomeOutcome()
     {
         return $this->outcomeOutcome;
+    }
+
+    /**
+     * Set period
+     *
+     * @param \AppBundle\Entity\Period $period
+     *
+     * @return AssessmentToolContributeOutcomes
+     */
+    public function setPeriod(\AppBundle\Entity\Period $period = null)
+    {
+        $this->period = $period;
+
+        return $this;
+    }
+
+    /**
+     * Get period
+     *
+     * @return \AppBundle\Entity\Period
+     */
+    public function getPeriod()
+    {
+        return $this->period;
     }
 }

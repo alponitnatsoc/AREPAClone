@@ -88,6 +88,12 @@ class CourseContributesOutcome
      */
     private $outcomeOutcome;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Period")
+     * @ORM\JoinColumn(name="period_id",referencedColumnName="id_period",nullable=true)
+     */
+    private $period;
+
 
     /**
      * Get idCourseAportsOutcome
@@ -313,5 +319,29 @@ class CourseContributesOutcome
     public function getOutcomeOutcome()
     {
         return $this->outcomeOutcome;
+    }
+
+    /**
+     * Set period
+     *
+     * @param \AppBundle\Entity\Period $period
+     *
+     * @return CourseContributesOutcome
+     */
+    public function setPeriod(\AppBundle\Entity\Period $period = null)
+    {
+        $this->period = $period;
+
+        return $this;
+    }
+
+    /**
+     * Get period
+     *
+     * @return \AppBundle\Entity\Period
+     */
+    public function getPeriod()
+    {
+        return $this->period;
     }
 }
