@@ -20,7 +20,7 @@ class newPersonForm extends AbstractType
                     new NotBlank(),
                 ),
                 'invalid_message'=>'Este campo es obligatorio',
-                'label'=>'*Primer nombre:',
+                'label'=>'form.firstName',
                 'property_path'=>'firstName',
                 'attr'=>array(
                     'placeholder'=>'Ingresa tu primer nombre'
@@ -44,7 +44,7 @@ class newPersonForm extends AbstractType
                 )
             ))
             ->add('lastName2',TextType::class,array(
-                'required'=>true,
+                'required'=>false,
                 'invalid_message'=>'Este campo es obligatorio',
                 'label'=>' Segundo apellido:',
                 'property_path'=>'lastName2',
@@ -74,7 +74,6 @@ class newPersonForm extends AbstractType
                     'placeholder'=>'Ingresa tu numero de documento'
                 )
             ))
-            ->add('save',SubmitType::class,array('label'=>'guardar'))
         ;
     }
 

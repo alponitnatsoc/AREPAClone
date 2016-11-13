@@ -1,0 +1,138 @@
+{% extends ":user:base.html.twig" %}
+    {% trans_default_domain 'FOSUserBundle' %}
+
+    {% block stylesheets %}
+        {{ parent() }}
+    {% endblock stylesheets %}
+
+    {% block page_title %}
+    {% endblock%}
+
+    {% block sidebar %}
+        {% embed 'user/sidebar.html.twig' %}
+            {% trans_default_domain 'FOSUserBundle' %}
+            {% block main_menu %}
+                <li class=""><a><i class="fa fa-search"></i>{{ 'app.dashboard.lookup.title'|trans }}<span class="fa fa-chevron-down"></span></a>
+                    <ul class="nav child_menu" style="display: none">
+                        <li><a href="{{ path('course_lookup') }}"><i class="fa fa-book"></i>{{ 'app.dashboard.courses'|trans }}</a></li>
+                        <li><a href="{{ path('course_lookup',{'active':true}) }}"><i class="fa fa-book"></i>{{ 'app.active_courses'|trans }}</a></li>
+                        <li><a href="{{ path('teacher_lookup') }}"><i class="fa fa-users"></i>{{ 'app.dashboard.teachers'|trans }}</a></li>
+                        <li><a href="{{ path('teacher_lookup',{'active':true}) }}"><i class="fa fa-users"></i>{{ 'app.active_teachers'|trans }}</a></li>
+                        <li><a href="{{ path('class_lookup') }}"><i class="fa fa-address-book-o"></i>{{ 'app.dashboard.classes'|trans }}</a></li>
+                    </ul>
+                </li>
+            {% endblock %}
+            {% block side_menu %}
+                {#<div class="menu_section">#}
+                    {#<h3>{{ 'app.dashboard.developer'|trans }}</h3>#}
+                    {#<ul class="nav side-menu">#}
+                    {#<li>#}
+                        {#<a><i class="fa fa-book"></i>{{ 'app.dashboard.documentation'|trans }}<span class="fa fa-chevron-down"></span></a>#}
+                        {#<ul class="nav child_menu">#}
+                            {#<li><a class="symfony-docs" href="http://symfony.com/doc/current/index.html">Symfony</a></li>#}
+                        {#</ul>#}
+                    {#</li>#}
+                    {#<li><a href="{{ path('home') }}"><i class="fa fa-search"></i> Template</a></li>#}
+                    {#</ul>#}
+                {#</div>#}
+            {% endblock %}
+        {% endembed %}
+    {% endblock %}
+
+    {% block page_content %}
+
+    {% endblock %}
+
+    {% block scriptImport %}
+        {{ parent() }}
+        <script>
+            $(document).ready(function() {
+                var handleDataTableButtons = function() {
+                    if ($("#datatable-buttons").length) {
+                        $("#datatable-buttons").DataTable({
+                            dom: "Bfrtip",
+                            buttons: [
+                                {
+                                    extend: "copy",
+                                    className: "btn-sm"
+                                },
+                                {
+                                    extend: "csv",
+                                    className: "btn-sm"
+                                },
+                                {
+                                    extend: "excel",
+                                    className: "btn-sm"
+                                },
+                                {
+                                    extend: "pdfHtml5",
+                                    className: "btn-sm"
+                                },
+                                {
+                                    extend: "print",
+                                    className: "btn-sm"
+                                },
+                            ],
+                            responsive: true
+                        });
+                    }
+                };
+                TableManageButtons = function() {
+                    "use strict";
+                    return {
+                        init: function() {
+                            handleDataTableButtons();
+                        }
+                    };
+                }();
+
+                $('#datatable').dataTable();
+                $('#datatable-keytable').DataTable({
+                    keys: true
+                });
+
+                $('#datatable-responsive').DataTable();
+
+                $('#datatable-scroller').DataTable({
+                    ajax: "js/datatables/json/scroller-demo.json",
+                    deferRender: true,
+                    scrollY: 380,
+                    scrollCollapse: true,
+                    scroller: true
+                });
+                TableManageButtons.init();
+                var table = $('#datatable-fixed-header').DataTable({
+                    "language": {
+                        "sProcessing":     "{{ 'app.dashboard.processing'|trans }}",
+                        "sLengthMenu":     "{{ 'app.dashboard.table_display'|trans }}",
+                        "sZeroRecords":    "{{ 'app.dashboard.zero_record'|trans }}",
+                        "sEmptyTable":     "{{ 'app.dashboard.empty_table'|trans }}",
+                        "sInfo":           "{{ 'app.dashboard.table_info'|trans }}",
+                        "sInfoEmpty":      "{{ 'app.dashboard.info_empty'|trans }}",
+                        "sInfoFiltered":   "{{ 'app.dashboard.info_filtered'|trans }}",
+                        "sInfoPostFix":    "",
+                        "sSearch":         "{{ 'app.dashboard.info_search'|trans }}",
+                        "sUrl":            "",
+                        "sInfoThousands":  ",",
+                        "sLoadingRecords": "{{ 'app.dashboard.loading'|trans }}",
+                        "oPaginate": {
+                            "sFirst":    "{{ 'app.dashboard.first'|trans }}",
+                            "sLast":     "{{ 'app.dashboard.last'|trans }}",
+                            "sNext":     "{{ 'app.dashboard.next'|trans }}",
+                            "sPrevious": "{{ 'app.dashboard.previous'|trans }}"
+                        },
+                        "oAria": {
+                            "sSortAscending": "{{ 'app.dashboard.sortAsc'|trans }}",
+                            "sSortDescending": "{{ 'app.dashboard.sortDesc'|trans }}"
+                        }
+                    },
+                    fixedHeader: true
+                });
+            });
+        </script>
+    {% endblock %}
+
+
+
+
+

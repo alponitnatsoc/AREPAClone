@@ -1,31 +1,35 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
 <div>
-    <div class="login_wrapper" style="max-width: 35%">
+    <div class="login_wrapper" style="max-width: 30%;min-width: 360px;margin-top: 1%">
         <div class="animate form login_form">
             <section class="login_content">
-                <form action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
-                    <h1 style="margin: 10px 0 10px;">Reset Password Request</h1>
-                    <div>
+                <form id="reset-password-form" action="{{ path('fos_user_resetting_send_email') }}" method="POST" class="fos_user_resetting_request">
+                    <h1 style="margin: 10px auto 20px;max-width: 80%">{{ 'resetting.request.title'|trans }}</h1>
+                    <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
                         <label for="username">{{ 'resetting.request.username'|trans }}</label>
                         <div class="clearfix"></div>
-                        <input type="text" id="username" name="username" required="required" style="max-width: 50%"/>
+                        <input type="text" class="form-control" id="username" name="username" required style="max-width: 50%;margin: 10px auto"/>
                     </div>
                     <div class="clearfix"></div>
                     <div>
                         <input class="btn btn-default submit" type="submit" style="float: none;margin-left: 0" value="{{ 'resetting.request.submit'|trans }}" />
                     </div>
                     <div class="clearfix"></div>
+                    <br/>
                     <div class="separator">
-                        <p class="change_link">I want to go back?
-                            <a href="{{ path('fos_user_security_login') }}" class="to_register"> Log in </a>
+                        <div class="clearfix"></div>
+                        <br/>
+                        <p class="change_link">{{ 'app.messages.go_back'|trans }}
+                            <a href="{{ path('fos_user_security_login') }}" class="to_register">{{ 'app.messages.to_login'|trans }}</a>
                         </p>
                         <div class="clearfix"></div>
-                        <div>
-                            <img src="{{ asset('assets/images/logo.png') }}" alt="..." style="width: 30%">
-                        </div>
+                        <br/>
+                        {#<div>#}
+                            {#<img src="{{ asset('assets/images/logo.png') }}" alt="..." style="width: 30%">#}
+                        {#</div>#}
                         <div class="clearfix"></div>
-                        <p>©2016 All Rights Reserved. <a href="">Privacy and Terms</a></p>
+                        <p>©2016 {{ 'app.messages.all_rigths'|trans }}. <a href="">{{ 'app.messages.privacy_and_terms'|trans }}</a></p>
                     </div>
                 </form>
             </section>

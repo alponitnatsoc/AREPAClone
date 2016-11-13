@@ -5,14 +5,14 @@
 {% block fos_user_content %}
     <div>
         <div class="login_wrapper" style="margin-top: 10%; min-width: 40%">
-            <h1 style="margin: 30px 0 10px; font-size: 20px">Resetting request</h1>
+            <h1 style="margin: 30px 0 10px; font-size: 20px">{{ 'resetting.request.sent'|trans }}</h1>
             <p>
                 {{ 'resetting.check_email'|trans({'%tokenLifetime%': tokenLifetime}) }}
             </p>
             <div class="clearfix"></div>
             <div class="separator">
-                <p class="change_link">Return to
-                    <a href="{{ path('fos_user_security_login') }}" class="to_register"> Log in </a>
+                <p class="change_link">{{ 'app.messages.return_to'|trans }}
+                    <a href="{{ path('fos_user_security_login') }}" class="to_register">{{ 'app.messages.to_login'|trans }}</a>
                 </p>
             </div>
         </div>

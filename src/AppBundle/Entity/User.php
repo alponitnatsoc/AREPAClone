@@ -38,4 +38,28 @@ class User extends BaseUser
         parent::__construct();
     }
 
+
+    /**
+     * Set personPerson
+     *
+     * @param \AppBundle\Entity\Person $personPerson
+     *
+     * @return User
+     */
+    public function setPersonPerson(\AppBundle\Entity\Person $personPerson = null)
+    {
+        $this->personPerson = $personPerson;
+
+        return $this;
+    }
+
+    /**
+     * Get personPerson
+     *
+     * @return \AppBundle\Entity\Person
+     */
+    public function getPersonPerson()
+    {
+        return $this->personPerson;
+    }
 }

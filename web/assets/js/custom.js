@@ -6,30 +6,55 @@
 
 var CURRENT_URL = window.location.href.split('?')[0],
     $BODY = $('body'),
+    $MAIN_CONTAINER = $('.main_container'),
+    $LEFT_COL = $('.left_col'),
+    $RIGHT_COL = $('.right_col'),
     $MENU_TOGGLE = $('#menu_toggle'),
     $SIDEBAR_MENU = $('#sidebar-menu'),
     $SIDEBAR_FOOTER = $('.sidebar-footer'),
-    $LEFT_COL = $('.left_col'),
-    $RIGHT_COL = $('.right_col'),
     $NAV_MENU = $('.nav_menu'),
-    $FOOTER = $('footer');
+    $FOOTER = $('footer'),
+    $CONTAINER = $('.container'),
+    InitialHeight = $('.main_container').height();
+
 
 // Sidebar
+$(window).resize(function () {
+    $MAIN_CONTAINER.css('height',InitialHeight);
+    // reset height
+    var windowHeight = $(window).height(),
+        container=$CONTAINER.height(),
+        footerHeight= $FOOTER.outerHeight(),
+        leftCol = $LEFT_COL.outerHeight(),
+        minHeight = Math.max(windowHeight,container,leftCol);
+        console.log(modalHeight);
+    $LEFT_COL.css('minHeight',windowHeight);
+    $LEFT_COL.css('maxHeight',windowHeight);
+    $MAIN_CONTAINER.css('height',(container+footerHeight) > minHeight ? container + footerHeight : minHeight);
+});
 $(document).ready(function() {
     // TODO: This is some kind of easy fix, maybe we can improve this
     var setContentHeight = function () {
-        // reset height
-        $RIGHT_COL.css('min-height', $(window).height());
+        $MAIN_CONTAINER.css('height',InitialHeight);
+        var windowHeight = $(window).height(),
+            container=$CONTAINER.height(),
+            footerHeight= $FOOTER.outerHeight(),
+            leftCol = $LEFT_COL.outerHeight(),
+            mainContainer = container<windowHeight ? windowHeight : container+footerHeight,
+            minHeight = Math.max(windowHeight,container,leftCol);
 
-        var bodyHeight = $BODY.outerHeight(),
-            footerHeight = $BODY.hasClass('footer_fixed') ? 0 : $FOOTER.height(),
-            leftColHeight = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height(),
-            contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
-
-        // normalize content
-        contentHeight -= $NAV_MENU.height() + footerHeight;
-
-        $RIGHT_COL.css('min-height', contentHeight);
+        $LEFT_COL.css('minHeight',windowHeight);
+        $LEFT_COL.css('maxHeight',windowHeight);
+        $MAIN_CONTAINER.css('height',(container+footerHeight) > minHeight ? container + footerHeight : minHeight);
+        // $MAIN_CONTAINER.css('min-height', $(window).height());
+        // var bodyHeight = $BODY.outerHeight(),
+        //     footerHeight = ,
+        //     leftColHeight = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height(),
+        //     contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
+        //
+        // // normalize content
+        // contentHeight -=footerHeight;
+        // $RIGHT_COL.css('min-height', contentHeight);
     };
 
     $SIDEBAR_MENU.find('a').on('click', function(ev) {
@@ -79,11 +104,6 @@ $(document).ready(function() {
         setContentHeight();
     }).parent().addClass('active');
 
-    // recompute content when resizing
-    $(window).smartresize(function(){
-        setContentHeight();
-    });
-
     setContentHeight();
 
     // fixed sidebar
@@ -91,7 +111,7 @@ $(document).ready(function() {
         $('.menu_fixed').mCustomScrollbar({
             autoHideScrollbar: true,
             theme: 'minimal',
-            mouseWheel:{ preventDefault: true }
+            mouseWheel:{ preventDefault: false }
         });
     }
 });

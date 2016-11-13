@@ -1,0 +1,37 @@
+#Public Pages
+home:
+    path: /
+    defaults: {_controller: AppBundle:Default:index}
+
+#Secure Pages
+
+#admin_pages
+admin_dasboard:
+    path: /admin/dashboard
+    defaults: {_controller: AppBundle:Admin:adminDashboard}
+course_lookup:
+    path: /admin/lookup/courses/{active}
+    defaults: {_controller: AppBundle:Admin:lookupCourses,active: null}
+class_lookup:
+    path: /admin/lookup/classes
+    defaults: {_controller: AppBundle:Admin:lookupClasses}
+teacher_lookup:
+    path: /admin/lookup/teachers/{active}
+    defaults: {_controller: AppBundle:Admin:lookupTeachers,active: null}
+
+#teacher_pages
+teacher_dashboard:
+    path: /teacher/dashboard/{type}
+    defaults: {_controller: AppBundle:Teacher:teacherDashboard,type: 0}
+
+student_dashboard:
+    path: /student/dashboard
+    defaults: {_controller: AppBundle:Dashboard:studentDashboard}
+
+dashboard:
+    path: /dashboard
+    defaults: {_controller: AppBundle:Dashboard:dashboard}
+
+export_document:
+    path: /admin/export/document/{type}/{all}
+    defaults: {_controller: AppBundle:Export:generateXLS,type: null,all: false}

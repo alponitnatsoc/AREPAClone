@@ -28,14 +28,25 @@ security:
 
     role_hierarchy:
 #        ROLE_NEW: [ ROLE_USER ]
-#        ROLE_STUDENT: [ ROLE_USER ]
 #        ROLE_MONITOR: [ ROLE_USER ]
-#        ROLE_TEACHER: [ ROLE_USER , ROLE_MONITOR ]
-        ROLE_ADMIN:       ROLE_USER
-        ROLE_SUPER_ADMIN: ROLE_ADMIN
+        ROLE_DEFAULT:     [ ROLE_USER ]
+        ROLE_STUDENT:     [ ROLE_USER ]
+        ROLE_MONITOR:     [ ROLE_STUDENT ]
+        ROLE_TEACHER:     [ ROLE_MONITOR, ROLE_STUDENT  ]
+        ROLE_COORDINATOR: [ ROLE_TEACHER, ROLE_MONITOR, ROLE_STUDENT ]
+        ROLE_SECTION:     [ ROLE_TEACHER, ROLE_MONITOR, ROLE_STUDENT ]
+        ROLE_ABET_COORD:  [ ROLE_COORDINATOR, ROLE_TEACHER, ROLE_MONITOR, ROLE_STUDENT ]
+        ROLE_DIRECTOR:    [ ROLE_SECTION, ROLE_COORDINATOR, ROLE_TEACHER, ROLE_MONITOR, ROLE_STUDENT ]
+        ROLE_ADMIN:       [ ROLE_DIRECTOR, ROLE_ABET_COORD, ROLE_SECTION, ROLE_COORDINATOR, ROLE_TEACHER, ROLE_MONITOR, ROLE_STUDENT ]
+        ROLE_SUPER_ADMIN: [ ROLE_ADMIN ]
 
     access_control:
         - { path: ^/login$, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/resetting, role: IS_AUTHENTICATED_ANONYMOUSLY }
-        - { path: ^/*, role: ROLE_ADMIN }
+        - { path: ^/dashboard, role: IS_AUTHENTICATED_FULLY }
+        - { path: ^/admin*, role: ROLE_ADMIN }
+        - { path: ^/teacher*, role: ROLE_TEACHER }
+        - { path: ^/student*, role: ROLE_STUDENT }
+#        - { path: ^/, role: IS_AUTHENTICATED_FULLY}
+        - { path: ^/language/switch/, role: IS_AUTHENTICATED_ANONYMOUSLY}

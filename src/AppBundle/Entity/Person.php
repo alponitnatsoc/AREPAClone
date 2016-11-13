@@ -83,7 +83,18 @@ class Person
      */
     private $personNotification;
 
-    //TODO
+    /** @ORM\Column(name="email",type="string",nullable=true) */
+    private $email;
+
+    /** @ORM\Column(name="user_name",type="string",nullable=true) */
+    private $userName;
+
+    /** @ORM\Column(name="phone",type="string",nullable=true) */
+    private $phone;
+
+    /** @ORM\Column(name="gender",type="string",length=1,nullable=true) */
+    private $gender;
+
     /**
      * @var string
      */
@@ -96,6 +107,38 @@ class Person
     {
         $this->personNotification = new \Doctrine\Common\Collections\ArrayCollection();
     }
+
+    /**
+     * Get FullName
+     *
+     * @return string
+     */
+    public function getFullName()
+    {
+        $fullName = '';
+        if($this->firstName!=''){
+            $fullName .=$this->firstName;
+        }
+        if($this->secondName!=''){
+            if($fullName!=''){
+                $fullName .=' '.$this->secondName;
+            }else{
+                $fullName .=$this->secondName;
+            }
+        }
+        if($this->lastName1!=''){
+            if($fullName!=''){
+                $fullName .=' '.$this->lastName1;
+            }else{
+                $fullName .=$this->lastName1;
+            }
+        }
+        if($this->lastName2!=''){
+            $fullName .=' '.$this->lastName2;
+        }
+        return $fullName;
+    }
+
 
     /**
      * Get idPerson
@@ -331,5 +374,101 @@ class Person
     public function getPersonNotification()
     {
         return $this->personNotification;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     *
+     * @return Person
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * Set userName
+     *
+     * @param string $userName
+     *
+     * @return Person
+     */
+    public function setUserName($userName)
+    {
+        $this->userName = $userName;
+
+        return $this;
+    }
+
+    /**
+     * Get userName
+     *
+     * @return string
+     */
+    public function getUserName()
+    {
+        return $this->userName;
+    }
+
+    /**
+     * Set phone
+     *
+     * @param string $phone
+     *
+     * @return Person
+     */
+    public function setPhone($phone)
+    {
+        $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * Get phone
+     *
+     * @return string
+     */
+    public function getPhone()
+    {
+        return $this->phone;
+    }
+
+    /**
+     * Set gender
+     *
+     * @param string $gender
+     *
+     * @return Person
+     */
+    public function setGender($gender)
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+    /**
+     * Get gender
+     *
+     * @return string
+     */
+    public function getGender()
+    {
+        return $this->gender;
     }
 }

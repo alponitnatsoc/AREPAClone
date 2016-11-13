@@ -1,1 +1,489 @@
-{% extends "base.html.twig" %}
+{% extends "@App/Admin/admin_dashboard_base.html.twig" %}
+    {% trans_default_domain 'FOSUserBundle' %}
+
+    {% block stylesheets %}
+        {{ parent() }}
+    {% endblock stylesheets %}
+
+    {% block page_title %}
+        {{ faculty.name }}
+    {% endblock%}
+
+
+    {% block page_content %}
+        <style>
+            .tile_count .tile_stats_count:before {
+                height: 90%;
+            }
+        </style>
+        <div class="row tile_count">
+            <!-- COURSE COUNT -->
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <div class="text-center">
+                    <span class="count_top"><i class="fa fa-book"></i> {{ 'app.dashboard.courses'|trans }}</span>
+                    <div class="count text-center"><a href="{{ path('course_lookup') }}">{{ courses|length }}</a></div>
+                    <span class="count_bottom">{{ 'app.dashboard.last_add'|trans }}: <br>{{ lastCourseCreated.createdAt|date('d M',"America/Bogota") }}</span>
+                </div>
+            </div>
+            <!-- END CURSE COUNT -->
+            <!-- TEACHERS COUNT -->
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                <div class="text-center">
+                    <span class="count_top"><i class="fa fa-users"></i> {{ 'app.dashboard.teachers'|trans }}</span>
+                    <div class="count text-center"><a href="{{ path('teacher_lookup') }}">{{ teachers|length }}</a></div>
+                    <span class="count_bottom">{{ 'app.dashboard.last_add'|trans }}: <br>{{ lastTeacherCreated.createdAt|date('d M',"America/Bogota") }}</span>
+                </div>
+            </div>
+            <!-- END TEACHERS COUNT -->
+            <!-- ACTIVE PERIOD FORM -->
+            <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count noPadding text-center" style="height:113px;">
+                <h3 style="margin: 5% 0;font-size: 30px;color: #5a738e;">{{ 'app.active_period'|trans }}</h3>
+                <div>
+                    <div class="col-md-6 noPadding">
+                        <h1 style="margin: 5px 0px 0px 20px; padding: 0;font-size: 30px;">{{ plataform.activePeriod }}</h1>
+                    </div>
+                    <div class="col-md-6 noPadding">
+                        <div id="change_active_period" class="btn-arepa" data-toggle="modal" data-target="#modalChangePeriod" style="margin: 5px 20px 0 0;padding: 4px 15px;font-size: 16px" >
+                            {{ 'app.change'|trans }}
+                        </div>
+                    </div>
+                </div>
+                <!-- ACTIVE PERIOD MODAL -->
+                <div class="modal fade" id="modalChangePeriod" tabindex="-1" style="top: auto;bottom: auto" role="dialog" aria-labelledby="modalChangePeriodLabel" aria-hidden="true">
+                    <div class="modal-dialog" style="min-width: 300px;width: 300px;" role="document">
+                        <div class="modal-content" >
+                            <div class="modal-header" style="padding: 6px;">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true" style="font-size: 23px">&times;</span>
+                                </button>
+                                <h4 class="modal-title" id="modalChangePeriodLabel" style="font-size: 20px">{{ 'app.change_active_period'|trans }}</h4>
+                            </div>
+                            <div class="modal-body">
+                                {{ form_start(activePeriod) }}
+                                <div>
+                                    <div id="errorChangePeriod" class="col-md-12 noPadding" >
+                                    </div>
+                                    <div class="col-md-12">
+                                        {{ form_widget(activePeriod.period,{'placeholder':'app.select_period'|trans,'attr':{'style':'height: 24px;width: 50%'}}) }}
+                                        {{ form_widget(activePeriod.submit,{'label':'app.select'|trans,'attr':{'style':'width: 35%'}}) }}
+                                    </div>
+                                </div>
+                                {{ form_end(activePeriod) }}
+                                {{ form_start(periodAdd) }}
+                                <div>
+                                    <div id="errorAddPeriod" class="col-md-12 noPadding" >
+                                    </div>
+                                    <div class="col-md-12">
+                                    {{ form_widget(periodAdd.period,{'attr':{'placeholder':'app.period_code'|trans,'style':'border-radius: 5px;width: 50%'}}) }}
+                                    {{ form_widget(periodAdd.submit,{'label':'app.add'|trans,'attr':{'style':'width: 35%'}}) }}
+                                    </div>
+
+                                </div>
+
+                                {{ form_end(periodAdd) }}
+                            </div>
+                            <div class="modal-footer" style="padding: 6px;">
+                                <button type="button" class="btn btn-secondary" style="background-color: #36546f;font-size: 16px; color: white" data-dismiss="modal">{{ 'app.close'|trans }}</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END ACTIVE PERIOD MODAL -->
+            </div>
+            <!-- END ACTIVE PERIOD -->
+        </div>
+        <div class="row tile_count">
+            <!-- ACTIVE COURSES -->
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="height:113px;max-height: 100%">
+                <div class="text-center" style="margin: 8px 0">
+                    <span class="count_top"><i class="fa fa-book"></i> {{ 'app.active_courses'|trans }}</span>
+                    <div class="count text-center" style="font-size: 30px;margin: -8px!important;"><a href="{{ path('course_lookup',{'active':true}) }}">{{ activeCourses|length }}</a></div>
+                    <div id="import_courses" class="btn-arepa" data-toggle="modal" data-target="#modalImportCourses" style="margin: 10px 0;padding: 4px 15px;font-size: 16px" >
+                        {{ 'app.import'|trans }}
+                    </div>
+                    <span style="font-size: 22px; vertical-align: middle; padding: 0 1px;margin-right: -15px">
+                        <a id="help_courses_import" data-toggle="modal" data-target="#modalImportCoursesHelp">
+                            <i class="fa fa-question-circle"></i>
+                        </a>
+                    </span>
+                    <!-- IMPORT COURSES HELP MODAL -->
+                    <div class="modal fade" id="modalImportCoursesHelp" tabindex="-1" style="position: fixed" role="dialog" aria-labelledby="modalImportCoursesHelpLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content" >
+                                <div class="modal-header" style="padding: 6px;">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true" style="font-size: 23px">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" id="modalImportCoursesHelpLabel" style="font-size: 20px">{{ 'app.import_courses_help_title'|trans }}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <div id="courses_step_1">
+                                        <ul class="text-left" style="margin: 0;padding: 0;">
+                                            <li style="list-style: none;font-size: 16px"><strong>1. {{ 'courses_step_1'|trans }} <a href="https://portal2.javeriana.edu.co" target="_blank" style="color: #0f89b1;">{{ 'portal_javeriana'|trans }}</a> </strong></li>
+                                            <li class="text-center" style="list-style: none;font-size: 16px"><img src="{{ asset('assets/images/portal_javeriana.png') }}" style="width: 90%;margin: 10px 0"></li>
+                                        </ul>
+                                        <div class="row">
+                                            <div id="courses_step_1_next" class="btn-arepa" style="margin: 10px 0;padding: 4px 15px;font-size: 16px" >
+                                                {{ 'app.dashboard.next'|trans }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="courses_step_2" style="display: none;">
+                                        <ul class="text-left" style="margin: 0;padding: 0;">
+                                            <li style="list-style: none;font-size: 16px"><strong>2. {{ 'courses_step_2'|trans }}</strong></li>
+                                            <li class="text-center" style="list-style: none;font-size: 16px"><img src="{{ asset('assets/images/step_2.png') }}" style="width: 90%;margin: 10px 0"></li>
+                                        </ul>
+                                        <div class="row">
+                                            <div id="courses_step_2_prev" class="btn-arepa" style="margin: 10px 0;padding: 4px 15px;font-size: 16px" >
+                                                {{ 'app.dashboard.previous'|trans }}
+                                            </div>
+                                            <div id="courses_step_2_next" class="btn-arepa" style="margin: 10px 0;padding: 4px 15px;font-size: 16px" >
+                                                {{ 'app.dashboard.next'|trans }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="courses_step_3" style="display: none;">
+                                        <ul class="text-left" style="margin: 0;padding: 0;">
+                                            <li style="list-style: none;font-size: 16px"><strong>3. {{ 'courses_step_3'|trans }}</strong></li>
+                                            <li class="text-center" style="list-style: none;font-size: 16px"><img src="{{ asset('assets/images/step_3.png') }}" style="width: 90%;margin: 10px 0"></li>
+                                        </ul>
+                                        <div class="row">
+                                            <div id="courses_step_3_prev" class="btn-arepa" style="margin: 10px 0;padding: 4px 15px;font-size: 16px" >
+                                                {{ 'app.dashboard.previous'|trans }}
+                                            </div>
+                                            <div id="courses_step_3_next" class="btn-arepa" style="margin: 10px 0;padding: 4px 15px;font-size: 16px" >
+                                                {{ 'app.dashboard.next'|trans }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="courses_step_4" style="display: none;">
+                                        <ul class="text-left" style="margin: 0;padding: 0;">
+                                            <li style="list-style: none;font-size: 16px"><strong>4. {{ 'courses_step_4'|trans }}</strong></li>
+                                            <li class="text-center" style="list-style: none;font-size: 16px"><img src="{{ asset('assets/images/step_4.png') }}" style="width: 90%;margin: 10px 0"></li>
+                                        </ul>
+                                        <div class="row">
+                                            <div id="courses_step_4_prev" class="btn-arepa" style="margin: 10px 0;padding: 4px 15px;font-size: 16px" >
+                                                {{ 'app.dashboard.previous'|trans }}
+                                            </div>
+                                            <div id="courses_step_4_next" class="btn-arepa" style="margin: 10px 0;padding: 4px 15px;font-size: 16px" >
+                                                {{ 'app.dashboard.next'|trans }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="courses_step_5" style="display: none;">
+                                        <ul class="text-left" style="margin: 0;padding: 0;">
+                                            <li style="list-style: none;font-size: 16px"><strong>5. {{ 'courses_step_5'|trans }}</strong></li>
+                                            <li class="text-center" style="list-style: none;font-size: 16px"><img src="{{ asset('assets/images/step_5.png') }}" style="width: 90%;margin: 10px 0"></li>
+                                        </ul>
+                                        <div class="row">
+                                            <div id="courses_step_5_prev" class="btn-arepa" style="margin: 10px 0;padding: 4px 15px;font-size: 16px" >
+                                                {{ 'app.dashboard.previous'|trans }}
+                                            </div>
+                                            <div id="courses_step_5_next" class="btn-arepa" style="margin: 10px 0;padding: 4px 15px;font-size: 16px" >
+                                                {{ 'app.dashboard.next'|trans }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="courses_step_6" style="display: none;">
+                                        <ul class="text-left" style="margin: 0;padding: 0;">
+                                            <li style="list-style: none;font-size: 16px"><strong>6. {{ 'courses_step_6'|trans }}</strong></li>
+                                            <li class="text-center" style="list-style: none;font-size: 16px"><img src="{{ asset('assets/images/step_6.png') }}" style="width: 90%;margin: 10px 0"></li>
+                                        </ul>
+                                        <div class="row">
+                                            <div id="courses_step_6_prev" class="btn-arepa" style="margin: 10px 0;padding: 4px 15px;font-size: 16px" >
+                                                {{ 'app.dashboard.previous'|trans }}
+                                            </div>
+                                            <div id="courses_step_6_next" class="btn-arepa" style="margin: 10px 0;padding: 4px 15px;font-size: 16px" >
+                                                {{ 'app.dashboard.next'|trans }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="courses_step_7" style="display: none;">
+                                        <ul class="text-left" style="margin: 0;padding: 0;">
+                                            <li style="list-style: none;font-size: 16px"><strong>7. {{ 'courses_step_7'|trans }}</strong></li>
+                                            <li class="text-center" style="list-style: none;font-size: 16px"><img src="{{ asset('assets/images/step_7.png') }}" style="width: 90%;margin: 10px 0"></li>
+                                        </ul>
+                                        <div class="row">
+                                            <div id="courses_step_7_prev" class="btn-arepa" style="margin: 10px 0;padding: 4px 15px;font-size: 16px" >
+                                                {{ 'app.dashboard.previous'|trans }}
+                                            </div>
+                                            <div id="courses_step_7_next" class="btn-arepa" style="margin: 10px 0;padding: 4px 15px;font-size: 16px" >
+                                                {{ 'app.dashboard.next'|trans }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="courses_step_8" style="display: none;">
+                                        <ul class="text-left" style="margin: 0;padding: 0;">
+                                            <li style="list-style: none;font-size: 16px"><strong>8. {{ 'courses_step_8'|trans }}</strong></li>
+                                            <li class="text-center" style="list-style: none;font-size: 16px"><img src="{{ asset('assets/images/step_8.png') }}" style="width: 90%;margin: 10px 0"></li>
+                                        </ul>
+                                        <div class="row">
+                                            <div id="courses_step_8_prev" class="btn-arepa" style="margin: 10px 0;padding: 4px 15px;font-size: 16px" >
+                                                {{ 'app.dashboard.previous'|trans }}
+                                            </div>
+                                            <div id="courses_step_8_next" class="btn-arepa" style="margin: 10px 0;padding: 4px 15px;font-size: 16px" >
+                                                {{ 'app.dashboard.next'|trans }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer" style="padding: 6px;">
+                                    <button type="button" class="btn btn-secondary" style="background-color: #36546f;font-size: 16px; color: white" data-dismiss="modal">{{ 'app.close'|trans }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END IMPORT COURSES HELP MODAL -->
+                    <!-- IMPORT COURSES MODAL -->
+                    <div class="modal fade" id="modalImportCourses" tabindex="-1" style="top: 20%;bottom: auto" role="dialog" aria-labelledby="modalImportCoursesLabel" aria-hidden="true">
+                        <div class="modal-dialog" style="min-width: 300px;width: 300px;" role="document">
+                            <div class="modal-content" >
+                                <div class="modal-header" style="padding: 6px;">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true" style="font-size: 23px">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" id="modalImportCoursesLabel" style="font-size: 20px">{{ 'app.import_courses_title'|trans }}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    {#{{ form_start(activePeriod) }}#}
+                                    {#<div>#}
+                                    {#<div id="errorChangePeriod" class="col-md-12 noPadding" >#}
+                                    {#</div>#}
+                                    {#<div class="col-md-12">#}
+                                    {#{{ form_widget(activePeriod.period,{'placeholder':'app.select_period'|trans,'attr':{'style':'height: 24px;width: 50%'}}) }}#}
+                                    {#{{ form_widget(activePeriod.submit,{'label':'app.select'|trans,'attr':{'style':'width: 35%'}}) }}#}
+                                    {#</div>#}
+                                    {#</div>#}
+                                    {#{{ form_end(activePeriod) }}#}
+                                    {#{{ form_start(periodAdd) }}#}
+                                    {#<div>#}
+                                    {#<div id="errorAddPeriod" class="col-md-12 noPadding" >#}
+                                    {#</div>#}
+                                    {#<div class="col-md-12">#}
+                                    {#{{ form_widget(periodAdd.period,{'attr':{'placeholder':'app.period_code'|trans,'style':'border-radius: 5px;width: 50%'}}) }}#}
+                                    {#{{ form_widget(periodAdd.submit,{'label':'app.add'|trans,'attr':{'style':'width: 35%'}}) }}#}
+                                    {#</div>#}
+
+                                    {#</div>#}
+
+                                    {#{{ form_end(periodAdd) }}#}
+                                </div>
+                                <div class="modal-footer" style="padding: 6px;">
+                                    <button type="button" class="btn btn-secondary" style="background-color: #36546f;font-size: 16px; color: white" data-dismiss="modal">{{ 'app.close'|trans }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END IMPORT COURSES MODAL -->
+                </div>
+            </div>
+            <!-- END ACTIVE COURSES -->
+            <!-- ACTIVE TEACHERS -->
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="height:113px;">
+                <div class="text-center" style="margin: 8px 0">
+                    <span class="count_top"><i class="fa fa-users"></i>  {{ 'app.active_teachers'|trans }}</span>
+                    <div class="count text-center" style="font-size: 30px;margin: -8px!important;"><a href="{{ path('teacher_lookup',{'active':true}) }}">{{ activeTeachers|length }}</a></div>
+                    <div id="import_teachers" class="btn-arepa" data-toggle="modal" data-target="#modalImportTeachers" style="margin: 10px 0;padding: 4px 15px;font-size: 16px" >
+                        {{ 'app.import'|trans }}
+                    </div>
+                    <span style="font-size: 22px; vertical-align: middle; padding: 0 1px;margin-right: -15px">
+                        <a id="help_teachers_import" data-toggle="modal" data-target="#modalImportTeachersHelp">
+                            <i class="fa fa-question-circle"></i>
+                        </a>
+                    </span>
+                    <!-- IMPORT TEACHERS HELP MODAL -->
+                    <div class="modal fade" id="modalImportTeachersHelp" tabindex="-1" style="top: 20%;bottom: auto" role="dialog" aria-labelledby="modalImportTeachersHelpLabel" aria-hidden="true">
+                        <div class="modal-dialog" style="min-width: 300px;width: 300px;" role="document">
+                            <div class="modal-content" >
+                                <div class="modal-header" style="padding: 6px;">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true" style="font-size: 23px">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" id="modalImportTeachersHelpLabel" style="font-size: 20px">{{ 'app.import_teachers_help_title'|trans }}</h4>
+                                </div>
+                                <div class="modal-body">
+                                </div>
+                                <div class="modal-footer" style="padding: 6px;">
+                                    <button type="button" class="btn btn-secondary" style="background-color: #36546f;font-size: 16px; color: white" data-dismiss="modal">{{ 'app.close'|trans }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END IMPORT TEACHERS HELP MODAL -->
+                    <!-- IMPORT TEACHERS MODAL -->
+                    <div class="modal fade" id="modalImportTeachers" tabindex="-1" style="top: 20%;bottom: auto" role="dialog" aria-labelledby="modalImportTeachersLabel" aria-hidden="true">
+                        <div class="modal-dialog" style="min-width: 300px;width: 300px;" role="document">
+                            <div class="modal-content" >
+                                <div class="modal-header" style="padding: 6px;">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true" style="font-size: 23px">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" id="modalImportTeachersLabel" style="font-size: 20px">{{ 'app.import_teachers_title'|trans }}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    {#{{ form_start(activePeriod) }}#}
+                                    {#<div>#}
+                                    {#<div id="errorChangePeriod" class="col-md-12 noPadding" >#}
+                                    {#</div>#}
+                                    {#<div class="col-md-12">#}
+                                    {#{{ form_widget(activePeriod.period,{'placeholder':'app.select_period'|trans,'attr':{'style':'height: 24px;width: 50%'}}) }}#}
+                                    {#{{ form_widget(activePeriod.submit,{'label':'app.select'|trans,'attr':{'style':'width: 35%'}}) }}#}
+                                    {#</div>#}
+                                    {#</div>#}
+                                    {#{{ form_end(activePeriod) }}#}
+                                    {#{{ form_start(periodAdd) }}#}
+                                    {#<div>#}
+                                    {#<div id="errorAddPeriod" class="col-md-12 noPadding" >#}
+                                    {#</div>#}
+                                    {#<div class="col-md-12">#}
+                                    {#{{ form_widget(periodAdd.period,{'attr':{'placeholder':'app.period_code'|trans,'style':'border-radius: 5px;width: 50%'}}) }}#}
+                                    {#{{ form_widget(periodAdd.submit,{'label':'app.add'|trans,'attr':{'style':'width: 35%'}}) }}#}
+                                    {#</div>#}
+
+                                    {#</div>#}
+
+                                    {#{{ form_end(periodAdd) }}#}
+                                </div>
+                                <div class="modal-footer" style="padding: 6px;">
+                                    <button type="button" class="btn btn-secondary" style="background-color: #36546f;font-size: 16px; color: white" data-dismiss="modal">{{ 'app.close'|trans }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END IMPORT TEACHERS MODAL -->
+                </div>
+            </div>
+            <!-- END ACTIVE TEACHERS -->
+            <!-- ACTIVE CLASSES -->
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="height:113px;">
+                <div class="text-center" style="margin: 8px 0">
+                    <span class="count_top"><i class="fa fa-address-book-o"></i> {{ 'app.active_classes'|trans }}</span>
+                    <div class="count text-center" style="font-size: 30px;margin: -8px!important;"><a href="{{ path('class_lookup') }}">{{ activeClasses|length }}</a></div>
+                    <div id="import_classes" class="btn-arepa" data-toggle="modal" data-target="#modalImportClasses" style="margin: 10px 0;padding: 4px 15px;font-size: 16px" >
+                        {{ 'app.import'|trans }}
+                    </div>
+                    <span style="font-size: 22px; vertical-align: middle; padding: 0 1px;margin-right: -15px">
+                        <a id="help_classes_import" data-toggle="modal" data-target="#modalImportClassesHelp">
+                            <i class="fa fa-question-circle"></i>
+                        </a>
+                    </span>
+                    <!-- IMPORT CLASSES HELP MODAL -->
+                    <div class="modal fade" id="modalImportClassesHelp" tabindex="-1" style="top: 20%;bottom: auto" role="dialog" aria-labelledby="modalImportClassesHelpLabel" aria-hidden="true">
+                        <div class="modal-dialog" style="min-width: 300px;width: 300px;" role="document">
+                            <div class="modal-content" >
+                                <div class="modal-header" style="padding: 6px;">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true" style="font-size: 23px">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" id="modalImportClassesHelpLabel" style="font-size: 20px">{{ 'app.import_classes_help_title'|trans }}</h4>
+                                </div>
+                                <div class="modal-body">
+                                </div>
+                                <div class="modal-footer" style="padding: 6px;">
+                                    <button type="button" class="btn btn-secondary" style="background-color: #36546f;font-size: 16px; color: white" data-dismiss="modal">{{ 'app.close'|trans }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END IMPORT CLASSES HELP MODAL -->
+                    <!-- IMPORT CLASSES MODAL -->
+                    <div class="modal fade" id="modalImportClasses" tabindex="-1" style="top: 20%;bottom: auto" role="dialog" aria-labelledby="modalImportClassesLabel" aria-hidden="true">
+                        <div class="modal-dialog" style="min-width: 300px;width: 300px;" role="document">
+                            <div class="modal-content" >
+                                <div class="modal-header" style="padding: 6px;">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true" style="font-size: 23px">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" id="modalImportClassesLabel" style="font-size: 20px">{{ 'app.import_classes_title'|trans }}</h4>
+                                </div>
+                                <div class="modal-body">
+                                    {#{{ form_start(activePeriod) }}#}
+                                    {#<div>#}
+                                    {#<div id="errorChangePeriod" class="col-md-12 noPadding" >#}
+                                    {#</div>#}
+                                    {#<div class="col-md-12">#}
+                                    {#{{ form_widget(activePeriod.period,{'placeholder':'app.select_period'|trans,'attr':{'style':'height: 24px;width: 50%'}}) }}#}
+                                    {#{{ form_widget(activePeriod.submit,{'label':'app.select'|trans,'attr':{'style':'width: 35%'}}) }}#}
+                                    {#</div>#}
+                                    {#</div>#}
+                                    {#{{ form_end(activePeriod) }}#}
+                                    {#{{ form_start(periodAdd) }}#}
+                                    {#<div>#}
+                                    {#<div id="errorAddPeriod" class="col-md-12 noPadding" >#}
+                                    {#</div>#}
+                                    {#<div class="col-md-12">#}
+                                    {#{{ form_widget(periodAdd.period,{'attr':{'placeholder':'app.period_code'|trans,'style':'border-radius: 5px;width: 50%'}}) }}#}
+                                    {#{{ form_widget(periodAdd.submit,{'label':'app.add'|trans,'attr':{'style':'width: 35%'}}) }}#}
+                                    {#</div>#}
+
+                                    {#</div>#}
+
+                                    {#{{ form_end(periodAdd) }}#}
+                                </div>
+                                <div class="modal-footer" style="padding: 6px;">
+                                    <button type="button" class="btn btn-secondary" style="background-color: #36546f;font-size: 16px; color: white" data-dismiss="modal">{{ 'app.close'|trans }}</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END IMPORT CLASSES MODAL -->
+                </div>
+            </div>
+            <!-- END ACTIVE CLASSES -->
+            {#<div class="col-md-1 col-sm-4 col-xs-6 tile_stats_count" style="height:113px;width: 2px;padding: 0">#}
+            {#</div>#}
+        </div>
+    {% endblock %}
+    {% block scriptImport %}
+        {#{{ parent() }}#}
+        <script>
+            jQuery(document).ready(function () {
+                $.getScript("{{ asset('assets/vendors/jquery-validation/dist/jquery.validate.min.js') }}").done(function () {
+                    var validator1;
+                    var validator2;
+                    jQuery.validator.setDefaults({
+                        errorPlacement: function (error, element) {
+                            if(element.attr("name")=='formAddPeriod[period]')
+                                error.appendTo('#errorAddPeriod');
+                            if(element.attr("name")=='formActivePeriod[period]')
+                                error.appendTo('#errorChangePeriod');
+                        }
+                    });
+                    validator1 = $("form[name='formAddPeriod']").validate({
+                        rules: {
+                            "formAddPeriod[period]": {required: true, minlength: 4,digits:true}
+                        },
+                        messages: {
+                            "formAddPeriod[period]": {required: "{{ 'form.required'|trans }}",minlength: "{{ 'form.minlength'|trans }}",digits:"{{ 'form.numeric'|trans }}" }
+                        }
+                    });
+                    validator2 = $("form[name='formActivePeriod']").validate({
+                        rules: {
+                            "formActivePeriod[period]": {required: true}
+                        },
+                        messages: {
+                            "formActivePeriod[period]": {required: "{{ 'form.required'|trans }}" }
+                        }
+                    });
+                });
+
+                $("form[name='form']").on('submit',function (e) {
+                    e.preventDefault();
+                    var form = $("form");
+                    var flagValid = true;
+                    if (!form.valid()) {
+                        return;
+                    }
+                });
+                $.getScript("{{ asset('assets/js/adminDashboard.js') }}").done(function () {
+                    startAdmin();
+                });
+            });
+
+        </script>
+    {% endblock %}
+
+
+
+
+
