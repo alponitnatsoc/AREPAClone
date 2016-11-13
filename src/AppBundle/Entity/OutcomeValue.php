@@ -2,8 +2,8 @@
 /**
  * Created by PhpStorm.
  * User: erikaxu
- * Date: 24/09/16
- * Time: 08:02 PM
+ * Date: 14/09/16
+ * Time: 06:57 PM
  */
 
 namespace AppBundle\Entity;
@@ -12,22 +12,34 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
- * Class AssessmentToolContributeOutcomes
+ * Class OutcomeValue
  * @package AppBundle\Entity
  *
- * @ORM\Table(name="assessment_tool_contribute_outcomes")
+ * @ORM\Table(name="outcome_value",
+ *     uniqueConstraints={
+ *          @UniqueConstraint(
+ *              name="periodOutcomeUnique", columns={"outcome_id","period_id"}
+ *          )
+ *     })
  * @ORM\Entity
  */
-class AssessmentToolContributeOutcomes
+class OutcomeValue
 {
+
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_assessment_tool_contribute_outcome",type="integer")
+     * @ORM\Column(name="id_outcome_value",type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $idAssessmentToolContributeOutcomes;
+    private $idOutcomeValue;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Outcome",inversedBy="outcomeValue",cascade={"persist","remove"})
+     * @ORM\JoinColumn(name="outcome_id",referencedColumnName="id_outcome",nullable=true)
+     */
+    private $outcomeOutcome;
 
     /**
      * @var string
@@ -66,29 +78,48 @@ class AssessmentToolContributeOutcomes
     private $englishExemplary;
 
     /**
-     * @var AssessmentTool
+     * @var float
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AssessmentTool", inversedBy="assessmentToolContributeOutcomes")
-     * @ORM\JoinColumn(name="tool_assessment_id", referencedColumnName="id_assessment_tool")
+     * @ORM\Column(name="exalumns_outcome_value",type="float",nullable=true)
      */
-    private $assessmentTool;
+    private $exalumnsOutcomeValue;
 
     /**
-     * @var Outcome
+     * @var float
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Outcome", inversedBy="assessmentToolContributeOutcomes")
-     * @ORM\JoinColumn(name="outcome_id", referencedColumnName="id_outcome")
+     * @ORM\Column(name="internal_outcome_value",type="float",nullable=true)
      */
-    private $outcomeOutcome;
+    private $internalOutcomeValue;
 
     /**
-     * Get idAssessmentToolContributeOutcomes
+     * @var float
+     *
+     * @ORM\Column(name="exalumns_porcentage_value",type="float",nullable=true)
+     */
+    private $exalumnsPorcentageValue;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="total_value",type="float",nullable=true)
+     */
+    private $totalValue;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Period")
+     * @ORM\JoinColumn(name="period_id",referencedColumnName="id_period",nullable=true)
+     */
+    private $period;
+
+
+    /**
+     * Get idOutcomeValue
      *
      * @return integer
      */
-    public function getIdAssessmentToolContributeOutcomes()
+    public function getIdOutcomeValue()
     {
-        return $this->idAssessmentToolContributeOutcomes;
+        return $this->idOutcomeValue;
     }
 
     /**
@@ -96,7 +127,7 @@ class AssessmentToolContributeOutcomes
      *
      * @param string $belowStandard
      *
-     * @return AssessmentToolContributeOutcomes
+     * @return OutcomeValue
      */
     public function setBelowStandard($belowStandard)
     {
@@ -120,7 +151,7 @@ class AssessmentToolContributeOutcomes
      *
      * @param string $competent
      *
-     * @return AssessmentToolContributeOutcomes
+     * @return OutcomeValue
      */
     public function setCompetent($competent)
     {
@@ -144,7 +175,7 @@ class AssessmentToolContributeOutcomes
      *
      * @param string $exemplary
      *
-     * @return AssessmentToolContributeOutcomes
+     * @return OutcomeValue
      */
     public function setExemplary($exemplary)
     {
@@ -168,7 +199,7 @@ class AssessmentToolContributeOutcomes
      *
      * @param string $englishBelowStandard
      *
-     * @return AssessmentToolContributeOutcomes
+     * @return OutcomeValue
      */
     public function setEnglishBelowStandard($englishBelowStandard)
     {
@@ -192,7 +223,7 @@ class AssessmentToolContributeOutcomes
      *
      * @param string $englishCompetent
      *
-     * @return AssessmentToolContributeOutcomes
+     * @return OutcomeValue
      */
     public function setEnglishCompetent($englishCompetent)
     {
@@ -216,7 +247,7 @@ class AssessmentToolContributeOutcomes
      *
      * @param string $englishExemplary
      *
-     * @return AssessmentToolContributeOutcomes
+     * @return OutcomeValue
      */
     public function setEnglishExemplary($englishExemplary)
     {
@@ -236,27 +267,99 @@ class AssessmentToolContributeOutcomes
     }
 
     /**
-     * Set assessmentTool
+     * Set exalumnsOutcomeValue
      *
-     * @param \AppBundle\Entity\AssessmentTool $assessmentTool
+     * @param float $exalumnsOutcomeValue
      *
-     * @return AssessmentToolContributeOutcomes
+     * @return OutcomeValue
      */
-    public function setAssessmentTool(\AppBundle\Entity\AssessmentTool $assessmentTool = null)
+    public function setExalumnsOutcomeValue($exalumnsOutcomeValue)
     {
-        $this->assessmentTool = $assessmentTool;
+        $this->exalumnsOutcomeValue = $exalumnsOutcomeValue;
 
         return $this;
     }
 
     /**
-     * Get assessmentTool
+     * Get exalumnsOutcomeValue
      *
-     * @return \AppBundle\Entity\AssessmentTool
+     * @return float
      */
-    public function getAssessmentTool()
+    public function getExalumnsOutcomeValue()
     {
-        return $this->assessmentTool;
+        return $this->exalumnsOutcomeValue;
+    }
+
+    /**
+     * Set internalOutcomeValue
+     *
+     * @param float $internalOutcomeValue
+     *
+     * @return OutcomeValue
+     */
+    public function setInternalOutcomeValue($internalOutcomeValue)
+    {
+        $this->internalOutcomeValue = $internalOutcomeValue;
+
+        return $this;
+    }
+
+    /**
+     * Get internalOutcomeValue
+     *
+     * @return float
+     */
+    public function getInternalOutcomeValue()
+    {
+        return $this->internalOutcomeValue;
+    }
+
+    /**
+     * Set exalumnsPorcentageValue
+     *
+     * @param float $exalumnsPorcentageValue
+     *
+     * @return OutcomeValue
+     */
+    public function setExalumnsPorcentageValue($exalumnsPorcentageValue)
+    {
+        $this->exalumnsPorcentageValue = $exalumnsPorcentageValue;
+
+        return $this;
+    }
+
+    /**
+     * Get exalumnsPorcentageValue
+     *
+     * @return float
+     */
+    public function getExalumnsPorcentageValue()
+    {
+        return $this->exalumnsPorcentageValue;
+    }
+
+    /**
+     * Set totalValue
+     *
+     * @param float $totalValue
+     *
+     * @return OutcomeValue
+     */
+    public function setTotalValue($totalValue)
+    {
+        $this->totalValue = $totalValue;
+
+        return $this;
+    }
+
+    /**
+     * Get totalValue
+     *
+     * @return float
+     */
+    public function getTotalValue()
+    {
+        return $this->totalValue;
     }
 
     /**
@@ -264,7 +367,7 @@ class AssessmentToolContributeOutcomes
      *
      * @param \AppBundle\Entity\Outcome $outcomeOutcome
      *
-     * @return AssessmentToolContributeOutcomes
+     * @return OutcomeValue
      */
     public function setOutcomeOutcome(\AppBundle\Entity\Outcome $outcomeOutcome = null)
     {
@@ -281,5 +384,29 @@ class AssessmentToolContributeOutcomes
     public function getOutcomeOutcome()
     {
         return $this->outcomeOutcome;
+    }
+
+    /**
+     * Set period
+     *
+     * @param \AppBundle\Entity\Period $period
+     *
+     * @return OutcomeValue
+     */
+    public function setPeriod(\AppBundle\Entity\Period $period = null)
+    {
+        $this->period = $period;
+
+        return $this;
+    }
+
+    /**
+     * Get period
+     *
+     * @return \AppBundle\Entity\Period
+     */
+    public function getPeriod()
+    {
+        return $this->period;
     }
 }

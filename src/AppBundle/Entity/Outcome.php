@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  * @ORM\Table(name="outcome",
  *     uniqueConstraints={
  *          @UniqueConstraint(
- *              name="personStudentUnique", columns={"name_outcome"}
+ *              name="outcomeUnique", columns={"name_outcome"}
  *          )
  *     })
  * @ORM\Entity
@@ -38,37 +38,28 @@ class Outcome
     /**
      * @var string
      *
-     * @ORM\Column(name="name_outcome",type="string", length=10)
+     * @ORM\Column(name="name_outcome",type="string")
      */
     private $nameOutcome;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description_outcome",type="string", length=300)
+     * @ORM\Column(name="description_outcome",length=20000,type="text",nullable=true)
      */
     private $descriptionOutcome;
 
     /**
-     * @var float
+     * @var string
      *
-     * @ORM\Column(name="exalumns_outcome_value",type="float")
+     * @ORM\Column(name="english_description_outcome",length=20000,type="text",nullable=true)
      */
-    private $exalumnsOutcomeValue;
+    private $englishDescriptionOutcome;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="internal_outcome_value",type="float")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OutcomeValue",mappedBy="outcomeOutcome")
      */
-    private $internalOutcomeValue;
-
-    /**
-     * @var float
-     *
-     * @ORM\Column(name="exalumns_porcentage_value",type="float")
-     */
-    private $exalumnsPorcentageValue;
+    private $outcomeValue;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\AssessmentToolContributeOutcomes", mappedBy="outcomeOutcome", cascade={"persist", "remove"})
@@ -76,7 +67,241 @@ class Outcome
     private $assessmentToolContributeOutcomes;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ContentAportsOutcome", mappedBy="outcomeoutcome", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ContentContributesOutcome", mappedBy="outcomeOutcome", cascade={"persist", "remove"})
      */
-    private $contentAportsOutcome;
+    private $contentContributesOutcome;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CourseContributesOutcome", mappedBy="outcomeOutcome", cascade={"persist", "remove"})
+     */
+    private $courseContributesOutcome;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->outcomeValue = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->assessmentToolContributeOutcomes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->contentContributesOutcome = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->courseContributesOutcome = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get idOutcome
+     *
+     * @return integer
+     */
+    public function getIdOutcome()
+    {
+        return $this->idOutcome;
+    }
+
+    /**
+     * Set nameOutcome
+     *
+     * @param string $nameOutcome
+     *
+     * @return Outcome
+     */
+    public function setNameOutcome($nameOutcome)
+    {
+        $this->nameOutcome = $nameOutcome;
+
+        return $this;
+    }
+
+    /**
+     * Get nameOutcome
+     *
+     * @return string
+     */
+    public function getNameOutcome()
+    {
+        return $this->nameOutcome;
+    }
+
+    /**
+     * Set descriptionOutcome
+     *
+     * @param string $descriptionOutcome
+     *
+     * @return Outcome
+     */
+    public function setDescriptionOutcome($descriptionOutcome)
+    {
+        $this->descriptionOutcome = $descriptionOutcome;
+
+        return $this;
+    }
+
+    /**
+     * Get descriptionOutcome
+     *
+     * @return string
+     */
+    public function getDescriptionOutcome()
+    {
+        return $this->descriptionOutcome;
+    }
+
+    /**
+     * Set englishDescriptionOutcome
+     *
+     * @param string $englishDescriptionOutcome
+     *
+     * @return Outcome
+     */
+    public function setEnglishDescriptionOutcome($englishDescriptionOutcome)
+    {
+        $this->englishDescriptionOutcome = $englishDescriptionOutcome;
+
+        return $this;
+    }
+
+    /**
+     * Get englishDescriptionOutcome
+     *
+     * @return string
+     */
+    public function getEnglishDescriptionOutcome()
+    {
+        return $this->englishDescriptionOutcome;
+    }
+
+    /**
+     * Add outcomeValue
+     *
+     * @param \AppBundle\Entity\OutcomeValue $outcomeValue
+     *
+     * @return Outcome
+     */
+    public function addOutcomeValue(\AppBundle\Entity\OutcomeValue $outcomeValue)
+    {
+        $this->outcomeValue[] = $outcomeValue;
+
+        return $this;
+    }
+
+    /**
+     * Remove outcomeValue
+     *
+     * @param \AppBundle\Entity\OutcomeValue $outcomeValue
+     */
+    public function removeOutcomeValue(\AppBundle\Entity\OutcomeValue $outcomeValue)
+    {
+        $this->outcomeValue->removeElement($outcomeValue);
+    }
+
+    /**
+     * Get outcomeValue
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getOutcomeValue()
+    {
+        return $this->outcomeValue;
+    }
+
+    /**
+     * Add assessmentToolContributeOutcome
+     *
+     * @param \AppBundle\Entity\AssessmentToolContributeOutcomes $assessmentToolContributeOutcome
+     *
+     * @return Outcome
+     */
+    public function addAssessmentToolContributeOutcome(\AppBundle\Entity\AssessmentToolContributeOutcomes $assessmentToolContributeOutcome)
+    {
+        $this->assessmentToolContributeOutcomes[] = $assessmentToolContributeOutcome;
+
+        return $this;
+    }
+
+    /**
+     * Remove assessmentToolContributeOutcome
+     *
+     * @param \AppBundle\Entity\AssessmentToolContributeOutcomes $assessmentToolContributeOutcome
+     */
+    public function removeAssessmentToolContributeOutcome(\AppBundle\Entity\AssessmentToolContributeOutcomes $assessmentToolContributeOutcome)
+    {
+        $this->assessmentToolContributeOutcomes->removeElement($assessmentToolContributeOutcome);
+    }
+
+    /**
+     * Get assessmentToolContributeOutcomes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAssessmentToolContributeOutcomes()
+    {
+        return $this->assessmentToolContributeOutcomes;
+    }
+
+    /**
+     * Add contentContributesOutcome
+     *
+     * @param \AppBundle\Entity\ContentContributesOutcome $contentContributesOutcome
+     *
+     * @return Outcome
+     */
+    public function addContentContributesOutcome(\AppBundle\Entity\ContentContributesOutcome $contentContributesOutcome)
+    {
+        $this->contentContributesOutcome[] = $contentContributesOutcome;
+
+        return $this;
+    }
+
+    /**
+     * Remove contentContributesOutcome
+     *
+     * @param \AppBundle\Entity\ContentContributesOutcome $contentContributesOutcome
+     */
+    public function removeContentContributesOutcome(\AppBundle\Entity\ContentContributesOutcome $contentContributesOutcome)
+    {
+        $this->contentContributesOutcome->removeElement($contentContributesOutcome);
+    }
+
+    /**
+     * Get contentContributesOutcome
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getContentContributesOutcome()
+    {
+        return $this->contentContributesOutcome;
+    }
+
+    /**
+     * Add courseContributesOutcome
+     *
+     * @param \AppBundle\Entity\CourseContributesOutcome $courseContributesOutcome
+     *
+     * @return Outcome
+     */
+    public function addCourseContributesOutcome(\AppBundle\Entity\CourseContributesOutcome $courseContributesOutcome)
+    {
+        $this->courseContributesOutcome[] = $courseContributesOutcome;
+
+        return $this;
+    }
+
+    /**
+     * Remove courseContributesOutcome
+     *
+     * @param \AppBundle\Entity\CourseContributesOutcome $courseContributesOutcome
+     */
+    public function removeCourseContributesOutcome(\AppBundle\Entity\CourseContributesOutcome $courseContributesOutcome)
+    {
+        $this->courseContributesOutcome->removeElement($courseContributesOutcome);
+    }
+
+    /**
+     * Get courseContributesOutcome
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCourseContributesOutcome()
+    {
+        return $this->courseContributesOutcome;
+    }
 }

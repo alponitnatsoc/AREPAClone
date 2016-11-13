@@ -95,20 +95,20 @@ Class Course
     private $courseHasfaculty;
 
     /**
+     * @var boolean
+     * @ORM\Column(name="contribute_outcome",type="boolean", nullable=true)
+     */
+    private $contributeOutcome;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CourseContributesOutcome", mappedBy="courseCourse", cascade={"persist", "remove"})
+     */
+    private $courseContributesOutcome;
+
+    /**
      * @ORM\Column(name="created_at",type="datetime", nullable=true)
      */
     private $createdAt = null;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->classes = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->courseIsDictatedByTeachers = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->courseHasSection = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->courseHasfaculty = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Get idCourse
@@ -309,7 +309,6 @@ Class Course
     public function addCourseIsDictatedByTeacher(\AppBundle\Entity\TeacherDictatesCourse $courseIsDictatedByTeacher)
     {
         $this->courseIsDictatedByTeachers[] = $courseIsDictatedByTeacher;
-
         return $this;
     }
 
@@ -343,7 +342,6 @@ Class Course
     public function addCourseHasSection(\AppBundle\Entity\SectionHasCourse $courseHasSection)
     {
         $this->courseHasSection[] = $courseHasSection;
-
         return $this;
     }
 
@@ -423,5 +421,74 @@ Class Course
     public function getShortNameCourse()
     {
         return $this->shortNameCourse;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->classes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->courseIsDictatedByTeachers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->courseHasSection = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->courseHasfaculty = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->courseContributesOutcome = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add courseContributesOutcome
+     *
+     * @param \AppBundle\Entity\CourseContributesOutcome $courseContributesOutcome
+     *
+     * @return Course
+     */
+    public function addCourseContributesOutcome(\AppBundle\Entity\CourseContributesOutcome $courseContributesOutcome)
+    {
+        $this->courseContributesOutcome[] = $courseContributesOutcome;
+
+        return $this;
+    }
+
+    /**
+     * Remove courseContributesOutcome
+     *
+     * @param \AppBundle\Entity\CourseContributesOutcome $courseContributesOutcome
+     */
+    public function removeCourseContributesOutcome(\AppBundle\Entity\CourseContributesOutcome $courseContributesOutcome)
+    {
+        $this->courseContributesOutcome->removeElement($courseContributesOutcome);
+    }
+
+    /**
+     * Get courseContributesOutcome
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCourseContributesOutcome()
+    {
+        return $this->courseContributesOutcome;
+    }
+
+    /**
+     * Set contributeOutcome
+     *
+     * @param boolean $contributeOutcome
+     *
+     * @return Course
+     */
+    public function setContributeOutcome($contributeOutcome)
+    {
+        $this->contributeOutcome = $contributeOutcome;
+
+        return $this;
+    }
+
+    /**
+     * Get contributeOutcome
+     *
+     * @return boolean
+     */
+    public function getContributeOutcome()
+    {
+        return $this->contributeOutcome;
     }
 }

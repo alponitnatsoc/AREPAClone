@@ -57,6 +57,6 @@ class AssessmentToolGrade
      * @ORM\Column(name="document", type="string")
      */
     private $document;
-#hay que actualizarlo
+
 
 }

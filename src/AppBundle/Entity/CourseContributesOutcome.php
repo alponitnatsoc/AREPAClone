@@ -1,33 +1,40 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: erikaxu
+ * User: andres
  * Date: 24/09/16
- * Time: 08:02 PM
+ * Time: 05:46 PM
  */
 
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Class AssessmentToolContributeOutcomes
+ * Class CourseContributesOutcome
  * @package AppBundle\Entity
  *
- * @ORM\Table(name="assessment_tool_contribute_outcomes")
+ * @ORM\Table(name="course_contributes_outcome")
  * @ORM\Entity
  */
-class AssessmentToolContributeOutcomes
+class CourseContributesOutcome
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_assessment_tool_contribute_outcome",type="integer")
+     * @ORM\Column(name="id_course_aports_outcome",type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $idAssessmentToolContributeOutcomes;
+    private $idCourseAportsOutcome;
+
+    /**
+     * @var integer
+     * @ORM\Column(name="bloom_level",type="integer", length=1)
+     */
+    private $bloomLevel;
 
     /**
      * @var string
@@ -66,29 +73,54 @@ class AssessmentToolContributeOutcomes
     private $englishExemplary;
 
     /**
-     * @var AssessmentTool
+     * @var Content
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AssessmentTool", inversedBy="assessmentToolContributeOutcomes")
-     * @ORM\JoinColumn(name="tool_assessment_id", referencedColumnName="id_assessment_tool")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Course", inversedBy="courseContributesOutcome")
+     * @ORM\JoinColumn(name="course_id", referencedColumnName="id_course")
      */
-    private $assessmentTool;
+    private $courseCourse;
 
     /**
      * @var Outcome
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Outcome", inversedBy="assessmentToolContributeOutcomes")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Outcome", inversedBy="courseContributesOutcome")
      * @ORM\JoinColumn(name="outcome_id", referencedColumnName="id_outcome")
      */
     private $outcomeOutcome;
 
+
     /**
-     * Get idAssessmentToolContributeOutcomes
+     * Get idCourseAportsOutcome
      *
      * @return integer
      */
-    public function getIdAssessmentToolContributeOutcomes()
+    public function getIdCourseAportsOutcome()
     {
-        return $this->idAssessmentToolContributeOutcomes;
+        return $this->idCourseAportsOutcome;
+    }
+
+    /**
+     * Set bloomLevel
+     *
+     * @param integer $bloomLevel
+     *
+     * @return CourseContributesOutcome
+     */
+    public function setBloomLevel($bloomLevel)
+    {
+        $this->bloomLevel = $bloomLevel;
+
+        return $this;
+    }
+
+    /**
+     * Get bloomLevel
+     *
+     * @return integer
+     */
+    public function getBloomLevel()
+    {
+        return $this->bloomLevel;
     }
 
     /**
@@ -96,7 +128,7 @@ class AssessmentToolContributeOutcomes
      *
      * @param string $belowStandard
      *
-     * @return AssessmentToolContributeOutcomes
+     * @return CourseContributesOutcome
      */
     public function setBelowStandard($belowStandard)
     {
@@ -120,7 +152,7 @@ class AssessmentToolContributeOutcomes
      *
      * @param string $competent
      *
-     * @return AssessmentToolContributeOutcomes
+     * @return CourseContributesOutcome
      */
     public function setCompetent($competent)
     {
@@ -144,7 +176,7 @@ class AssessmentToolContributeOutcomes
      *
      * @param string $exemplary
      *
-     * @return AssessmentToolContributeOutcomes
+     * @return CourseContributesOutcome
      */
     public function setExemplary($exemplary)
     {
@@ -168,7 +200,7 @@ class AssessmentToolContributeOutcomes
      *
      * @param string $englishBelowStandard
      *
-     * @return AssessmentToolContributeOutcomes
+     * @return CourseContributesOutcome
      */
     public function setEnglishBelowStandard($englishBelowStandard)
     {
@@ -192,7 +224,7 @@ class AssessmentToolContributeOutcomes
      *
      * @param string $englishCompetent
      *
-     * @return AssessmentToolContributeOutcomes
+     * @return CourseContributesOutcome
      */
     public function setEnglishCompetent($englishCompetent)
     {
@@ -216,7 +248,7 @@ class AssessmentToolContributeOutcomes
      *
      * @param string $englishExemplary
      *
-     * @return AssessmentToolContributeOutcomes
+     * @return CourseContributesOutcome
      */
     public function setEnglishExemplary($englishExemplary)
     {
@@ -236,27 +268,27 @@ class AssessmentToolContributeOutcomes
     }
 
     /**
-     * Set assessmentTool
+     * Set courseCourse
      *
-     * @param \AppBundle\Entity\AssessmentTool $assessmentTool
+     * @param \AppBundle\Entity\Course $courseCourse
      *
-     * @return AssessmentToolContributeOutcomes
+     * @return CourseContributesOutcome
      */
-    public function setAssessmentTool(\AppBundle\Entity\AssessmentTool $assessmentTool = null)
+    public function setCourseCourse(\AppBundle\Entity\Course $courseCourse = null)
     {
-        $this->assessmentTool = $assessmentTool;
+        $this->courseCourse = $courseCourse;
 
         return $this;
     }
 
     /**
-     * Get assessmentTool
+     * Get courseCourse
      *
-     * @return \AppBundle\Entity\AssessmentTool
+     * @return \AppBundle\Entity\Course
      */
-    public function getAssessmentTool()
+    public function getCourseCourse()
     {
-        return $this->assessmentTool;
+        return $this->courseCourse;
     }
 
     /**
@@ -264,7 +296,7 @@ class AssessmentToolContributeOutcomes
      *
      * @param \AppBundle\Entity\Outcome $outcomeOutcome
      *
-     * @return AssessmentToolContributeOutcomes
+     * @return CourseContributesOutcome
      */
     public function setOutcomeOutcome(\AppBundle\Entity\Outcome $outcomeOutcome = null)
     {

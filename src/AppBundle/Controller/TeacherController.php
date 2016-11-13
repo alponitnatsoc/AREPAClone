@@ -80,7 +80,7 @@ class TeacherController extends Controller
                     ));
                     break;
                 case 2:
-                    return $this->render('@App/Teacher/teacher_courses.html.twig',array(
+                    return $this->render('@App/Teacher/teacher_active_classes.html.twig',array(
                         'teacherCourses'=>$teacherDictatesCourses,
                         'courses'=>$courses,
                         'activeCourses'=>$activeCourses,
@@ -101,8 +101,6 @@ class TeacherController extends Controller
                     break;
 
             }
-
-
         }else{
             $this->createAccessDeniedException();
         }

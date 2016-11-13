@@ -53,9 +53,9 @@ class Content
     private $rubricHasAssesmentTool;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ContentAportsOutcome", mappedBy="contentContent", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ContentContributesOutcome", mappedBy="contentContent", cascade={"persist", "remove"})
      */
-    private $contentAportsoutcomes;
+    private $contentContributesOutcomes;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ContentGrade", mappedBy="contentContent", cascade={"persist", "remove"})

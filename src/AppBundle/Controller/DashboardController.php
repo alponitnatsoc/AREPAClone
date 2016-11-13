@@ -5,6 +5,8 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\Course;
 use AppBundle\Entity\Faculty;
 use AppBundle\Entity\FacultyHasTeachers;
+use AppBundle\Entity\RoleType;
+use AppBundle\Entity\TeacherHasRole;
 use AppBundle\Entity\User;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -39,6 +41,34 @@ class DashboardController extends Controller
             {
                 return $this->redirectToRoute('student_dashboard',array(),307);
             }else{
+                /** @var User $user */
+                $user = $this->getUser();
+                if(!$user->getPersonPerson()){
+                    $em = $this->getDoctrine()->getManager();
+                    $person = $em->getRepository("AppBundle:Person")->findOneBy(array('email'=>$user->getEmail()));
+                    if($person){
+                        $user->setPersonPerson($person);
+                        if($person->getTeacher()){
+                            $rolesArr = array('ROLE_TEACHER');
+                            $teacherHasRole = new TeacherHasRole();
+                            /** @var RoleType $roleType */
+                            $roleType = $em->getRepository('AppBundle:RoleType')->findOneBy(array('roleCode'=>'ROLE_TEACHER'));
+                            $teacherHasRole->setRoleTypeRoleType($roleType);
+                            $roleType->addTeachersHasRole($teacherHasRole);
+                            $teacherHasRole->setTeacherTeacher($person->getTeacher());
+                            $person->getTeacher()->addTeacherHasRole($teacherHasRole);
+                            $user->setRoles($rolesArr);
+                            $em->persist($teacherHasRole);
+                            $em->persist($roleType);
+                        }elseif($person->getStudent()){
+                            $rolesArr = array('ROLE_STUDENT');
+                            $user->setRoles($rolesArr);
+                        }
+                        $em->persist($user);
+                        $em->persist($person);
+                        $em->flush();
+                    }
+                }
                 return $this->render('@App/Dashboard/dashboard.html.twig');
             }
         }
