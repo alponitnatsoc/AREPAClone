@@ -42,6 +42,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(1);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeA->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'004196'));
@@ -50,6 +51,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(2);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeA->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'003194'));
@@ -58,6 +60,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(3);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeA->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'022586'));
@@ -66,6 +69,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(3);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeA->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         // Outcome B
@@ -75,6 +79,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(1);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeB->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'004196'));
@@ -83,6 +88,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(2);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeB->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'004085'));
@@ -91,6 +97,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(3);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeB->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'004070'));
@@ -99,6 +106,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(3);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeB->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         // Outcome C
@@ -108,6 +116,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(1);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeC->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'004082'));
@@ -116,6 +125,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(2);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeC->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'004070'));
@@ -124,6 +134,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(3);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeC->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         // Outcome D
@@ -133,6 +144,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(1);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeD->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'004082'));
@@ -141,6 +153,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(2);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeD->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'004064'));
@@ -149,6 +162,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(3);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeD->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         // Outcome E
@@ -158,6 +172,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(1);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeE->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'004190'));
@@ -166,6 +181,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(2);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeE->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'004185'));
@@ -174,6 +190,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(3);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeE->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         // Outcome F
@@ -183,6 +200,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(1);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeF->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'004064'));
@@ -191,6 +209,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(2);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeF->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'005100'));
@@ -199,6 +218,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(3);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeF->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         // Outcome G
@@ -208,6 +228,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(1);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeG->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'004190'));
@@ -216,6 +237,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(2);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeG->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'022469'));
@@ -224,6 +246,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(3);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeG->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         // Outcome H
@@ -233,6 +256,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(1);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeH->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'015838'));
@@ -241,6 +265,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(2);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeH->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'022469'));
@@ -249,6 +274,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(3);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeH->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         // Outcome I
@@ -258,6 +284,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(1);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeI->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'004204'));
@@ -266,6 +293,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(2);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeI->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'015838'));
@@ -274,6 +302,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(3);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeI->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         // Outcome J
@@ -283,6 +312,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(1);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeJ->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'004064'));
@@ -291,6 +321,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(2);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeJ->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'005100'));
@@ -299,6 +330,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(3);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeJ->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         // Outcome K
@@ -308,6 +340,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(1);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeK->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'004186'));
@@ -316,6 +349,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(2);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeK->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'022586'));
@@ -324,6 +358,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(3);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeK->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'004185'));
@@ -332,6 +367,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $courseContributesOutcome->setCourseCourse($course);
         $courseContributesOutcome->setBloomLevel(4);
         $courseContributesOutcome->setPeriod($period);
+        $outcomeK->addCourseContributesOutcome($courseContributesOutcome);
         $manager->persist($courseContributesOutcome);
 
         $manager->flush();

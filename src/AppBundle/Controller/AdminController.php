@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\ClassCourse;
+use AppBundle\Entity\CourseContributesOutcome;
 use AppBundle\Entity\Faculty;
 use AppBundle\Entity\Period;
 use AppBundle\Entity\Person;
@@ -83,7 +84,26 @@ class AdminController extends Controller
                 $tempPeriod=$formActivePeriod->get('period')->getData();
                 try{
                     if($tempPeriod->getCode()!= $plataform->getActivePeriod()){
+                        /** @var Period $period */
+                        $period = $em->getRepository("AppBundle:Period")->findOneBy(array('code'=>$plataform->getActivePeriod()));
+                        $ccos = $em->getRepository('AppBundle:CourseContributesOutcome')->findBy(array('period'=>$period));
                         $plataform->setActivePeriod($tempPeriod->getCode());
+                        /** @var Period $newPeriod */
+                        $newPeriod = $em->getRepository("AppBundle:Period")->findOneBy(array('code'=>$plataform->getActivePeriod()));
+                        $newCcos = $em->getRepository('AppBundle:CourseContributesOutcome')->findBy(array('period'=>$newPeriod));
+                        if(count($newCcos)==0){
+                            /** @var CourseContributesOutcome $cco */
+                            foreach ($ccos as $cco) {
+                                $newcco = new CourseContributesOutcome();
+                                $newcco->setCourseCourse($cco->getCourseCourse());
+                                $newcco->setBloomLevel($cco->getBloomLevel());
+                                $newcco->setOutcomeOutcome($cco->getOutcomeOutcome());
+                                $newcco->setPeriod($newPeriod);
+                                $cco->getOutcomeOutcome()->addCourseContributesOutcome($newcco);
+                                $em->persist($cco->getOutcomeOutcome());
+                                $em->persist($newcco);
+                            }
+                        }
                         $em->persist($plataform);
                         $em->flush();
                         $this->addFlash('message_title','app.success_period_change');
