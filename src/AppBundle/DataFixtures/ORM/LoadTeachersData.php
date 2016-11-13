@@ -26,20 +26,6 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
 {
     public function load(ObjectManager $manager)
     {
-        /**
-         * ╔═══════════════════════════════════════════════════════════════╗
-         * ║ Reporte generado en el catalogo de consultas SAE              ║
-         * ║ Modulo QA Catálogo y Programación                             ║
-         * ║ División 1 Catálogo y Sylabus                                 ║
-         * ║ Opcion 3 Componentes de asignatura                            ║
-         * ║ Parametros de la consulta                                     ║
-         * ║ Institucion académica  PUJAV                                  ║
-         * ║ Grado Académico --                                            ║
-         * ║ Org Académica DPT-ISIST                                       ║
-         * ╚═══════════════════════════════════════════════════════════════╝
-         *
-         * El archivo generado debe guardarse en la carpeta web/uploads/Courses/Files con nombre courses
-         */
         $faculty = $manager->getRepository('AppBundle:Faculty')->findOneBy(array('facultyCode'=>'DPT-ISIST'));
         $teacher = $manager->getRepository('AppBundle:Teacher')->findOneBy(array('teacherCode'=>'ADMINISTRATOR'));
         if($teacher->getTeacherHasfaculty()->isEmpty()){
@@ -193,12 +179,13 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
                                 $manager->flush();
                             }
                             /** @var ClassCourse $classCourse */
-                            $classCourse = $manager->getRepository("AppBundle:ClassCourse")->findOneBy(array('classCode' => $worksheet->getCellByColumnAndRow(6, $rowCount)->getValue(),'ciclolectivo'=>$worksheet->getCellByColumnAndRow(10, $rowCount)->getValue()));
+                            $classCourse = $manager->getRepository("AppBundle:ClassCourse")->findOneBy(array('classCode'    => $worksheet->getCellByColumnAndRow(6, $rowCount)->getValue(),
+                                                                                                             'activePeriod' =>$worksheet->getCellByColumnAndRow(10, $rowCount)->getValue()));
                             if(!$classCourse){
                                 $classCourse = new ClassCourse();
                                 $classCourse->setClassCode($worksheet->getCellByColumnAndRow(6, $rowCount)->getValue());
                                 $classCourse->setCourseCourse($course);
-                                $classCourse->setCiclolectivo($worksheet->getCellByColumnAndRow(10, $rowCount)->getValue());
+                                $classCourse->setActivePeriod($worksheet->getCellByColumnAndRow(10, $rowCount)->getValue());
                                 $course->addClass($classCourse);
                                 $manager->persist($classCourse);
                                 $manager->flush();

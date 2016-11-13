@@ -13,10 +13,6 @@ fos_user:
     resource: "@FOSUserBundle/Resources/config/routing/all.xml"
 
 ##Public Pages
-#home:
-#    path: /
-#    defaults: {_controller: AppBundle:Default:index}
-
 language_switcher:
     path: /language/switch/{locale}
     defaults: {_controller: AppBundle:Default:changeLocale, locale: en}

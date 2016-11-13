@@ -141,12 +141,13 @@ class LoadCoursesData extends AbstractFixture implements OrderedFixtureInterface
                                 $manager->flush();
                             }
                             /** @var ClassCourse $classCourse */
-                            $classCourse = $manager->getRepository("AppBundle:ClassCourse")->findOneBy(array('classCode' => $worksheet->getCellByColumnAndRow(4, $rowCount)->getValue(),'ciclolectivo'=>$worksheet->getCellByColumnAndRow(9, $rowCount)->getValue()));
+                            $classCourse = $manager->getRepository("AppBundle:ClassCourse")->findOneBy(array('classCode'    => $worksheet->getCellByColumnAndRow(4, $rowCount)->getValue(),
+                                                                                                             'activePeriod' =>$worksheet->getCellByColumnAndRow(9, $rowCount)->getValue()));
                             if(!$classCourse){
                                 $classCourse = new ClassCourse();
                                 $classCourse->setClassCode($worksheet->getCellByColumnAndRow(4, $rowCount)->getValue());
                                 $classCourse->setCourseCourse($course);
-                                $classCourse->setCiclolectivo($worksheet->getCellByColumnAndRow(9, $rowCount)->getValue());
+                                $classCourse->setActivePeriod($worksheet->getCellByColumnAndRow(9, $rowCount)->getValue());
                                 $course->addClass($classCourse);
                                 $manager->persist($classCourse);
                                 $manager->flush();

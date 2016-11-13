@@ -1,7 +1,15 @@
-{% extends ":user:base.html.twig" %}
+{% extends "@App/Teacher/teacher_dashboard_base.html.twig" %}
+    {% trans_default_domain 'FOSUserBundle' %}
 
-{% block page_title %}Dashboard{% endblock page_title %}
+    {% block stylesheets %}
+        {{ parent() }}
+    {% endblock stylesheets %}
 
-{% block page_content %}
+    {% block page_title %}
+        {{ 'app.dashboard.lookup.list_courses'|trans }}
+    {% endblock%}
 
-{% endblock %}
+
+    {% block page_content %}
+
+    {% endblock %}

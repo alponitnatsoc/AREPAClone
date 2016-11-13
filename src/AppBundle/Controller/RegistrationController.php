@@ -13,6 +13,7 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class RegistrationController extends BaseController
 {
@@ -47,15 +48,36 @@ class RegistrationController extends BaseController
 
         $form = $formFactory->createForm();
         $form->setData($user);
-
+        $form->get('username')->setData('tempUsername');
         $form->handleRequest($request);
 
         if ($form->isSubmitted()) {
+            $user->setUsername(explode('@',$form->get('email')->getData())[0]);
             if ($form->isValid()) {
                 $event = new FormEvent($form, $request);
                 $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
-
+                $person = $this->getDoctrine()->getRepository('AppBundle:Person')->findOneBy(array('email'=>$user->getEmail()));
+                if($person){
+                    $person->setUserName($user->getUsername());
+                    if($person->getTeacher()!= null){
+                        $rolesArr = array('ROLE_TEACHER');
+                        $user->setRoles($rolesArr);
+                        $userManager->updateUser($user);
+                    }elseif($person->getStudent()!=null){
+                        $rolesArr = array('ROLE_STUDENT');
+                        $user->setRoles($rolesArr);
+                        $userManager->updateUser($user);
+                    }
+                    $this->getDoctrine()->getManager()->persist($person);
+                    $this->getDoctrine()->getManager()->flush();
+                }
                 $userManager->updateUser($user);
+                $tUser = $this->getDoctrine()->getRepository('AppBundle:User')->findOneBy(array('email'=>$user->getEmail()));
+                if($tUser and $person){
+                    $tUser->setPersonPerson($person);
+                    $this->getDoctrine()->getManager()->persist($tUser);
+                    $this->getDoctrine()->getManager()->flush();
+                }
 
                 if (null === $response = $event->getResponse()) {
                     $url = $this->getParameter('fos_user.registration.confirmation.enabled')
@@ -81,5 +103,38 @@ class RegistrationController extends BaseController
         return $this->render('FOSUserBundle:Registration:register.html.twig', array(
             'form' => $form->createView(),
         ));
+    }
+
+    public function confirmAction(Request $request, $token)
+    {
+        /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
+        $userManager = $this->get('fos_user.user_manager');
+
+        $user = $userManager->findUserByConfirmationToken($token);
+
+        if (null === $user) {
+            throw new NotFoundHttpException(sprintf('The user with confirmation token "%s" does not exist', $token));
+        }
+
+        /** @var $dispatcher EventDispatcherInterface */
+        $dispatcher = $this->get('event_dispatcher');
+
+
+        $user->setConfirmationToken(null);
+        $user->setEnabled(true);
+
+        $event = new GetResponseUserEvent($user, $request);
+        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_CONFIRM, $event);
+
+        $userManager->updateUser($user);
+
+        if (null === $response = $event->getResponse()) {
+            $url = $this->generateUrl('fos_user_registration_confirmed');
+            $response = new RedirectResponse($url);
+        }
+
+        $dispatcher->dispatch(FOSUserEvents::REGISTRATION_CONFIRMED, new FilterUserResponseEvent($user, $request, $response));
+
+        return $response;
     }
 }

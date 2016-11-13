@@ -1,22 +1,26 @@
 #Public Pages
 home:
     path: /
-    defaults: {_controller: AppBundle:Person:index}
+    defaults: {_controller: AppBundle:Default:index}
 
 #Secure Pages
+
 admin_dasboard:
     path: /admin/dashboard
-    defaults: {_controller: AppBundle:Dashboard:adminDashboard}
+    defaults: {_controller: AppBundle:Admin:adminDashboard}
 course_lookup:
-    path: /admin/lookup/courses
-    defaults: {_controller: AppBundle:Dashboard:lookupCourses}
+    path: /admin/lookup/courses/{active}
+    defaults: {_controller: AppBundle:Admin:lookupCourses,active: null}
+class_lookup:
+    path: /admin/lookup/classes
+    defaults: {_controller: AppBundle:Admin:lookupClasses}
 teacher_lookup:
-    path: /admin/lookup/teachers
-    defaults: {_controller: AppBundle:Dashboard:lookupTeachers}
+    path: /admin/lookup/teachers/{active}
+    defaults: {_controller: AppBundle:Admin:lookupTeachers,active: null}
 
 teacher_dashboard:
     path: /teacher/dashboard
-    defaults: {_controller: AppBundle:Dashboard:teacherDashboard}
+    defaults: {_controller: AppBundle:Teacher:teacherDashboard}
 
 student_dashboard:
     path: /student/dashboard
@@ -25,3 +29,7 @@ student_dashboard:
 dashboard:
     path: /dashboard
     defaults: {_controller: AppBundle:Dashboard:dashboard}
+
+export_document:
+    path: /admin/export/document/{type}/{all}
+    defaults: {_controller: AppBundle:Export:generateXLS,type: null,all: false}

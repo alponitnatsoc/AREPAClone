@@ -1,0 +1,56 @@
+.btn-arepa, .btn-arepa:visited{
+    cursor: pointer;
+    border: 1px solid #16232f;
+    background-color: #2a3f54;
+    border-radius: 8px;
+    color: white;
+    font-size: 20px;
+    padding: auto 10px;
+    width: auto;
+    display: inline-block;
+    font-weight: 400;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.btn-arepa.focus, .btn-arepa:hover {
+    color: rgba(255,255,255,1);
+    text-decoration: none;
+    background-color: #0c111e;
+    opacity: 0.98;
+    border-color: #090e13;
+}
+
+
+.noPadding {
+    padding: 0!important;
+    margin: 0!important;
+    overflow: auto!important;
+}
+
+.nav-sm ul.nav.child_menu {
+    width: 70px!important;
+}
+
+.modal-content{
+    overflow: scroll;
+    min-height: 100px;
+    max-height: 550px;
+    min-width: 300px;
+    max-width: 600px;
+}
+.modal-dialog{
+    margin: 5% auto;
+    min-width: 300px;
+    max-height: 650px;
+    overflow: scroll;
+}
+.modal-body{
+    max-height: 450px;
+    overflow: scroll;
+}

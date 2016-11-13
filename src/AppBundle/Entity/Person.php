@@ -134,7 +134,7 @@ class Person
             }
         }
         if($this->lastName2!=''){
-            $fullName .=$this->lastName2;
+            $fullName .=' '.$this->lastName2;
         }
         return $fullName;
     }

@@ -1,3 +1,4 @@
+{% trans_default_domain "FOSUserBundle"  %}
 <!doctype html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
@@ -17,6 +18,7 @@
     {% endblock %}
     <!-- Custom Theme Style -->
     <link href="{{ asset('assets/css/custom.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/css/new_design.css') }}" rel="stylesheet">
 </head>
 <style>
     .container{
@@ -26,7 +28,6 @@
 <body class="nav-md footer_fixed">
 <div class="container body">
     <div class="main_container">
-
         {% block sidebar %}
             {% embed 'user/sidebar.html.twig' %}
                 {% trans_default_domain 'FOSUserBundle' %}
@@ -50,34 +51,53 @@
 
         <!-- page content -->
         <div class="right_col" role="main">
-            <div class="">
-                {% block top_content_header %}
-                    <div class="page-title">
-                        <div class="title_left">
-                            <h3>{% block page_title %}Page Title{% endblock page_title %}</h3>
+            <!-- FLAGBAG MODAL -->
+            {% for success_message in app.session.flashBag.get('message_title')%}
+                <div class="text-center">
+                    <button id="flag_modal_btn" type="button" class="btn btn-secondary" style="display: none" data-toggle="modal" data-target="#modalFlag"></button>
+                    <!-- Modal Succes-->
+                    <div class="modal fade" id="modalFlag" tabindex="-1" style="top: auto;bottom: auto" role="dialog" aria-labelledby="modalFlagLabel" aria-hidden="true">
+                        <div class="modal-dialog" style="min-width: 300px;width: 350px;" role="document">
+                            <div class="modal-content" >
+                                <div class="modal-header" style="padding: 6px;">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true" style="font-size: 23px">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" id="modalFlagLabel" style="font-size: 20px">{{  success_message|trans }}</h4>
+                                </div>
+                                <div class="modal-body" style="font-size: 16px">
+                                    {{ app.session.flashBag.get('message_body')[0]|trans }}
+                                </div>
+                                <div class="modal-footer" style="padding: 6px;">
+                                    <button type="button" class="btn btn-secondary" style="background-color: #36546f;font-size: 16px; color: white" data-dismiss="modal">{{ 'app.close'|trans }}</button>
+                                </div>
+                            </div>
                         </div>
-                        {#<div class="title_right">#}
-                            {#<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">#}
-                                {#<div class="input-group">#}
-                                    {#<input type="text" class="form-control" placeholder="Search for...">#}
-                                    {#<span class="input-group-btn">#}
-                                      {#<button class="btn btn-default" type="button">Go!</button>#}
-                                    {#</span>#}
-                                {#</div>#}
+                    </div>
+                    <!-- End Modal -->
+                </div>
+            {% endfor %}
+            <!-- END FLAGBAG MODAL-->
+            {% block top_content_header %}
+                <div class="page-title">
+                    <div class="title_left">
+                        <h3>{% block page_title %}Page Title{% endblock page_title %}</h3>
+                    </div>
+                    {#<div class="title_right">#}
+                        {#<div class="col-md-5 col-sm-5 col-xs-12 form-group pull-right top_search">#}
+                            {#<div class="input-group">#}
+                                {#<input type="text" class="form-control" placeholder="Search for...">#}
+                                {#<span class="input-group-btn">#}
+                                  {#<button class="btn btn-default" type="button">Go!</button>#}
+                                {#</span>#}
                             {#</div>#}
                         {#</div>#}
-                    </div>
-                {% endblock top_content_header %}
-
-                <div class="clearfix"></div>
-
-
-                {% block page_content %}{% endblock %}
-
-
-            </div>
+                    {#</div>#}
+                </div>
+            {% endblock top_content_header %}
+            <div class="clearfix"></div>
+            {% block page_content %}{% endblock %}
         </div>
-        <div style="min-height: 50px;clear: both"></div>
         <!-- /page content -->
         {% include 'user/footer.html.twig' %}
 
@@ -94,7 +114,111 @@
     <script src="{{ asset('assets/vendors/nprogress/nprogress.js') }}"></script>
     <!-- iCheck -->
     <script src="{{ asset('assets/vendors/iCheck/icheck.min.js') }}"></script>
+    <script>
+        jQuery(document).ready(function () {
+            $("#flag_modal_btn").click();
+            if (!jsLoader(location.href)) {
+                $("#main").find("a").not(".notAjax").on("click", function (e) {
+                    e.preventDefault();
+                    var href = $(this).attr('href');
+                    history.pushState({}, '', href);
+                    sendAjax(href);
+                });
+            }
+            $(window).on("popstate", function (e) {
+                sendAjax(location.href);
+            });
+            $(window).keydown(function (event) {
+                if (event.keyCode == 13) {
+                    event.preventDefault();
+                    return false;
+                }
+            });
+            var redirector = getParameterByName('redirector');
+            //console.log(redirector);
+            if (redirector) {
+                sendAjax(redirector);
+            }
+        });
+        function errorHandleTry(data) {
+            if (typeof data.responseJSON != 'undefined') {
+                if (typeof data.responseJSON["url"] != 'undefined') {
+                    window.location.href = data.responseJSON["url"];
+                    data = false;
+                }
+            }
+            return data;
+        }
+        function sendAjax(url, form) {
+            if (url == "") {
+                return false;
+            }
+            $.ajax({
+                url: url,
+                type: $(form).attr('method'),
+                data: $(form).serializeArray(),
+                statusCode: {
+                    500: function () {
+                        $("#errorModal").modal("show");
+                    }
+                }
+            }).done(function (data) {
+                window.scrollTo(0, 0);
+                if (data["url"] != null) {
+                    console.log(data["url"]);
+                    sendAjax(data["url"]);
+                } else {
+                    $('#main').replaceWith(
+                            // ... with the returned one from the AJAX response.
+                            $(data).find('#main'));
+                    addClick();
+                    if (!jsLoader(url)) {
+                        addSumbit();
+                    }
+                    // This thing is not working, we should check this later
+                    //var currentPage = document.location;
+                    //document.location = currentPage + "?redirector=" + url;
+                }
+            }).fail(function (jqXHR, textStatus, errorThrown) {
+                if (jqXHR == errorHandleTry(jqXHR)) {
+                    $("#errorModal").modal("show");
+                }
+            });
+        }
+        function addClick() {
+            $("#main").find(".nav-link").not(".notAjax").on("click", function (e) {
+                e.preventDefault();
+                var href = $(this).attr('href');
+                history.pushState({}, '', href);
+                sendAjax(href);
+            });
+        }
+        function addSumbit() {
+            $("form").on("submit", function (e) {
+                e.preventDefault();
+                sendAjax($(this).attr('action'), $(this));
+            });
+        }
+
+        function getParameterByName(name) {
+            name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+            var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+                    results = regex.exec(location.search);
+            return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+        }
+        function jsLoader(url) {
+            if (typeof url !== 'undefined') {
+                if (url.indexOf("/admin/lookup") !== -1) {
+                    $.getScript("{{ asset('assets/js/newDataTable.js') }}").done(function () {
+                        startDataTable();
+                    });
+                    return true;
+                }
+            }
+        }
+    </script>
 {% block scriptImport %}
+
 {% endblock %}
 {% block modals %}{% endblock modals %}
 

@@ -75,12 +75,13 @@ class LoadStudentClassData extends AbstractFixture implements OrderedFixtureInte
                                 $course = $manager->getRepository('AppBundle:Course')->findOneBy(array('courseCode'=>$worksheet->getCellByColumnAndRow(5, $rowCount)->getValue()));
                                 if($course){
                                     /** @var ClassCourse $classCourse */
-                                    $classCourse = $manager->getRepository("AppBundle:ClassCourse")->findOneBy(array('classCode' => $worksheet->getCellByColumnAndRow(7, $rowCount)->getValue(),'ciclolectivo'=>$worksheet->getCellByColumnAndRow(4, $rowCount)->getValue()));
+                                    $classCourse = $manager->getRepository("AppBundle:ClassCourse")->findOneBy(array('classCode'    => $worksheet->getCellByColumnAndRow(7, $rowCount)->getValue(),
+                                                                                                                     'activePeriod' =>$worksheet->getCellByColumnAndRow(4, $rowCount)->getValue()));
                                     if(!$classCourse){
                                         $classCourse = new ClassCourse();
                                         $classCourse->setClassCode($worksheet->getCellByColumnAndRow(7, $rowCount)->getValue());
                                         $classCourse->setCourseCourse($course);
-                                        $classCourse->setCiclolectivo($worksheet->getCellByColumnAndRow(4, $rowCount)->getValue());
+                                        $classCourse->setActivePeriod($worksheet->getCellByColumnAndRow(4, $rowCount)->getValue());
                                         $course->addClass($classCourse);
                                         $manager->persist($classCourse);
                                         $manager->flush();

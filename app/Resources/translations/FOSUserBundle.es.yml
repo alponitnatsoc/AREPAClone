@@ -1,3 +1,16 @@
+courses_step_1: Entrar a la página del portal de la Javeriana:
+portal_javeriana: Portal Javeriana
+courses_step_2: Ingrese su usuario y contraseña
+courses_step_3: Seleccione la opción 'INGRESO A SAE'
+courses_step_4: Seleccione la opción 'Catálogo de Consultas SAE'
+courses_step_5: Muavase por los módulos hasta el módulo 7 "QA"
+courses_step_6: Ejecute la opcion 3 "Componentes asignatura"
+courses_step_7: Llene la consulta como se muestra en la imagen
+courses_step_8: Exporte la tabla en formato de Excel
+courses_step_9:
+courses_step_10:
+courses_step_11:
+
 security:
     login:
         login_title: 'Inicio de sesión'
@@ -21,8 +34,57 @@ registration:
     confirm_request: 'Registro completado'
     confirmed: 'felicidades %username%, tu cuenta ha sido activada'
 form:
-    firstName: 'Primer Nombre:'
+    person:
+        firstName: 'Primer Nombre:'
+    required: 'Este campo no puede estar vacio'
+    minlength: 'El valor es muy corto'
+    select_file: 'Por favor seleccione un archivo de Excel'
+    numeric: 'El valor debe ser numérico'
+    invalid_file_type: 'Porfavor seleccione un tipo de archivo valido'
 app:
+    add: 'Agregar'
+    select: 'Seleccionar'
+    save: 'Guardar'
+    edit: 'Editar'
+    change: 'Cambiar'
+    close: 'Cerrar'
+    ok: 'Ok'
+    acept: 'Aceptar'
+    import: 'Importar'
+    upload: 'Subir'
+    update: 'Actualizar'
+    import_teachers_success: 'Profesores actualizados correctamente'
+    import_teachers_success_content: 'La información de los profesores fué actualizada correctamente.'
+    import_teachers_fail: 'Actualización de información falló'
+    import_teachers_fail_content: 'La actualización de información de profesores falló, el documento tiene errores.'
+    success_period_change: 'Se cambio el periodo activo'
+    success_period_change_content: 'El período activo fué modificado correctamente.'
+    period_already_exist: 'Falló agregar período'
+    period_already_exist_content: 'El período que ha intentado añadir ya existe.'
+    success_period_add: 'Período agregado correctamente'
+    success_period_add_content: 'El período se ha añadido correctamente'
+    same_period: 'Períodos iguales'
+    same_period_content: 'El período seleccionado era igual al periodo activo actual.'
+    period_change_fail: 'No se pudo cambiar el periodo'
+    period_change_fail_content: 'Ocurrió un error inesperado.'
+    period_add_fail: 'Falló agregar período'
+    period_add_fail_content: 'Ocurrió un error inesperado.'
+    download_info: 'Descargar Información'
+    active_courses: 'Cursos Activos'
+    active_classes: 'Clases Activas'
+    active_teachers: 'Profesores Activos'
+    active_period: 'Periodo Activo'
+    select_period: 'Seleccione el periodo'
+    period_code: 'Código del periodo'
+    change_active_period: 'Cambiar periodo activo'
+    import_classes_title: 'Importar clases'
+    import_courses_title: 'Importar cursos'
+    import_teachers_title: 'Importar profesores'
+    import_classes_help_title: '¿Como importar clases?'
+    import_courses_help_title: '¿Como importar cursos?'
+    import_teachers_help_title: '¿Como importar profesores?'
+    import_teachers_info_title: 'Importar información de profesores'
+    select_document: 'Seleccione un archivo de Excel'
     messages:
         all_rigths: 'Todos los Derechos Reservados'
         privacy_and_terms: 'Terminos y Condiciones'
@@ -40,6 +102,7 @@ app:
         logout: 'Salir'
         welcome: 'Bienvenido'
     dashboard:
+        classes: 'Clases'
         agenda: 'Agénda'
         developer: 'DESARROLLO'
         documentation: 'Documentación'
@@ -65,13 +128,16 @@ app:
         sortDesc: ': Orden Descendente'
         lookup:
             title: 'Busquedas'
+            list_classes: 'Listado de clases'
             list_courses: 'Listado de cursos'
+            class_lookup_message: 'La siguiente lista muestra la información de las clases'
             course_lookup_message: 'La siguiente lista muestra la información de los cursos'
             teacher_lookup_message: 'La siguiente lista muestra la información de los profesores'
             list_teachers: 'Lista de profesores'
         course_id: 'Id'
         academic_grade: 'Grado academico'
         course_code: 'Código'
+        course_code_code: 'Código curso'
         course_name: 'Nombre'
         component: 'Componente'
         course_credits: 'Créditos'
@@ -79,7 +145,12 @@ app:
         teacher_id: 'Id'
         teacher_full_name: 'Nombre completo'
         teacher_code: 'Código'
+        teacher_code_code: 'Código Profesor'
+        teacher_name: 'Nombre Profesor'
         document: 'Número de documento'
         document_type: 'Tipo de documento'
         email: 'Email'
+        class_id: 'Id'
+        class_code: 'Código Clase'
+        class_period: 'Periodo Activo'
 

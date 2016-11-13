@@ -17,9 +17,9 @@
             {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'fos_user_registration_register'}}) }}
             <section class="login_content" style="padding: 0px">
                 <h1>{{ 'registration.title'|trans }}</h1>
-                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
+                <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback" style="display: none">
                     {{ form_label(form.username) }}
-                    {{ form_widget(form.username,{'attr':{'class':'form-control has-feedback-left','placeholder':'form.username'|trans }}) }}
+                    {{ form_widget(form.username,{'attr':{'required':false,'class':'form-control has-feedback-left','placeholder':'form.username'|trans }}) }}
                     <span class="fa fa-user form-control-feedback left" aria-hidden="true" style="top: 22px;"></span>
                     <div style="color: darkred;">{{ form_errors(form.username) }}</div>
                 </div>

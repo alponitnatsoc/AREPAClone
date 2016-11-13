@@ -18,7 +18,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  * @ORM\Table(name="class_course",
  *     uniqueConstraints={
  *          @UniqueConstraint(
- *              name="codeClassUnique", columns={"class_code","ciclolectivo"}
+ *              name="codeClassUnique", columns={"class_code","active_period"}
  *          )
  *     })
  * @ORM\Entity
@@ -45,9 +45,9 @@ class ClassCourse
     /**
      * @var string
      *
-     * @ORM\Column(name="ciclolectivo",type="string", length=7,nullable=true)
+     * @ORM\Column(name="active_period",type="string", length=7,nullable=true)
      */
-    private $ciclolectivo;
+    private $activePeriod;
 
     /**
      * @var Course
@@ -119,27 +119,27 @@ class ClassCourse
     }
 
     /**
-     * Set ciclolectivo
+     * Set activePeriod
      *
-     * @param string $ciclolectivo
+     * @param string $activePeriod
      *
      * @return ClassCourse
      */
-    public function setCiclolectivo($ciclolectivo)
+    public function setActivePeriod($activePeriod)
     {
-        $this->ciclolectivo = $ciclolectivo;
+        $this->activePeriod = $activePeriod;
 
         return $this;
     }
 
     /**
-     * Get ciclolectivo
+     * Get activePeriod
      *
      * @return string
      */
-    public function getCiclolectivo()
+    public function getActivePeriod()
     {
-        return $this->ciclolectivo;
+        return $this->activePeriod;
     }
 
     /**
