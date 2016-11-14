@@ -59,4 +59,127 @@ class AssessmentToolGrade
     private $document;
 
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->contentGrade = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get idAssessmentToolGrade
+     *
+     * @return integer
+     */
+    public function getIdAssessmentToolGrade()
+    {
+        return $this->idAssessmentToolGrade;
+    }
+
+    /**
+     * Set document
+     *
+     * @param string $document
+     *
+     * @return AssessmentToolGrade
+     */
+    public function setDocument($document)
+    {
+        $this->document = $document;
+
+        return $this;
+    }
+
+    /**
+     * Get document
+     *
+     * @return string
+     */
+    public function getDocument()
+    {
+        return $this->document;
+    }
+
+    /**
+     * Set assessmentTool
+     *
+     * @param \AppBundle\Entity\AssessmentTool $assessmentTool
+     *
+     * @return AssessmentToolGrade
+     */
+    public function setAssessmentTool(\AppBundle\Entity\AssessmentTool $assessmentTool = null)
+    {
+        $this->assessmentTool = $assessmentTool;
+
+        return $this;
+    }
+
+    /**
+     * Get assessmentTool
+     *
+     * @return \AppBundle\Entity\AssessmentTool
+     */
+    public function getAssessmentTool()
+    {
+        return $this->assessmentTool;
+    }
+
+    /**
+     * Add contentGrade
+     *
+     * @param \AppBundle\Entity\ContentGrade $contentGrade
+     *
+     * @return AssessmentToolGrade
+     */
+    public function addContentGrade(\AppBundle\Entity\ContentGrade $contentGrade)
+    {
+        $this->contentGrade[] = $contentGrade;
+
+        return $this;
+    }
+
+    /**
+     * Remove contentGrade
+     *
+     * @param \AppBundle\Entity\ContentGrade $contentGrade
+     */
+    public function removeContentGrade(\AppBundle\Entity\ContentGrade $contentGrade)
+    {
+        $this->contentGrade->removeElement($contentGrade);
+    }
+
+    /**
+     * Get contentGrade
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getContentGrade()
+    {
+        return $this->contentGrade;
+    }
+
+    /**
+     * Set studentAssistClass
+     *
+     * @param \AppBundle\Entity\StudentAssistClass $studentAssistClass
+     *
+     * @return AssessmentToolGrade
+     */
+    public function setStudentAssistClass(\AppBundle\Entity\StudentAssistClass $studentAssistClass = null)
+    {
+        $this->studentAssistClass = $studentAssistClass;
+
+        return $this;
+    }
+
+    /**
+     * Get studentAssistClass
+     *
+     * @return \AppBundle\Entity\StudentAssistClass
+     */
+    public function getStudentAssistClass()
+    {
+        return $this->studentAssistClass;
+    }
 }

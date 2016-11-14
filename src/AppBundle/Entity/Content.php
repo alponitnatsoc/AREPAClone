@@ -41,6 +41,7 @@ class Content
 
     /**
      * @var boolean
+     * @ORM\Column(name="contribute_outcome",type="boolean",nullable=true)
      */
     private $contributeOutcome;
 
@@ -50,7 +51,7 @@ class Content
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\RubricHasAssessmentTool", inversedBy="contents", cascade={"persist"})
      * @ORM\JoinColumn(name="rubric_has_assessment_tool_id", referencedColumnName="id_rubric_has_assessment_tool")
      */
-    private $rubricHasAssesmentTool;
+    private $rubricHasAssessmentTool;
 
     /**
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ContentContributesOutcome", mappedBy="contentContent", cascade={"persist", "remove"})
@@ -62,4 +63,185 @@ class Content
      */
     private $contentGrade;
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->contentContributesOutcomes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->contentGrade = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get idContent
+     *
+     * @return integer
+     */
+    public function getIdContent()
+    {
+        return $this->idContent;
+    }
+
+    /**
+     * Set percentageGrade
+     *
+     * @param float $percentageGrade
+     *
+     * @return Content
+     */
+    public function setPercentageGrade($percentageGrade)
+    {
+        $this->percentageGrade = $percentageGrade;
+
+        return $this;
+    }
+
+    /**
+     * Get percentageGrade
+     *
+     * @return float
+     */
+    public function getPercentageGrade()
+    {
+        return $this->percentageGrade;
+    }
+
+    /**
+     * Set percentageAssessmentTool
+     *
+     * @param float $percentageAssessmentTool
+     *
+     * @return Content
+     */
+    public function setPercentageAssessmentTool($percentageAssessmentTool)
+    {
+        $this->percentageAssessmentTool = $percentageAssessmentTool;
+
+        return $this;
+    }
+
+    /**
+     * Get percentageAssessmentTool
+     *
+     * @return float
+     */
+    public function getPercentageAssessmentTool()
+    {
+        return $this->percentageAssessmentTool;
+    }
+
+    /**
+     * Set rubricHasAssessmentTool
+     *
+     * @param \AppBundle\Entity\RubricHasAssessmentTool $rubricHasAssessmentTool
+     *
+     * @return Content
+     */
+    public function setRubricHasAssessmentTool(\AppBundle\Entity\RubricHasAssessmentTool $rubricHasAssessmentTool = null)
+    {
+        $this->rubricHasAssessmentTool = $rubricHasAssessmentTool;
+
+        return $this;
+    }
+
+    /**
+     * Get rubricHasAssessmentTool
+     *
+     * @return \AppBundle\Entity\RubricHasAssessmentTool
+     */
+    public function getRubricHasAssessmentTool()
+    {
+        return $this->rubricHasAssessmentTool;
+    }
+
+    /**
+     * Add contentContributesOutcome
+     *
+     * @param \AppBundle\Entity\ContentContributesOutcome $contentContributesOutcome
+     *
+     * @return Content
+     */
+    public function addContentContributesOutcome(\AppBundle\Entity\ContentContributesOutcome $contentContributesOutcome)
+    {
+        $this->contentContributesOutcomes[] = $contentContributesOutcome;
+        $contentContributesOutcome->setContentContent($this);
+        return $this;
+    }
+
+    /**
+     * Remove contentContributesOutcome
+     *
+     * @param \AppBundle\Entity\ContentContributesOutcome $contentContributesOutcome
+     */
+    public function removeContentContributesOutcome(\AppBundle\Entity\ContentContributesOutcome $contentContributesOutcome)
+    {
+        $this->contentContributesOutcomes->removeElement($contentContributesOutcome);
+    }
+
+    /**
+     * Get contentContributesOutcomes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getContentContributesOutcomes()
+    {
+        return $this->contentContributesOutcomes;
+    }
+
+    /**
+     * Add contentGrade
+     *
+     * @param \AppBundle\Entity\ContentGrade $contentGrade
+     *
+     * @return Content
+     */
+    public function addContentGrade(\AppBundle\Entity\ContentGrade $contentGrade)
+    {
+        $this->contentGrade[] = $contentGrade;
+        return $this;
+    }
+
+    /**
+     * Remove contentGrade
+     *
+     * @param \AppBundle\Entity\ContentGrade $contentGrade
+     */
+    public function removeContentGrade(\AppBundle\Entity\ContentGrade $contentGrade)
+    {
+        $this->contentGrade->removeElement($contentGrade);
+    }
+
+    /**
+     * Get contentGrade
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getContentGrade()
+    {
+        return $this->contentGrade;
+    }
+
+    /**
+     * Set contributeOutcome
+     *
+     * @param boolean $contributeOutcome
+     *
+     * @return Content
+     */
+    public function setContributeOutcome($contributeOutcome)
+    {
+        $this->contributeOutcome = $contributeOutcome;
+
+        return $this;
+    }
+
+    /**
+     * Get contributeOutcome
+     *
+     * @return boolean
+     */
+    public function getContributeOutcome()
+    {
+        return $this->contributeOutcome;
+    }
 }

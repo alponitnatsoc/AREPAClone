@@ -41,7 +41,7 @@ class TeacherHasRole
     /**
      * @var RoleType
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\RoleType", inversedBy="teacherHasRoles")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\RoleType", inversedBy="teachersHasRoles")
      * @ORM\JoinColumn(name="role_type_id", referencedColumnName="id_role_type")
      */
     private $roleTypeRoleType;

@@ -77,6 +77,16 @@ class Outcome
     private $courseContributesOutcome;
 
     /**
+     * ToString
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->nameOutcome;
+    }
+
+    /**
      * Constructor
      */
     public function __construct()

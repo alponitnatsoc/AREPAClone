@@ -1,0 +1,245 @@
+{% extends "@App/Teacher/teacher_dashboard_base.html.twig" %}
+    {% trans_default_domain 'FOSUserBundle' %}
+
+    {% block stylesheets %}
+        {{ parent() }}
+    {% endblock stylesheets %}
+
+    {% block page_title %}
+        {{ 'app.course'|trans }}{{ course.nameCourse }}
+    {%  endblock%}
+
+
+    {% block page_content %}
+        {% if courseContributesOutcomes is defined and courseContributesOutcomes|length > 0 %}
+            <h3>{{ 'app.contributes'|trans }}</h3>
+        {% endif %}
+        <div class="row tile_count">
+            {% for courseContributesOutcome in courseContributesOutcomes %}
+                <!-- COURSE OUTCOME -->
+                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="width: 10%;height: 80px;">
+                    <div class="text-center">
+                        <span class="count_top"><i class="fa fa-line-chart"></i> {{ 'app.outcome'|trans }}</span>
+                        <div class="count text-center"><a href="#">{{ courseContributesOutcome.outcomeOutcome }}</a></div>
+                        {#<span class="count_bottom">{{ 'app.dashboard.last_add'|trans }}: <br>{{ lastTeacherCourse.courseCourse.createdAt|date('d M',"America/Bogota") }}</span>#}
+                    </div>
+                </div>
+                <!-- END COURSE OUTCOME -->
+            {% endfor %}
+            <!-- ACTIVE CLASSES -->
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="width: 13%;height: 80px;">
+                <div class="text-center">
+                    <span class="count_top"><i class="fa fa-line-chart"></i> {{ 'app.active_classes'|trans }}</span>
+                    <div class="count text-center">{{ activeClasses|length }}</div>
+                    {#<span class="count_bottom">{{ 'app.dashboard.last_add'|trans }}: <br>{{ lastTeacherCourse.courseCourse.createdAt|date('d M',"America/Bogota") }}</span>#}
+                </div>
+            </div>
+            <!-- END ACTIVE CLASSES -->
+            <!-- RUBRICS -->
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="width: 9%;height: 80px;">
+                <div class="text-center">
+                    <span class="count_top"><i class="fa fa-table"></i> {{ 'app.rubrics'|trans }}</span>
+                    <div class="count text-center">{{ otherRubrics|length }}</div>
+                </div>
+            </div>
+            <!-- END RUBRICS -->
+            <!-- MY RUBRICS -->
+            <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count" style="width: 17%;height: 80px;">
+                <div class="text-center">
+                    <h3 style="margin: 0% 0;font-size: 20px;color: #5a738e;"><i class="fa fa-table"></i> {{ 'app.my_rubrics'|trans }}</h3>
+                    <div style="margin: 10px 0;">
+                        <div class="col-md-3 noPadding">
+                            <h1 style="margin: 0px 0px 0px 0px; padding: 0;font-size: 30px;">{{ myRubrics|length }}</h1>
+                        </div>
+                        {% if myRubrics|length > 0 %}
+                            <div class="col-md-9 noPadding">
+                                <div id="create_rubric" class="btn-arepa" data-toggle="modal" data-target="#modalCreateRubric" style="padding: 4px 15px;font-size: 16px" >
+                                    {{ 'app.add'|trans }}
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="col-md-9 noPadding">
+                                <div id="create_rubric" class="btn-arepa" data-toggle="modal" data-target="#modalCreateRubric" style="padding: 4px 15px;font-size: 16px" >
+                                    {{ 'app.create'|trans }}
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            <!-- END MY RUBRICS -->
+            <!-- CREATE RUBRIC MODAL -->
+            <div class="modal fade" id="modalCreateRubric" tabindex="-1" style="top: auto;bottom: auto" role="dialog" aria-labelledby="modalCreateRubricLabel" aria-hidden="true">
+                <div class="modal-dialog" style="width: 900px" role="document">
+                    <div class="modal-content" >
+                        <div class="modal-header" style="padding: 6px;">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true" style="font-size: 23px">&times;</span>
+                            </button>
+                            <h4 class="modal-title" id="modalCreateRubricLabel" style="font-size: 20px">{{ 'app.create_rubric'|trans }}</h4>
+                        </div>
+                        <div class="modal-body">
+                            {{ form_start(formRubric) }}
+                            <div class="row" style="display: inline-block;margin: 5px 0px 10px 0px">
+                                {{ form_row(formRubric.name,{'attr':{'placeholder':'app.my_rubric'|trans,'style':'font-size:14px;padding: 1px 10px;'},'label':('app.name'|trans ~ ':'),'label_attr':{'style':'font-size: 16px;vertical-align: middle;margin: 0px 15px'}}) }}
+                            </div>
+                            <table class="table table-striped table-bordered" style="margin-bottom: 30px">
+                                <thead>
+                                <tr>
+                                    <th>{{ 'app.assessments'|trans }}</th>
+                                    <th>{{ 'app.percentage'|trans }}</th>
+                                    <th>{{ 'app.contents'|trans }}</th>
+                                    <th>{{ 'app.contents_name'|trans }}</th>
+                                    <th>{{ 'app.content_total'|trans }}</th>
+                                    <th>{{ 'app.contents_percentage'|trans }}</th>
+                                    <th>{{ 'app.contributes'|trans }}</th>
+                                    <th>{{ 'app.outcomes'|trans }}</th>
+                                    {#<th>{{ ''|trans }}</th>#}
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <td id="tool-field-list" class="add_prototype_assessment" data-prototype="
+                                    {% filter escape%}
+                                        {{ include('@App/Teacher/assessmentToolPrototype.html.twig',{'form':formRubric.assessmentTool.vars.prototype|e}) }}
+                                    {% endfilter %}">
+                                    </td>
+                                </tr>
+
+                                {#{% set count = 1 %}#}
+                                {#{% for class in courses %}#}
+                                {#<tr>#}
+                                    {#<td>{{ count }}</td>#}
+                                    {#<td><a href="{{ path('course_info',{'courseCode':course.courseCode}) }}">{{ course.nameCourse }}</a></td>#}
+                                    {#<td>{{ course.courseCode }}</td>#}
+                                    {#<td>{{ course.academicGrade }}</td>#}
+                                    {#<td>{{ course.component }}</td>#}
+                                    {#<td>{{ course.credits }}</td>#}
+                                {#</tr>#}
+                                {#{% set count = count + 1 %}#}
+                                {#{% endfor %}#}
+                                </tbody>
+                            </table>
+                            {{ form_end(formRubric) }}
+                        </div>
+                        <div class="modal-footer" style="padding: 6px;">
+                            <button type="button" class="btn btn-secondary" style="background-color: #36546f;font-size: 16px; color: white" data-dismiss="modal">{{ 'app.close'|trans }}</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- END CREATE RUBRI MODAL -->
+        </div>
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            {#
+                {#<div class="col-md-12 x_panel">#}
+                    {#{{ form_start(formNewRubric,{'attr':{'id':'form_new_rubric'}}) }}#}
+                    {#<div id="rubric_name_error" style="display: none">#}
+                    {#</div>#}
+                    {#<div>#}
+                        {#{{ form_label(formNewRubric.name,null,{'label':('app.name'|trans ~ ':'),'label_attr':{'style':'width:9%;font-size: 16px'}}) }}#}
+                        {#{{ form_widget(formNewRubric.name,{'attr':{'placeholder':'app.my_rubric'|trans,'style':'width: 14%;font-size: 12px;border-radius:5px'}}) }}#}
+                    {#</div>#}
+                    {#<div>#}
+                        {#<div style="font-size: 16px;">#}
+                            {#<strong>{{ 'app.assessments'|trans }}:</strong>#}
+                        {#</div>#}
+
+
+                        {#<div class="col-md-6 text-center" style="width: 30%">#}
+                            {#<a id="add_tool_link" style="color:#5a738e;;text-decoration: none;"><span class="btn btn-grey" style="display: inline;"><i class="fa fa-plus-circle" style="color:#5a738e;"></i> Agregar </span></a>#}
+                            {#<a id="remove_tool_link" style="color:#b93737;text-decoration: none;"><span class="btn btn-grey" style="display: inline;"><i class="fa fa-minus-circle " style="color:#b93737;"></i> Eliminar </span></a>#}
+                        {#</div>#}
+                        {#<div class="text-center" style="width: 25%;clear: both;">#}
+                            {#{{ form_widget(formNewRubric.submit,{'label':'app.create'|trans,'attr':{'class':'btn-arepa','style':'width: 45%;margin: 10px 0'}}) }}#}
+                        {#</div>#}
+                    {#</div>#}
+                    {#{{ form_end(formNewRubric) }}#}
+                {#</div>#}
+            {#</div>#}
+        </div>
+
+        <!-- ACTIVE CLASSES INFO -->
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            {% set classCount = 0 %}
+            {% for class in activeClasses %}
+                <div class="x_panel">
+                    <div class="x_title">
+                        <h2>{{ 'app.dashboard.class_code'|trans }}: {{ class.classCode }}</h2>
+                        <ul class="nav navbar-right panel_toolbox" style="min-width: 20px">
+                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+                            </li>
+                        </ul>
+                        <div class="clearfix"></div>
+                    </div>
+                    <div class="x_content">
+                        <p class="text-muted font-13 m-b-30">
+                            {{ 'app.dashboard.lookup.course_lookup_message'|trans }}
+                        </p>
+                        <table id="datatable-fixed-header" class="table table-striped table-bordered" style="margin-bottom: 30px">
+                            <thead>
+                            <tr>
+                                {#<th>Nº</th>#}
+                                {#<th>{{ 'app.dashboard.course_name'|trans }}</th>#}
+                                {#<th>{{ 'app.dashboard.course_code'|trans }}</th>#}
+                                {#<th>{{ 'app.dashboard.academic_grade'|trans }}</th>#}
+                                {#<th>{{ 'app.dashboard.component'|trans }}</th>#}
+                                {#<th>{{ 'app.dashboard.course_credits'|trans }}</th>#}
+                                {#<th>{{ ''|trans }}</th>#}
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {#{% set count = 1 %}#}
+                            {#{% for class in courses %}#}
+                            <tr>
+                                {#<td>{{ count }}</td>#}
+                                {#<td><a href="{{ path('course_info',{'courseCode':course.courseCode}) }}">{{ course.nameCourse }}</a></td>#}
+                                {#<td>{{ course.courseCode }}</td>#}
+                                {#<td>{{ course.academicGrade }}</td>#}
+                                {#<td>{{ course.component }}</td>#}
+                                {#<td>{{ course.credits }}</td>#}
+                            </tr>
+                            {#{% set count = count + 1 %}#}
+                            {#{% endfor %}#}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                {% set classCount = classCount + 1 %}
+            {% endfor %}
+        </div>
+        <!-- END ACTIVE CLASSES INFO -->
+
+
+    {% endblock %}
+
+    {% block scriptImport %}
+        {{ parent() }}
+        <!-- Datatables -->
+        <script src="{{ asset('assets/vendors/datatables.net/js/jquery.dataTables.min.js') }}"></script>
+        <script src="{{ asset('assets/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js') }}"></script>
+        <script src="{{ asset('assets/vendors/datatables.net-buttons/js/dataTables.buttons.min.js') }}"></script>
+        <script src="{{ asset('assets/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js') }}"></script>
+        <script src="{{ asset('assets/vendors/datatables.net-buttons/js/buttons.flash.min.js') }}"></script>
+        <script src="{{ asset('assets/vendors/datatables.net-buttons/js/buttons.html5.min.js') }}"></script>
+        <script src="{{ asset('assets/vendors/datatables.net-buttons/js/buttons.print.min.js') }}"></script>
+        <script src="{{ asset('assets/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js') }}"></script>
+        <script src="{{ asset('assets/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js') }}"></script>
+        <script src="{{ asset('assets/vendors/datatables.net-responsive/js/dataTables.responsive.min.js') }}"></script>
+        <script src="{{ asset('assets/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js') }}"></script>
+        <script src="{{ asset('assets/vendors/datatables.net-scroller/js/dataTables.scroller.min.js') }}"></script>
+        <script src="{{ asset('assets/vendors/jszip/dist/jszip.min.js') }}"></script>
+        <script src="{{ asset('assets/vendors/pdfmake/build/pdfmake.min.js') }}"></script>
+        <script src="{{ asset('assets/vendors/pdfmake/build/vfs_fonts.js') }}"></script>
+        <!-- Datatables -->
+        <script>
+            $(document).ready(function () {
+                $.getScript("{{ asset('assets/js/newRubric.js') }}").done(function () {
+                    createRubric();
+                    $('#create_rubric').trigger("click")
+                });
+
+            });
+        </script>
+    {% endblock %}

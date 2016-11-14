@@ -7,6 +7,7 @@
  */
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 
@@ -109,6 +110,12 @@ Class Course
      * @ORM\Column(name="created_at",type="datetime", nullable=true)
      */
     private $createdAt = null;
+
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Rubric",mappedBy="courseCourse",cascade={"persist","remove"})
+     */
+    private $rubrics;
 
     /**
      * Get idCourse
@@ -422,18 +429,7 @@ Class Course
     {
         return $this->shortNameCourse;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->classes = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->courseIsDictatedByTeachers = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->courseHasSection = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->courseHasfaculty = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->courseContributesOutcome = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
+    
     /**
      * Add courseContributesOutcome
      *
@@ -490,5 +486,85 @@ Class Course
     public function getContributeOutcome()
     {
         return $this->contributeOutcome;
+    }
+
+    /**
+     * Get ActiveCourseContributesOutcomes
+     *
+     * @param Period $period
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getActiveCourseContributesOutcomes($period)
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('period',$period));
+        return $this->courseContributesOutcome->matching($criteria);
+    }
+
+    /**
+     * Add rubric
+     *
+     * @param \AppBundle\Entity\Rubric $rubric
+     *
+     * @return Course
+     */
+    public function addRubric(\AppBundle\Entity\Rubric $rubric)
+    {
+        $this->rubrics[] = $rubric;
+
+        return $this;
+    }
+
+    /**
+     * Remove rubric
+     *
+     * @param \AppBundle\Entity\Rubric $rubric
+     */
+    public function removeRubric(\AppBundle\Entity\Rubric $rubric)
+    {
+        $this->rubrics->removeElement($rubric);
+    }
+
+    /**
+     * Get rubrics
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRubrics()
+    {
+        return $this->rubrics;
+    }
+
+    /**
+     * Get RubricsByClassCourse
+     * @param ClassCourse $classCourse
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRubricsByClassCourse($classCourse){
+        $criteria=Criteria::create()
+            ->where(Criteria::expr()->eq('classCourseClassCourse',$classCourse));
+        return $this->rubrics->matching($criteria);
+    }
+
+    /**
+     * Get RubricsByTeacherDictatesCourse
+     * @param TeacherDictatesCourse $teacherDictatesCourse
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRubricsByTeacherDictatesCourse($teacherDictatesCourse){
+        $criteria=Criteria::create()
+            ->where(Criteria::expr()->eq('teacherDictatesCourse',$teacherDictatesCourse));
+        return $this->rubrics->matching($criteria);
+    }
+
+    /**
+     * Get RubricsNotMatchingTeacherDictatesCourse
+     * @param TeacherDictatesCourse $teacherDictatesCourse
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getRubricsNotMatchingTeacherDictatesCourse($teacherDictatesCourse){
+        $criteria=Criteria::create()
+            ->where(Criteria::expr()->neq('teacherDictatesCourse',$teacherDictatesCourse));
+        return $this->rubrics->matching($criteria);
     }
 }

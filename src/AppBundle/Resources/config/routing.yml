@@ -25,7 +25,7 @@ teacher_dashboard:
     defaults: {_controller: AppBundle:Teacher:teacherDashboard,type: 0}
 course_info:
     path: /course/info/{courseCode}
-    defaults: {_controller: AppBundle:Courses}
+    defaults: {_controller: AppBundle:Course:showCourseInfo}
 
 
 

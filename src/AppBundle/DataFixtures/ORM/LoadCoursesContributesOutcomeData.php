@@ -30,7 +30,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $outcomeG = $manager->getRepository("AppBundle:Outcome")->findOneBy(array('nameOutcome'=>'(g)'));
         $outcomeH = $manager->getRepository("AppBundle:Outcome")->findOneBy(array('nameOutcome'=>'(h)'));
         $outcomeI = $manager->getRepository("AppBundle:Outcome")->findOneBy(array('nameOutcome'=>'(i)'));
-        $outcomeJ = $manager->getRepository("AppBundle:Outcome")->findOneBy(array('nameOutcome'=>'(j)'));
+        $outcomeJ = $manager->getRepoPesitory("AppBundle:Outcome")->findOneBy(array('nameOutcome'=>'(j)'));
         $outcomeK = $manager->getRepository("AppBundle:Outcome")->findOneBy(array('nameOutcome'=>'(k)'));
 
         $period = $manager->getRepository("AppBundle:Period")->findOneBy(array('code'=>'1630'));

@@ -77,7 +77,7 @@
                         {% for course in activeCourses %}
                             <tr>
                                 <td>{{ count }}</td>
-                                <td><a href="#">{{ course.nameCourse }}</a></td>
+                                <td><a href="{{ path('course_info',{'courseCode':course.courseCode}) }}">{{ course.nameCourse }}</a></td>
                                 <td>{{ course.courseCode }}</td>
                                 <td>{{ course.academicGrade }}</td>
                                 <td>{{ course.component }}</td>
