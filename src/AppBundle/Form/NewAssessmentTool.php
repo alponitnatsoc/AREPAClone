@@ -26,6 +26,8 @@ class NewAssessmentTool extends AbstractType
             ))
             ->add('percentage',PercentType::class,array(
                 'required'=>true,
+                'label'=>false,
+                'scale'=>100,
             ))
             ->add('content',CollectionType::class,array(
                 'entry_type'=> NewContent::class,
@@ -48,6 +50,7 @@ class NewAssessmentTool extends AbstractType
                         ->setParameter('1',$course)
                         ->setParameter('2',$period);
                 },
+                'label'=>false,
                 'required'=>false,
                 'multiple'=>true,
                 'expanded'=>true,

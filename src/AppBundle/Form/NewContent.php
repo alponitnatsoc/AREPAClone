@@ -18,6 +18,9 @@ class NewContent extends AbstractType
                 'label'=>false,
                 'required'=>true,
             ))
+            ->add('info',TextType::class,array(
+                'label'=>false,
+            ))
             ->add('percentage',PercentType::class,array(
                 'label'=>false,
                 'required'=>true,

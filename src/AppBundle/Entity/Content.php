@@ -40,6 +40,16 @@ class Content
     private $percentageAssessmentTool=0.0;
 
     /**
+     * @ORM\Column(name="name",type="string",nullable=true);
+     */
+    private $name;
+
+    /**
+     * @ORM\Column(name="info",type="text",nullable=true);
+     */
+    private $info;
+
+    /**
      * @var boolean
      * @ORM\Column(name="contribute_outcome",type="boolean",nullable=true)
      */
@@ -243,5 +253,53 @@ class Content
     public function getContributeOutcome()
     {
         return $this->contributeOutcome;
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     *
+     * @return Content
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * Set info
+     *
+     * @param string $info
+     *
+     * @return Content
+     */
+    public function setInfo($info)
+    {
+        $this->info = $info;
+
+        return $this;
+    }
+
+    /**
+     * Get info
+     *
+     * @return string
+     */
+    public function getInfo()
+    {
+        return $this->info;
     }
 }

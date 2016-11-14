@@ -11,6 +11,16 @@
 
 
     {% block page_content %}
+        <style>
+            .table-rubric>thead>tr>th{
+                padding: 1px 2px;
+                vertical-align: middle;
+                text-align: center;
+            }
+            .table-rubric>tbody>tr>td{
+                padding: 0px;
+            }
+        </style>
         {% if courseContributesOutcomes is defined and courseContributesOutcomes|length > 0 %}
             <h3>{{ 'app.contributes'|trans }}</h3>
         {% endif %}
@@ -70,7 +80,7 @@
             <!-- END MY RUBRICS -->
             <!-- CREATE RUBRIC MODAL -->
             <div class="modal fade" id="modalCreateRubric" tabindex="-1" style="top: auto;bottom: auto" role="dialog" aria-labelledby="modalCreateRubricLabel" aria-hidden="true">
-                <div class="modal-dialog" style="width: 900px" role="document">
+                <div class="modal-dialog" style="width: 1100px" role="document">
                     <div class="modal-content" >
                         <div class="modal-header" style="padding: 6px;">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -81,45 +91,43 @@
                         <div class="modal-body">
                             {{ form_start(formRubric) }}
                             <div class="row" style="display: inline-block;margin: 5px 0px 10px 0px">
+                                <div class="col-md-5" style="width: 400px">
                                 {{ form_row(formRubric.name,{'attr':{'placeholder':'app.my_rubric'|trans,'style':'font-size:14px;padding: 1px 10px;'},'label':('app.name'|trans ~ ':'),'label_attr':{'style':'font-size: 16px;vertical-align: middle;margin: 0px 15px'}}) }}
+                                </div>
+                                <div class="col-md-5" style="width: 350px;">
+                                    {{ form_row(formRubric.assessmentPercentage,{'attr':{'placeholder':'0','style':'font-size:14px;padding: 1px 10px;width:60px'},'label':('app.accumulated_percentage'|trans ~ ':'),'label_attr':{'style':'font-size: 16px;vertical-align: middle;width:200px;margin: 0px 15px'}}) }}
+                                </div>
                             </div>
-                            <table class="table table-striped table-bordered" style="margin-bottom: 30px">
-                                <thead>
+                            <table class="table table-striped table-bordered table-rubric" style="margin-bottom: 2px">
+                                <thead class="text-center">
                                 <tr>
-                                    <th>{{ 'app.assessments'|trans }}</th>
-                                    <th>{{ 'app.percentage'|trans }}</th>
-                                    <th>{{ 'app.contents'|trans }}</th>
-                                    <th>{{ 'app.contents_name'|trans }}</th>
-                                    <th>{{ 'app.content_total'|trans }}</th>
-                                    <th>{{ 'app.contents_percentage'|trans }}</th>
-                                    <th>{{ 'app.contributes'|trans }}</th>
-                                    <th>{{ 'app.outcomes'|trans }}</th>
+                                    <th rowspan="2" style="width: 10%;">{{ 'app.assessments'|trans }}</th>
+                                    <th rowspan="2" style="width: 6%;">{{ 'app.rubric_percentage'|trans }}</th>
+                                    <th colspan="4">{{ 'app.contents'|trans }}</th>
+                                    <th rowspan="2" style="width: 5%;">{{ 'app.content_total'|trans }}</th>
+                                    <th rowspan="2" style="width: 9%;">{{ 'app.outcomes'|trans }}</th>
+                                    {#<th>{{ ''|trans }}</th>#}
+                                </tr>
+                                <tr>
+                                    <th style="width: 10%;">{{ 'app.contents_name'|trans }}</th>
+                                    <th style="width: 45%;">{{ 'app.contents_info'|trans }}</th>
+                                    <th style="width: 7%;">{{ 'app.contents_percentage'|trans }}</th>
+                                    <th style="width: 8%;">{{ 'app.contributes'|trans }}</th>
                                     {#<th>{{ ''|trans }}</th>#}
                                 </tr>
                                 </thead>
-                                <tbody>
-                                <tr>
-                                    <td id="tool-field-list" class="add_prototype_assessment" data-prototype="
-                                    {% filter escape%}
-                                        {{ include('@App/Teacher/assessmentToolPrototype.html.twig',{'form':formRubric.assessmentTool.vars.prototype|e}) }}
-                                    {% endfilter %}">
-                                    </td>
-                                </tr>
+                                <tbody id="tool-field-list" class="add_prototype_assessment" data-prototype="
+                                {% filter escape%}
+                                    {{ include('@App/Teacher/assessmentToolPrototype.html.twig',{'form':formRubric.assessmentTool.vars.prototype|e}) }}
+                                {% endfilter %}">
 
-                                {#{% set count = 1 %}#}
-                                {#{% for class in courses %}#}
-                                {#<tr>#}
-                                    {#<td>{{ count }}</td>#}
-                                    {#<td><a href="{{ path('course_info',{'courseCode':course.courseCode}) }}">{{ course.nameCourse }}</a></td>#}
-                                    {#<td>{{ course.courseCode }}</td>#}
-                                    {#<td>{{ course.academicGrade }}</td>#}
-                                    {#<td>{{ course.component }}</td>#}
-                                    {#<td>{{ course.credits }}</td>#}
-                                {#</tr>#}
-                                {#{% set count = count + 1 %}#}
-                                {#{% endfor %}#}
                                 </tbody>
                             </table>
+                            <div class="text-center" style=" width: 100%;margin: 17px 0px 0px;">
+                                <a id="add_tool_link" style="background-color: #30455a; border: 1px solid black; color: rgb(255, 255, 255); padding: 8px; text-decoration: none;"><span class="btn btn-grey" style="display: inline;"><i class="fa fa-plus-circle" style="color:rgb(255, 255, 255);"></i> {{ 'app.add'|trans }} {{ 'app.assessments'|trans }}</span></a>
+                                <a id="remove_tool_link" style="background-color: #b93737; border: 1px solid #290000;; color: rgb(255, 255, 255); padding: 8px; text-decoration: none;"><span class="btn btn-grey" style="display: inline;"><i class="fa fa-minus-circle " style="color:rgb(255, 255, 255);"></i> {{ 'app.delete'|trans }} {{ 'app.assessments'|trans }}</span></a>
+                            </div>
+
                             {{ form_end(formRubric) }}
                         </div>
                         <div class="modal-footer" style="padding: 6px;">

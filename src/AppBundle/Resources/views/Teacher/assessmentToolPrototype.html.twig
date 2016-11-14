@@ -1,19 +1,28 @@
 {% trans_default_domain 'FOSUserBundle' %}
 
-<div>
-    <div >
-        {{ form_row(form.type) }}
-    </div>
-    <div style="display: flex; margin: 5px 10px; width:100%;">
-        {{ form_label(form.otherTypes,null,{'label':('app.other_types'|trans ~ ':'),'label_attr':{'style':'width:30%;font-size: 12px'}}) }}
-        {{ form_widget(form.otherTypes,{'placeholder':'app.select_option'|trans,'attr':{'style':'width:48%;font-size:12px'}}) }}
-    </div>
-    <div style="display: flex; margin: 5px 0; width:100%;">
-        {{ form_label(form.outcomes,null,{'label':('app.outcomes'|trans ~ ':'),'label_attr':{'style':'width:30%;font-size: 14px'}}) }}
-        {{ form_widget(form.outcomes,{'attr':{'style':'width:60%;font-size:16px'}}) }}
-    </div>
-    <div style="display: flex; margin: 5px 0; width:100%;">
-        {{ form_label(form.percentage,null,{'label':('app.percentage'|trans ~ ':'),'label_attr':{'style':'width:30%;font-size: 14px'}}) }}
-        {{ form_widget(form.percentage,{'attr':{'style':'width:13%;font-size:12px;border-radius:5px;'}}) }}
-    </div>
-</div>
+    <td style="width: 10%">
+        {{ form_row(form.type,{'attr':{'style':'width: 100%'}}) }}
+    </td>
+
+    <td style="width: 6%">
+        {{ form_widget(form.percentage,{'attr':{'style':'width: 45px'}}) }}
+    </td>
+    <td colspan="4" style="width: 70%;">
+        <div id="content-field-list-__name__" class="add_prototype_assessment" data-prototype="
+                                {% filter escape%}
+                                    {{ include('@App/Teacher/contentPrototype.html.twig',{'form':form.content.vars.prototype|e}) }}
+                                {% endfilter %}">
+
+        </div>
+        <div class="text-center" style="width: 100%">
+            <a id="add_content_link___name__" style="color:#5a738e;;text-decoration: none;"><span class="btn btn-grey" style="display: inline;"><i class="fa fa-plus-circle" style="color:#5a738e;"></i> {{ 'app.add'|trans }} {{ 'app.dashboard.component'|trans }}</span></a>
+            <a id="remove_content_link___name__" style="color:#b93737;text-decoration: none;"><span class="btn btn-grey" style="display: inline;"><i class="fa fa-minus-circle " style="color:#b93737;"></i> {{ 'app.delete'|trans }} {{ 'app.dashboard.component'|trans }}</span></a>
+        </div>
+    </td>
+    <td style="width: 5%">
+        {{ form_row(form.contentPercentage,{'attr':{'style':'width: 30px'}}) }}
+    </td>
+    <td style="text-align: center!important;width: 9%">
+        {{ form_row(form.outcomes,{'attr':{'style':'width: 80px'}}) }}
+    </td>
+
