@@ -24,7 +24,7 @@ class PersonController extends Controller
         $form->add('save',submitType::class,array('label'=>'guardar'));
         $form->handleRequest($request);
         if($form->isValid()){
-            dump("hola");die;
+            dump("holaaaa");die;
         }
         return $this->render('AppBundle:Person:personForm.html.twig', array(
             'form'=>$form->createView(),

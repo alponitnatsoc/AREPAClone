@@ -205,7 +205,9 @@ body .container.body .right_col {
 
 .nav-md .container.body .right_col {
     padding: 10px 20px 0;
-    margin-left: 230px; }
+    margin-left: 230px;
+    min-width: 900px;
+}
 
 .nav_title {
     width: 230px;
@@ -4305,3 +4307,20 @@ ul.notifications {
     border: 1px solid #e5e5e5; }
 
 /** /Dropzone.js **/
+
+/** fixed panel **/
+
+.fixed-panel {
+    min-height: 80px;
+    max-height: 1200px;
+    max-width:   500px;
+    overflow-y: scroll;
+}
+
+.fixed-panel-heading{
+    max-width:   500px;
+}
+.table{
+    cellspacing: 0;
+    width: 100%;
+}

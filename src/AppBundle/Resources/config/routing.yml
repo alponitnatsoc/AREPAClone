@@ -31,8 +31,11 @@ view_class:
     defaults: {_controller: AppBundle:Course:showClassCourseInfo}
 
 student_dashboard:
-    path: /student/dashboard
-    defaults: {_controller: AppBundle:Dashboard:studentDashboard}
+    path: /student/dashboard/{active}
+    defaults: {_controller: AppBundle:Student:studentDashboard, active: null}
+#student_dashboard:
+#    path: /student/dashboard
+#    defaults: {_controller: AppBundle:Dashboard:studentDashboard}
 
 dashboard:
     path: /dashboard
