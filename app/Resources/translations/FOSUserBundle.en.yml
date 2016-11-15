@@ -139,6 +139,14 @@ app:
     select_document: 'Select an Excel file'
     active_course_list: 'Active Courses List'
     active_class_list: 'Active Classes List'
+    import_courses_success: 'Courses updated successfully'
+    import_courses_success_content: 'Courses information has been correctly updated.'
+    import_courses_fail: 'Courses update failed'
+    import_courses_fail_content: 'Courses information update fail, document had errors.'
+    import_courses_success: 'Classes updated successfully'
+    import_classes_success_content: 'Classes information has been correctly updated.'
+    import_classes_fail: 'Classes update failed'
+    import_classes_fail_content: 'Classes information update fail, document had errors.'
     messages:
         all_rigths: 'All Rigths Reserved'
         privacy_and_terms: 'Privacy and Terms'
@@ -206,10 +214,14 @@ app:
         class_id: 'Id'
         class_code: 'Class Code'
         class_period: 'Active Period'
-    students: 'Students'
-    action: 'Action'
-    success_rubric_change: 'Rubric changed successfully'
-    success_rubric_change_content: 'Rubric has been changed succesfully'
+        rubrics: 'Rubrics'
+        class_grade: 'Grade'
+        history_classes: 'Class History'
+        students: 'Students'
+        action: 'Action'
+        success_rubric_change: 'Rubric changed successfully'
+        success_rubric_change_content: 'Rubric has been changed succesfully'
+
 
 
 

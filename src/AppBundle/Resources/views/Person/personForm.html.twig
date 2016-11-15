@@ -23,13 +23,18 @@
                         "new_person_form[firstName]": {required: true, minlebgth: 2},
                         "new_person_form[secondName]": {minlebgth: 2},
                         "new_person_form[lastName1]": {required: true, minlebgth: 2},
-                        "new_person_form[lastName2]": { minlebgth: 2}
+                        "new_person_form[lastName2]": { required:true,minlebgth: 2}
                     },
                     messages: {
-                        "new_person_form[firstName]": {required: "Please write a name",minlength: "El nombre es muy corto" },
-                        "new_person_form[secondName]": {minlebgth: "El segundo nombre es muy corto"},
-                        "new_person_form[lastName1]": {required: "Por favor digita tu primer apellido", minlebgth: "El primer apellido es muy corto"},
-                        "new_person_form[lastName2]": {minlebgth: "El segundo apellido es muy corto"}
+                        "new_person_form[firstName]": {
+                            required: "Please write a name",
+                            minlength: "El nombre es muy corto" },
+                        "new_person_form[secondName]": {
+                                minlebgth: "El segundo nombre es muy corto"},
+                        "new_person_form[lastName1]": {
+                                    required: "Por favor digita tu primer apellido",
+                            minlebgth: "El primer apellido es muy corto"},
+                        "new_person_form[lastName2]": {required:"Ingresar su segundo nombre", minlebgth: "El segundo apellido es muy corto"}
                     }
                 });
             });

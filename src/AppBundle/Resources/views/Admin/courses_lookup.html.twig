@@ -61,6 +61,7 @@
                         </thead>
                         <tbody>
                         {% if active is defined and active %}
+                            {% set all = false %}
                             {% set count = 1 %}
                             {% for course in courses %}
                                 <tr>
@@ -75,6 +76,7 @@
                                 {% set count = count + 1 %}
                             {% endfor %}
                         {% else %}
+                            {% set all = true %}
                             {% set count = 1 %}
                             {% for course in courses %}
                                 <tr>
@@ -93,6 +95,44 @@
 
                         </tbody>
                     </table>
+                </div>
+                <div class="col-md-12 noPadding text-center" style="margin-bottom: 1%!important;">
+                    <a href="{{ path('export_document',{'type':'course','all':all}) }}" id="exportcourses" target="_blank" class="btn-arepa" style="margin: 5px 20px 0 0;padding: 4px 15px;font-size: 16px" >
+                        {{ 'app.download_info'|trans }}
+                    </a>
+                    <div id="import_teachers" class="btn-arepa" data-toggle="modal" data-target="#modalImportCourses" style="margin: 10px 0;padding: 4px 15px;font-size: 16px" >
+                        {{ 'app.update'|trans }}
+                    </div>
+                    <!-- IMPORT COURSE MODAL -->
+                    <div class="modal fade" id="modalImportCourses" tabindex="-1" style="top: 20%;bottom: auto" role="dialog" aria-labelledby="modalImportTeachersLabel" aria-hidden="true">
+                        <div class="modal-dialog" style="min-width: 300px;width: 300px;" role="document">
+                            <div class="modal-content" >
+                                <div class="modal-header" style="padding: 6px;">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true" style="font-size: 23px">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" id="modalImportTeachersLabel" style="font-size: 20px">{{ 'app.import_courses_title'|trans }}</h4>
+                                </div>
+                               {{ form_start(formInfoCourses) }}
+                                <div class="modal-body">
+                                    <div class="col-md-12">
+                                        <div id="import-course-info" class="col-md-12 text-center" style="cursor: pointer;"><img src="{{ asset('assets/images/XLSX.png') }}" style="width: 50%;margin: 10px 0"></div>
+                                    </div>
+                                    <div id="errorInfoCourse" class="col-md-12 noPadding">
+                                    </div>
+                                    <div class="col-md-12" >
+                                        {{ form_widget(formInfoCourses.document,{'required':true,'attr':{'style':'font-size: 16px; display:block; width:100%'}}) }}
+                                    </div>
+                                </div>
+                                <div class="modal-footer" style="padding: 6px;">
+                                    {{ form_widget(formInfoCourses.upload,{'attr':{'class':'btn btn-secondary','style':"background-color: #0b4c86;font-size: 16px; color: white; margin: auto"},'label':'app.import'|trans}) }}
+                                    <button type="button" class="btn btn-secondary" style="background-color: #36546f;font-size: 16px; color: white" data-dismiss="modal">{{ 'app.close'|trans }}</button>
+                                </div>
+                                {{ form_end(formInfoCourses) }}
+                            </div>
+                        </div>
+                    </div>
+                    <!-- END IMPORT COURSE MODAL -->
                 </div>
             </div>
         </div>
@@ -118,6 +158,67 @@
         <script src="{{ asset('assets/vendors/pdfmake/build/pdfmake.min.js') }}"></script>
         <script src="{{ asset('assets/vendors/pdfmake/build/vfs_fonts.js') }}"></script>
         <!-- Datatables -->
+
+
+        <!-- Datatables -->
+        <script>
+            jQuery(document).ready(function () {
+                $.getScript("{{ asset('assets/vendors/jquery-validation/dist/jquery.validate.js') }}").done(function () {
+                    $.getScript("{{ asset('assets/vendors/jquery-validation/dist/additional-methods.js') }}").done(function () {
+                        var validator;
+                        jQuery.validator.setDefaults({
+                            errorPlacement: function (error, element) {
+                                if(element.attr("name")=='add_document[document]'){
+                                    error.appendTo('#errorInfoTeachers');
+                                }
+
+                            }
+                        });
+                        validator = $("form[name='add_document']").validate({
+                            rules: {
+                                "add_document[document]": {
+                                    required: true,
+                                    accept:
+                                    'application/vnd.ms-excel,' +
+                                    'application/msexcel,' +
+                                    'application/x-msexcel,' +
+                                    'application/x-ms-excel,' +
+                                    'application/x-excel,' +
+                                    'application/x-dos_ms_excel,' +
+                                    'application/xls,' +
+                                    'application/x-xls,' +
+                                    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+                                }
+                            },
+                            messages: {
+                                "add_document[document]": {
+                                    required: "{{ 'form.select_file'|trans }}",
+                                    accept: '{{ 'form.invalid_file_type'|trans }}'
+                                }
+                            }
+                        });
+                    });
+                });
+
+
+                $("#import-course-info").on('click',function () {
+                    $("#add_document_document").click();
+                });
+
+                $("form[name='add_document']").on('submit',function (e) {
+                    var form = $("form[name='add_document']");
+                    if (!form.valid()) {
+                        e.preventDefault()
+                        return false;
+                    }else{
+                        return true;
+                    }
+                });
+            });
+        </script>
+
+
+
     {% endblock %}
 
 
