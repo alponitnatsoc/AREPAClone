@@ -58,6 +58,9 @@ app:
     grade: 'grade'
     class_course: 'Class Course'
     go_to_class: 'Go to Class'
+    go_to_course: 'Go to Course'
+    select_rubric: 'Select Rubric'
+    change_rubric: 'Change Rubric'
     student_code: 'Student Code'
     student_name: 'Student Name'
     student_email: 'student Email'
@@ -203,8 +206,10 @@ app:
         class_id: 'Id'
         class_code: 'Class Code'
         class_period: 'Active Period'
-
-
+    students: 'Students'
+    action: 'Action'
+    success_rubric_change: 'Rubric changed successfully'
+    success_rubric_change_content: 'Rubric has been changed succesfully'
 
 
 

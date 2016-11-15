@@ -64,6 +64,9 @@ app:
     content_total: '% Total'
     contributes: 'Contrinbuye'
     go_to_class: 'Ir a la Clase'
+    go_to_course: 'Ir al Curso'
+    select_rubric: 'Seleccionar Rubrica'
+    change_rubric: 'Cambiar Rúbrica'
     rubrics: 'Rubricas'
     create: 'Crear'
     name: 'Nombre'
@@ -212,4 +215,7 @@ app:
         class_id: 'Id'
         class_code: 'Código Clase'
         class_period: 'Periodo Activo'
-
+    students: 'Estudiantes'
+    action: 'Accion'
+    success_rubric_change: 'La rúbrica fúe '
+    success_rubric_change_content: 'Rubric has been changed succesfully'

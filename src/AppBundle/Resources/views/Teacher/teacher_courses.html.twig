@@ -69,6 +69,7 @@
                             <th>{{ 'app.dashboard.academic_grade'|trans }}</th>
                             <th>{{ 'app.dashboard.component'|trans }}</th>
                             <th>{{ 'app.dashboard.course_credits'|trans }}</th>
+                            <th>{{ 'app.action'|trans }}</th>
                             {#<th>{{ ''|trans }}</th>#}
                         </tr>
                         </thead>
@@ -82,6 +83,7 @@
                                 <td>{{ course.academicGrade }}</td>
                                 <td>{{ course.component }}</td>
                                 <td>{{ course.credits }}</td>
+                                <td><a class="btn-arepa" style="width: 80%;font-size: 15px" href="{{ path('course_info',{'courseCode':course.courseCode}) }}">{{ 'app.go_to_course'|trans }}</a></td>
                             </tr>
                             {% set count = count + 1 %}
                         {% endfor %}

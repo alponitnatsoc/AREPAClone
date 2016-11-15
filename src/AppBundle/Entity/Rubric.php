@@ -69,6 +69,11 @@ class Rubric
      */
     private $courseCourse;
 
+    public function __toString()
+    {
+        return $this->getName();
+    }
+
     /**
      * Constructor
      */
