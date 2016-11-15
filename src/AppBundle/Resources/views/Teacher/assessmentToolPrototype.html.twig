@@ -1,14 +1,13 @@
 {% trans_default_domain 'FOSUserBundle' %}
-
-    <td style="width: 10%">
+    <td style="width: 10%" class="no-padding">
         {{ form_row(form.type,{'attr':{'style':'width: 100%'}}) }}
     </td>
 
-    <td style="width: 6%">
+    <td style="width: 6%" class="no-padding">
         {{ form_widget(form.percentage,{'attr':{'style':'width: 45px'}}) }}
     </td>
-    <td colspan="4" style="width: 70%;">
-        <div id="content-field-list-__name__" class="add_prototype_assessment" data-prototype="
+    <td colspan="4" style="width: 70%;" class="no-padding">
+        <div id="content-field-list-__name__" style="width: 100%" class="add_prototype_assessment" data-prototype="
                                 {% filter escape%}
                                     {{ include('@App/Teacher/contentPrototype.html.twig',{'form':form.content.vars.prototype|e}) }}
                                 {% endfilter %}">
@@ -19,10 +18,10 @@
             <a id="remove_content_link___name__" style="color:#b93737;text-decoration: none;"><span class="btn btn-grey" style="display: inline;"><i class="fa fa-minus-circle " style="color:#b93737;"></i> {{ 'app.delete'|trans }} {{ 'app.dashboard.component'|trans }}</span></a>
         </div>
     </td>
-    <td style="width: 5%">
-        {{ form_row(form.contentPercentage,{'attr':{'style':'width: 30px'}}) }}
+    <td style="width: 5%" class="no-padding">
+        {{ form_row(form.contentPercentages,{'attr':{'style':'width: 30px'}}) }}
     </td>
-    <td style="text-align: center!important;width: 9%">
+    <td style="text-align: center!important;width: 9%" class="no-padding">
         {{ form_row(form.outcomes,{'attr':{'style':'width: 80px'}}) }}
     </td>
 

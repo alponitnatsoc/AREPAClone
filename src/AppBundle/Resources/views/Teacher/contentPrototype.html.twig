@@ -1,18 +1,15 @@
 {% trans_default_domain 'FOSUserBundle' %}
 <tr>
-    <td style="width: 120px">
+    <td style="width: 10%">
         {{ form_row(form.name,{'attr':{'style':'width: 100%'}}) }}
     </td>
-    <td style="width: 500px">
+    <td style="width: 45%">
         {{ form_row(form.info,{'attr':{'style':'width: 100%'}}) }}
     </td>
-    <td style="width: 80px">
-        {{ form_row(form.percentage,{'attr':{'style':'width: 60px'}}) }}
+    <td style="width: 7%">
+        {{ form_row(form.percentageContent,{'attr':{'style':'width: 50px'}}) }}
     </td>
-    <td style="width: 80px;text-align: center">
-        {{ form_row(form.contributes,{'attr':{'style':'width: 100%;text-align:center'}}) }}
+    <td class="text-center" style="width: 8%;text-align: center;padding: 0 30px;">
+        {{ form_row(form.contributes,{'attr':{'class':'text-center','style':'width: 100%;text-align:center'}}) }}
     </td>
 </tr>
-
-
-

@@ -36,9 +36,10 @@ class NewAssessmentTool extends AbstractType
                 'allow_delete'=>true,
                 'by_reference'=>false,
             ))
-            ->add('contentPercentage',PercentType::class,array(
+            ->add('contentPercentages',PercentType::class,array(
                 'label'=>false,
-                'disabled'=>true,
+                'disabled'=>false,
+                'required'=>true,
             ))
             ->add('outcomes',EntityType::class,array(
                 'class'=>'AppBundle\Entity\Outcome',

@@ -170,7 +170,7 @@ class ExportController extends Controller
                     $name = '';
                     $docType = '';
                     $docNumber = '';
-                    $userName = '';
+                    $email = '';
                     if($teacher->getPersonPerson()){
                         /** @var Person $person */
                         $person = $teacher->getPersonPerson();
@@ -180,7 +180,7 @@ class ExportController extends Controller
                         if($person->getSecondName())$name.=' '.$person->getSecondName();
                         if($person->getDocumentType())$docType= $person->getDocumentType();
                         if($person->getDocument())$docNumber = $person->getDocument();
-                        if($person->getUserName())$userName = $person->getUserName();
+                        if($person->getEmail())$email = $person->getEmail();
                     }
                     $cell->setValue($name);
                     $col++;
@@ -191,7 +191,7 @@ class ExportController extends Controller
                     $cell->setValue($docNumber);
                     $col++;
                     $cell=$sheet->getCellByColumnAndRow($col,$row);
-                    $cell->setValue($userName);
+                    $cell->setValue($email);
                     $row++;
                 }
                 $sheet->getStyle($iniCol.$iniRow.':'.$cell->getColumn().($row-1))->applyFromArray($allBordersNoContentStyle);

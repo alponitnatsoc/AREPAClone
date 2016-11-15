@@ -6,7 +6,7 @@
     {% endblock stylesheets %}
 
     {% block page_title %}
-        {{ 'app.course'|trans }}{{ course.nameCourse }} {{ 'app.dashboard.course_code_code'|trans }}: {{ course.courseCode }}
+        {{ 'app.class_course'|trans }}
     {%  endblock%}
 
 
@@ -197,7 +197,7 @@
                         </table>
                     </div>
                     <div class="col-md-12 text-center" style="font-size: 16px">
-                        <div class="btn-arepa" style="width: 20%" href="{{ path('view_class',{'idClass':class.idClass}) }}">{{ 'app.go_to_class'|trans }}</div>
+                        <div class="btn-areoa" href="{{ path('view_class',{'id_class':class.idClass}) }}">{{ 'app.go_to_class'|trans }}</div>
                     </div>
                 </div>
 

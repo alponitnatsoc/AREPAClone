@@ -21,12 +21,13 @@ class NewContent extends AbstractType
             ->add('info',TextType::class,array(
                 'label'=>false,
             ))
-            ->add('percentage',PercentType::class,array(
+            ->add('percentageContent',PercentType::class,array(
                 'label'=>false,
                 'required'=>true,
             ))
             ->add('contributes',CheckboxType::class,array(
                 'label'=>false,
+                'required'=>false
             ));
     }
 

@@ -5,6 +5,7 @@ namespace AppBundle\Form;
 use AppBundle\Entity\Course;
 use AppBundle\Entity\Period;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\PercentType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -21,8 +22,7 @@ class NewRubric extends AbstractType
             ->add('name',TextType::class)
             ->add('assessmentPercentage',PercentType::class,array(
                 'label'=>false,
-                'disabled'=>true,
-                'required'=>true,
+                'disabled'=>false,
             ))
             ->add('assessmentTool',CollectionType::class,array(
                 'entry_type'=> NewAssessmentTool::class,
@@ -30,10 +30,14 @@ class NewRubric extends AbstractType
                     'period'=>$period,
                     'course'=>$course,
                 ),
+                'required'=>true,
                 'label'=>false,
                 'allow_add'=>true,
                 'allow_delete'=>true,
                 'by_reference'=>false,
+            ))
+            ->add('outcomeChecked',CheckboxType::class,array(
+                'label'=>false,
             ));
 
 
@@ -42,7 +46,7 @@ class NewRubric extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'translation_domain'=>'FOSUserBundle',
+            'required'=>true,
             'period'=>new Period(),
             'course'=>new Course(),
         ));
