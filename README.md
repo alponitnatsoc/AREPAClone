@@ -63,9 +63,7 @@ after mysql server installation you must set root password, it's __essential__ t
 
 ```sudo mysql_secure_installation```
 
-when te secure installation is running, you will be asked if you want to use de **_VALIDATE PASSWORD PLUGGIN_**  
-press ```N```  to continue, in this step you can change root password, after that press ```Y``` to disable anonimous users and  
-then ```N```  to allow remote connections, finally press ```Y``` two times to reload privileges and remove test database.
+when te secure installation is running, you will be asked if you want to use de **_VALIDATE PASSWORD PLUGGIN_** press ```N```  to   continue, in this step you can change root password, after that press ```Y``` to disable anonimous users and then ```N```  to allow   remote connections, finally press ```Y``` two times to reload privileges and remove test database.  
 
 __to check if mysql service is running, just type:__
 
@@ -98,4 +96,45 @@ __Now is time to install Git and composer__
     
 now you can run ```composer -V``` to checkout composer version or ```composer self-update``` to update composer every time you want.
 
+__installing nodejs__
 
+    sudo apt-get update
+    sudo apt-get install nodejs
+    sudo apt autoremove
+
+__Now its time to clone the repository__
+
+Create or navigate to a new folder that will contain the repository and run from terminal:
+
+    git clone https://alponitnatsnoc@bitbucket.org/arepasoft/arepasoft.git
+    
+wait for all files been downloaded and navigate to arepasoft folder.
+
+Incide the folder run:
+
+    composer install
+    
+when asked for server host, database host and database port, you can submit the default values, but you need to specify the database   password previusly used in the mysql installation. Also, when asked for mailer_delivery parameter, you must specify a valid email for   test emails delivery.  
+
+At the end you should get some error messages due that the database doesn't exist, so you need to run:
+
+    php bin/console doctrine:database:create
+    php bin/console doctrine:schema:update --force
+
+_You can delete the database any time by running the command_ ```php bin/console doctrine:database:drop --force```
+
+When you get your database ready, run again ```composer install```.
+
+Once the process is finished, we need to install npm and bower running:
+
+    Sudo apt install npm
+    Sudo npm install -g bower
+    
+then you must run ```sudo ln -s /usr/bin/nodejs /usr/bin/node``` in order to rename nodejs command to match only node or the following   command, will not work.
+
+    Bower install
+    
+_this command will update all the assets, like bootstrap and jquery libraryes_ You also can add more assets to bower.lock or just tipe:
+
+    bower install --save asset_name
+    
