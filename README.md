@@ -78,4 +78,12 @@ If service is not running execute the command:
 
 ```sudo service mysql start``` 
 
-then check again the service status
+then check again the service status.
+
+__Now is time to install Git and composer__
+
+    sudo apt-get install git
+
+**composer can be a little bit tricky if you want to run it without _```composer_phar```_**
+
+
