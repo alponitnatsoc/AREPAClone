@@ -20,10 +20,11 @@ __then you can isntall php with:__
 
 you would be asked to continue, so press ```Y```
 
-After php5.6 has been installed you need to instal intl, json and zip with the commands:
+After php5.6 has been installed you need to instal intl, json,xml and zip with the commands:
 
     sudo apt-get install php5.6-intl
     sudo apt-get install php5.6-zip
+    sudo apt-get install php5.6-xml
     sudo apt-get install php5.6-json
 
 You may need to restart apache service and check packages installation with:
