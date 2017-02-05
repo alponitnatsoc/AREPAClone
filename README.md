@@ -7,7 +7,8 @@ Installation
 ============
 
 First you need to install PHP 5.6 or greater, for this go to terminal and run the following commands:
-*```sudo add-apt-repository ppa:ondrej/php```
+
+* ```sudo add-apt-repository ppa:ondrej/php```
 
 __If you get the__ ```add-apt-repository: command not found``` __run:__
 
