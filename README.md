@@ -138,3 +138,9 @@ _this command will update all the assets, like bootstrap and jquery libraryes_ Y
 
     bower install --save asset_name
     
+finally run: 
+    
+    composer update
+    bower update 
+    
+thats all your proyect is ready to go by running:  ```php bin/console server:run```
