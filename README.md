@@ -58,11 +58,11 @@ then run:
 
 ```sudo apt-get install mysql-server``` and press ```Y```
 
-after mysql server installation you must set root password, it's __essential__ that you remeber this password for later database configuration. 
+after mysql server installation you must set root password, it's __essential__ that you remeber this password for later  database configuration. 
 
 ```sudo mysql_secure_installation```
 
-when te secure installation is running, you will be asked if you want to use de VALIDATE PASSWORD PLUGGIN press ```N``` the continue, in this step you can change root password, after that press ```Y``` to disable anonimous users and then ```N``` to allow remote connections, finally press ```Y``` two times to reload privileges and remove test database.
+when te secure installation is running, you will be asked if you want to use de VALIDATE PASSWORD PLUGGIN press ```N```  to continue, in this step you can change root password, after that press ```Y``` to disable anonimous users and then ```N```  to allow remote connections, finally press ```Y``` two times to reload privileges and remove test database.
 
 __to check if mysql service is running, just type:__
 
