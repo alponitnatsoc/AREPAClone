@@ -32,6 +32,7 @@ You may need to restart apache service and check packages installation with:
 * ```php -m```
 
 __If everything goes fine you should se something like this:__
+
 ![php_installation_example](http://i.imgur.com/cJuI9hK.png" alt="commercial)
 
 Next step, verify server timezone and memory limit in your ```php.ini``` file, to find your php.ini file path just run:
@@ -39,6 +40,7 @@ Next step, verify server timezone and memory limit in your ```php.ini``` file, t
 * ```php --ini```
 
 then you can vim or nano the file and search for memory_limit and set it in something biger than 2Gb.
+
 ![memory_limit](http://i.imgur.com/1XzGR5L.png)
 
 normally php5.6 have php tokenizer and PDO, in case you dont find them run:
@@ -67,6 +69,7 @@ __to check if mysql service is running, just type:__
 ```sudo service mysql status```
 
 you should see something like this:
+
 ![mysql_server_status](http://i.imgur.com/5WJ0gEy.png)
 
 If service is not running execute the command:
