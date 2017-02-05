@@ -81,6 +81,10 @@ If service is not running execute the command:
 
 then check again the service status.
 
+__install mysql php PDO driver__
+
+```sudo apt-get install php5.6-mysql```
+
 __Now is time to install Git and composer__
 
     sudo apt-get install git
