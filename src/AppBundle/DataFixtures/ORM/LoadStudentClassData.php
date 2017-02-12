@@ -127,7 +127,7 @@ class LoadStudentClassData extends AbstractFixture implements OrderedFixtureInte
 
     public function getOrder()
     {
-        return 4;
+        return 6;
     }
 }
 ?> 

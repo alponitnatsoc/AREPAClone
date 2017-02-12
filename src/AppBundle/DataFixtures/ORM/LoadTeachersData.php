@@ -24,8 +24,41 @@ use Symfony\Bundle\TwigBundle\Controller\PreviewErrorController;
 
 class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterface
 {
+    /**
+     * ╔═══════════════════════════════════════════════════════════════╗
+     * ║ Function load                                                 ║
+     * ║ Creates data in the database entities from excel object.      ║
+     * ║ ------------------------------------------------------------- ║
+     * ║ Función load                                                  ║
+     * ║ Crea los datos en las entidades de la base de datos desde un  ║
+     * ║ objeto de excel o csv.                                        ║
+     * ║                                                               ║
+     * ║ Esta fixture carga la informacion de los profesores y sus     ║
+     * ║ cursos asignandoles la persona y la facultad.                 ║
+     * ╠═══════════════════════════════════════════════════════════════╣
+     * ║  @param ObjectManager $manager                                ║
+     * ╚═══════════════════════════════════════════════════════════════╝
+     */
     public function load(ObjectManager $manager)
     {
+        /**
+         * ╔═══════════════════════════════════════════════════════════════╗
+         * ║ Reporte generado en el catalogo de consultas SAE              ║
+         * ║ Modulo QA Catálogo y Programación                             ║
+         * ║ División 2 Programación de Clases                             ║
+         * ║ Opcion 5 Cursos Programados con asoc                          ║
+         * ║ Parametros de la consulta                                     ║
+         * ║ Institucion académica  PUJAV                                  ║
+         * ║ Grado Academico        PREG POSG                              ║
+         * ║ Org Académica          %                                      ║
+         * ║ Institucion académica  1430 - 1710                            ║
+         * ║ ------------------------------------------------------------- ║
+         * ║ Se debe generar el archivo csv                                ║
+         * ║ Una vez generado el archivo, guardarlo en el directorio:      ║
+         * ║ /web/uploads/Files/Teachers                                   ║
+         * ║ con nombre PUJAV_TEACHERS_(PREG_POST)_periodo                 ║
+         * ╚═══════════════════════════════════════════════════════════════╝
+         */
         $faculty = $manager->getRepository('AppBundle:Faculty')->findOneBy(array('facultyCode'=>'DPT-ISIST'));
         $teacher = $manager->getRepository('AppBundle:Teacher')->findOneBy(array('teacherCode'=>'ADMINISTRATOR'));
         if($teacher->getTeacherHasfaculty()->isEmpty()){
@@ -35,180 +68,199 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
             $teacher->addTeacherHasfaculty($facultyHasTeacher);
             $faculty->addFacultyHasTeacher($facultyHasTeacher);
             $manager->persist($facultyHasTeacher);
-            $manager->flush();
         }
         $manager->getConnection()->getConfiguration()->setSQLLogger(null);
         echo "  > Memory usage before: " . (memory_get_usage()/1048576) . " MB" . PHP_EOL;
         $dir = "web/uploads/Files/Teachers";
-        foreach (scandir($dir) as $file) {
+        foreach (scandir($dir) as $file) {//42 COL
             if ('.' === $file || '..' === $file || '.DS_Store' === $file) continue;
-            $inputFileType = \PHPExcel_IOFactory::identify($dir . '/' . $file);
-            echo '  > loading [2] '.$file.PHP_EOL;
-            if ($inputFileType != 'CSV') {
-                $objReader = \PHPExcel_IOFactory::createReader($inputFileType);
-                /** @var \PHPExcel $obj */
-                $obj = $objReader->load($dir . '/' . $file);
-                echo "  > loading [2] Teachers and ClassCourses". PHP_EOL;
-                /** @var \PHPExcel_Worksheet $worksheet */
-                foreach ($obj->getWorksheetIterator() as $worksheet) {
-                    $rowCount = 1;
-                    /** @var \PHPExcel_Worksheet_Row $row */
-                    foreach ($worksheet->getRowIterator() as $row) {
-                        if ($rowCount > 2) {
-                            $facultyCode = $worksheet->getCellByColumnAndRow(11, $rowCount)->getValue();
-                            if($facultyCode =='INGEN') $facultyCode='DPT-ISIST';
-                            /** @var Faculty $faculty */
-                            $faculty = $manager->getRepository("AppBundle:Faculty")->findOneBy(array('facultyCode' =>$facultyCode));
-                            if(!$faculty){
-                                $faculty = new Faculty();
-                                $faculty->setFacultyCode($facultyCode);
-                                $manager->persist($faculty);
-                                $manager->flush();
-                            }
-                            $courseCode = $worksheet->getCellByColumnAndRow(4, $rowCount)->getValue();
-                            /** @var Course $course */
-                            $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode' => $courseCode));
-                            if(!$course and $faculty){
-                                $course = new Course();
-                                $course->setCourseCode($courseCode);
-                                $course->setAcademicGrade($worksheet->getCellByColumnAndRow(0, $rowCount)->getValue());
-                                $course->setCreatedAt(new \DateTime());
-                                $course->setNameCourse($worksheet->getCellByColumnAndRow(1, $rowCount)->getValue());
-                                $course->setComponent($worksheet->getCellByColumnAndRow(14, $rowCount)->getValue());
-                                $facultyHasCourse = new FacultyHasCourses();
-                                $facultyHasCourse->setCourseCourse($course);
-                                $facultyHasCourse->setFacultyFaculty($faculty);
-                                $faculty->addFacultyHasCourse($facultyHasCourse);
-                                $course->addCourseHasfaculty($facultyHasCourse);
-                                $manager->persist($facultyHasCourse);
-                                $manager->flush();
-                            }elseif($course and $faculty and !$manager->getRepository("AppBundle:FacultyHasCourses")->findOneBy(array('facultyFaculty'=>$faculty, 'courseCourse'=>$course))){
-                                if(!$course->getComponent())
-                                    $course->setComponent($worksheet->getCellByColumnAndRow(14, $rowCount)->getValue());
-                                if($course->getComponent()=='Teorico' and $worksheet->getCellByColumnAndRow(14, $rowCount)->getValue()=='Teorico Práctico')
-                                    $course->setComponent($worksheet->getCellByColumnAndRow(14, $rowCount)->getValue());
-                                $facultyHasCourse = new FacultyHasCourses();
-                                $facultyHasCourse->setCourseCourse($course);
-                                $facultyHasCourse->setFacultyFaculty($faculty);
-                                $faculty->addFacultyHasCourse($facultyHasCourse);
-                                $course->addCourseHasfaculty($facultyHasCourse);
-                                $manager->persist($facultyHasCourse);
-                                $manager->flush();
-                            }else{
-                                if(!$course->getComponent())
-                                    $course->setComponent($worksheet->getCellByColumnAndRow(14, $rowCount)->getValue());
-                                if($course->getComponent()=='Teorico' and $worksheet->getCellByColumnAndRow(14, $rowCount)->getValue()=='Teorico Práctico')
-                                    $course->setComponent($worksheet->getCellByColumnAndRow(14, $rowCount)->getValue());
-                                $manager->persist($course);
-                                $manager->flush();
-                            }
-                            /** @var Person $person */
-                            $person = $manager->getRepository("AppBundle:Person")->findOneBy(array('document' => $worksheet->getCellByColumnAndRow(18, $rowCount)->getValue()));
-                            if(!$person){
-                                $person = new Person();
-                                $person->setDocumentType('CC');
-                                $person->setDocument($worksheet->getCellByColumnAndRow(18, $rowCount)->getValue());
-                                $strex = explode(',', $worksheet->getCellByColumnAndRow(19, $rowCount)->getValue());
-                                $nameex = explode(' ', $strex[1]);
-                                $lastex = explode(' ', $strex[0]);
-                                if (count($nameex) > 1) {
-                                    $person->setSecondName($nameex[1]);
+            $filePath = $dir.'/'.$file;//
+            $handle = fopen($filePath,'r');//opening the file in read mode
+            $data = array();//initialising array data
+            if($handle) {//checking handle opens correctly
+                echo '  > loading [3] ' . $file . PHP_EOL;
+                $count = 0;//course count in 0
+                while (($buffer = fgets($handle)) !== false) {//getting the first line
+                    $buffer = str_replace("\r\n", '', $buffer);//replacing special chars \r\n
+                    $buffer = explode("//b\"", iconv("Windows-1252//IGNORE", "UTF-8", $buffer))[0];//ignoring special chars /b" in file
+                    while (count(str_getcsv($buffer)) < 42) {//checking data attributes lenght is 15
+                        $str = fgets($handle);//if not getting the next handle
+                        $str = str_replace("\r\n", '', $str);//replacing special chars \r\n
+                        $str = explode("//b\"", iconv("Windows-1252//IGNORE", "UTF-8", $str))[0];//ignoring special chars /b" in file
+                        $buffer .= $str;//adding the next handle to the previous handle
+                    }
+                    $data[$count]=str_getcsv($buffer);//getting all the course information in data array
+                    if($count>0){
+                        $facultyCode = $data[$count][11];
+                        if($facultyCode =='INGEN') $facultyCode='DPT-ISIST';
+                        /** @var Faculty $faculty */
+                        $faculty = $manager->getRepository("AppBundle:Faculty")->findOneBy(array('facultyCode' =>$facultyCode));
+                        if(!$faculty){
+                            $faculty = new Faculty();
+                            $faculty->setFacultyCode($facultyCode);
+                            $manager->persist($faculty);
+                        }
+                        $courseCode = $data[$count][4];
+                        /** @var Course $course */
+                        $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode' => $courseCode));
+                        $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode' => $courseCode));
+                        if(!$course and $faculty){
+                            $course = new Course();
+                            $academicGrade = $data[$count][0];
+                            $courseName = $data[$count][1];
+                            $courseComponent = $data[$count][14];
+                            $course->setCourseCode($courseCode);
+                            $course->setAcademicGrade($academicGrade);
+                            $course->setCreatedAt(new \DateTime());
+                            $course->setNameCourse($courseName);
+                            $course->setComponent($courseComponent);
+                            $facultyHasCourse = new FacultyHasCourses();
+                            $facultyHasCourse->setCourseCourse($course);
+                            $facultyHasCourse->setFacultyFaculty($faculty);
+                            $faculty->addFacultyHasCourse($facultyHasCourse);
+                            $course->addCourseHasfaculty($facultyHasCourse);
+                            $manager->persist($facultyHasCourse);
+                        }elseif($course and $faculty and !$manager->getRepository("AppBundle:FacultyHasCourses")->findOneBy(array('facultyFaculty'=>$faculty, 'courseCourse'=>$course))){
+                            $courseComponent = $data[$count][14];
+                            if(!$course->getComponent())
+                                $course->setComponent($courseComponent);
+                            if($course->getComponent()=='Teorico' and $courseComponent =='Teorico Práctico')
+                                $course->setComponent($courseComponent);
+                            $facultyHasCourse = new FacultyHasCourses();
+                            $facultyHasCourse->setCourseCourse($course);
+                            $facultyHasCourse->setFacultyFaculty($faculty);
+                            $faculty->addFacultyHasCourse($facultyHasCourse);
+                            $course->addCourseHasfaculty($facultyHasCourse);
+                            $manager->persist($facultyHasCourse);
+                        }else{
+                            $courseComponent = $data[$count][14];
+                            if(!$course->getComponent())
+                                $course->setComponent($courseComponent);
+                            if($course->getComponent()=='Teorico' and $courseComponent=='Teorico Práctico')
+                                $course->setComponent($courseComponent);
+                            $manager->persist($course);
+                        }
+                        $documentNumber = $data[$count][18];
+                        $fullName = $data[$count][19];//getting the person name
+                        /** @var Person $person */
+                        $person = $manager->getRepository("AppBundle:Person")->findOneBy(array('document' => $documentNumber));
+                        if(!$person){
+                            $person = new Person();
+                            $person->setDocumentType('CC');
+                            $person->setDocument($documentNumber);
+                            $strex = explode(',', $fullName);
+                            $nameex = explode(' ', $strex[1]);
+                            $lastex = explode(' ', $strex[0]);
+                            $secondName = '';
+                            if(count($nameex) == 1){
+                                $secondName = '';
+                            } elseif (count($nameex) == 2) {
+                                $secondName.= $nameex[1];
+                            } elseif (count($nameex) > 2){
+                                for($i = 1 ; $i<count($nameex);$i++){
+                                    $secondName.=($i==1)?$nameex[$i]:' '.$nameex[$i];
                                 }
-                                $person->setFirstName($nameex[0]);
-                                if (count($lastex) > 1) {
-                                    $person->setLastName2($lastex[1]);
-                                }
-                                $person->setLastName1($lastex[0]);
-                                $manager->persist($person);
-                                $manager->flush();
-                            }else{
-                                if($person->getDocument()!= $worksheet->getCellByColumnAndRow(18, $rowCount)->getValue())$person->setDocument($worksheet->getCellByColumnAndRow(18, $rowCount)->getValue());
-                                $manager->persist($person);
-                                $manager->flush();
                             }
-                            /** @var Teacher $teacher */
-                            $teacher = $manager->getRepository("AppBundle:Teacher")->findOneBy(array('teacherCode' => $worksheet->getCellByColumnAndRow(17, $rowCount)->getValue()));
-                            if(!$teacher){
-                                $teacher = new Teacher();
-                                $teacher->setTeacherCode($worksheet->getCellByColumnAndRow(17, $rowCount)->getValue());
-                                if(!$person->getTeacher()){
-                                    $teacher->setPersonPerson($person);
-                                    $person->setTeacher($teacher);
-                                    $manager->persist($person);
+                            $firstName = $nameex[0];
+                            $lastName2 = '';
+                            if(count($lastex) == 1){
+                                $lastName2 = '';
+                            } elseif (count($lastex) == 2) {
+                                $lastName2 .= $lastex[1];
+                            }elseif(count($lastex) > 2){
+                                for($i = 1 ; $i<count($lastex);$i++){
+                                    $lastName2.=($i==1)?$lastex[$i]:' '.$lastex[$i];
                                 }
-                                $manager->persist($teacher);
-                                $manager->flush();
-                            }elseif(!$teacher->getPersonPerson() and !$person->getTeacher()){
+                            }
+                            $lastName1 = $lastex[0];
+                            $person->setFirstName($firstName);
+                            $person->setSecondName($secondName);
+                            $person->setLastName1($lastName1);
+                            $person->setLastName2($lastName2);
+                            $manager->persist($person);
+                        }else{
+                            if($person->getDocument()!= $documentNumber)$person->setDocument($documentNumber);
+                            $manager->persist($person);
+                        }
+                        $teacherCode = $data[$count][17];
+                        /** @var Teacher $teacher */
+                        $teacher = $manager->getRepository("AppBundle:Teacher")->findOneBy(array('teacherCode' => $teacherCode));
+                        if(!$teacher){
+                            $teacher = new Teacher();
+                            $teacher->setTeacherCode($teacherCode);
+                            if(!$person->getTeacher()){
                                 $teacher->setPersonPerson($person);
                                 $person->setTeacher($teacher);
                                 $manager->persist($person);
-                                $manager->persist($teacher);
-                                $manager->flush();
                             }
-                            /** @var FacultyHasCourses $facultyHasCourse */
-                            $facultyHasCourse = $manager->getRepository("AppBundle:FacultyHasCourses")->findOneBy(array('facultyFaculty'=>$faculty,'courseCourse'=>$course));
-                            if(!$facultyHasCourse){
-                                $facultyHasCourse = new FacultyHasCourses();
-                                $facultyHasCourse->setCourseCourse($course);
-                                $facultyHasCourse->setFacultyFaculty($faculty);
-                                $faculty->addFacultyHasCourse($facultyHasCourse);
-                                $course->addCourseHasfaculty($facultyHasCourse);
-                                $manager->persist($facultyHasCourse);
-                                $manager->flush();
-                            }
-                            /** @var TeacherDictatesCourse $teacherDictatesCourse */
-                            $teacherDictatesCourse = $manager->getRepository("AppBundle:TeacherDictatesCourse")->findOneBy(array('courseCourse' => $course, 'teacherTeacher' => $teacher));
-                            if(!$teacherDictatesCourse){
-                                $teacherDictatesCourse = new TeacherDictatesCourse();
-                                $teacherDictatesCourse->setCourseCourse($course);
-                                $teacherDictatesCourse->setTeacherTeacher($teacher);
-                                $teacher->addTeacherDictatesCourse($teacherDictatesCourse);
-                                $course->addCourseIsDictatedByTeacher($teacherDictatesCourse);
-                                $manager->persist($teacherDictatesCourse);
-                                $manager->flush();
-                            }
-                            /** @var FacultyHasTeachers $facultyHasTeacher */
-                            $facultyHasTeacher = $manager->getRepository("AppBundle:FacultyHasTeachers")->findOneBy(array('facultyFaculty' => $faculty, 'teacherTeacher' => $teacher));
-                            if(!$facultyHasTeacher){
-                                $facultyHasTeacher = new FacultyHasTeachers();
-                                $facultyHasTeacher->setFacultyFaculty($faculty);
-                                $facultyHasTeacher->setTeacherTeacher($teacher);
-                                $teacher->addTeacherHasfaculty($facultyHasTeacher);
-                                $faculty->addFacultyHasTeacher($facultyHasTeacher);
-                                $manager->persist($facultyHasTeacher);
-                                $manager->flush();
-                            }
-                            /** @var ClassCourse $classCourse */
-                            $classCourse = $manager->getRepository("AppBundle:ClassCourse")->findOneBy(array('classCode'    => $worksheet->getCellByColumnAndRow(6, $rowCount)->getValue(),
-                                                                                                             'activePeriod' =>$worksheet->getCellByColumnAndRow(10, $rowCount)->getValue()));
-                            if(!$classCourse){
-                                $classCourse = new ClassCourse();
-                                $classCourse->setClassCode($worksheet->getCellByColumnAndRow(6, $rowCount)->getValue());
-                                $classCourse->setCourseCourse($course);
-                                $classCourse->setActivePeriod($worksheet->getCellByColumnAndRow(10, $rowCount)->getValue());
-                                $course->addClass($classCourse);
-                                $manager->persist($classCourse);
-                                $manager->flush();
-                            }
-                            /** @var TeacherDictatesClassCourse $teacherDictatesClassCourse */
-                            $teacherDictatesClassCourse = $manager->getRepository("AppBundle:TeacherDictatesClassCourse")->findOneBy(array('teacherDictatesCourse' => $teacherDictatesCourse, 'classClass' => $classCourse));
-                            if(!$teacherDictatesClassCourse){
-                                $teacherDictatesClassCourse = new TeacherDictatesClassCourse();
-                                $teacherDictatesClassCourse->setClassClass($classCourse);
-                                $teacherDictatesClassCourse->setTeacherDictatesCourse($teacherDictatesCourse);
-                                $classCourse->addClassHasTeacher($teacherDictatesClassCourse);
-                                $teacherDictatesCourse->addClass($teacherDictatesClassCourse);
-                                $manager->persist($teacherDictatesClassCourse);
-                                $manager->flush();
-                            }
-                            $manager->clear();
+                            $manager->persist($teacher);
+                        }elseif(!$teacher->getPersonPerson() and !$person->getTeacher()){
+                            $teacher->setPersonPerson($person);
+                            $person->setTeacher($teacher);
+                            $manager->persist($person);
+                            $manager->persist($teacher);
                         }
-                        if($rowCount%2000==0){
-                            echo "  > loading [2] Teachers and ClassCourses..".$rowCount. PHP_EOL;
+                        /** @var FacultyHasCourses $facultyHasCourse */
+                        $facultyHasCourse = $manager->getRepository("AppBundle:FacultyHasCourses")->findOneBy(array('facultyFaculty'=>$faculty,'courseCourse'=>$course));
+                        if(!$facultyHasCourse){
+                            $facultyHasCourse = new FacultyHasCourses();
+                            $facultyHasCourse->setCourseCourse($course);
+                            $facultyHasCourse->setFacultyFaculty($faculty);
+                            $faculty->addFacultyHasCourse($facultyHasCourse);
+                            $course->addCourseHasfaculty($facultyHasCourse);
+                            $manager->persist($facultyHasCourse);
                         }
-                        $rowCount++;
+                        /** @var TeacherDictatesCourse $teacherDictatesCourse */
+                        $teacherDictatesCourse = $manager->getRepository("AppBundle:TeacherDictatesCourse")->findOneBy(array('courseCourse' => $course, 'teacherTeacher' => $teacher));
+                        if(!$teacherDictatesCourse){
+                            $teacherDictatesCourse = new TeacherDictatesCourse();
+                            $teacherDictatesCourse->setCourseCourse($course);
+                            $teacherDictatesCourse->setTeacherTeacher($teacher);
+                            $teacher->addTeacherDictatesCourse($teacherDictatesCourse);
+                            $course->addCourseIsDictatedByTeacher($teacherDictatesCourse);
+                            $manager->persist($teacherDictatesCourse);
+                        }
+                        /** @var FacultyHasTeachers $facultyHasTeacher */
+                        $facultyHasTeacher = $manager->getRepository("AppBundle:FacultyHasTeachers")->findOneBy(array('facultyFaculty' => $faculty, 'teacherTeacher' => $teacher));
+                        if(!$facultyHasTeacher){
+                            $facultyHasTeacher = new FacultyHasTeachers();
+                            $facultyHasTeacher->setFacultyFaculty($faculty);
+                            $facultyHasTeacher->setTeacherTeacher($teacher);
+                            $teacher->addTeacherHasfaculty($facultyHasTeacher);
+                            $faculty->addFacultyHasTeacher($facultyHasTeacher);
+                            $manager->persist($facultyHasTeacher);
+                        }
+                        $classCode = $data[$count][6];
+                        $activePeriod = $data[$count][10];
+                        /** @var ClassCourse $classCourse */
+                        $classCourse = $manager->getRepository("AppBundle:ClassCourse")->findOneBy(array('classCode'=> $classCode,'activePeriod' =>$activePeriod));
+                        if(!$classCourse){
+                            $classCourse = new ClassCourse();
+                            $classCourse->setClassCode($classCode);
+                            $classCourse->setCourseCourse($course);
+                            $classCourse->setActivePeriod($activePeriod);
+                            $course->addClass($classCourse);
+                            $manager->persist($classCourse);
+                        }
+                        /** @var TeacherDictatesClassCourse $teacherDictatesClassCourse */
+                        $teacherDictatesClassCourse = $manager->getRepository("AppBundle:TeacherDictatesClassCourse")->findOneBy(array('teacherDictatesCourse' => $teacherDictatesCourse, 'classClass' => $classCourse));
+                        if(!$teacherDictatesClassCourse){
+                            $teacherDictatesClassCourse = new TeacherDictatesClassCourse();
+                            $teacherDictatesClassCourse->setClassClass($classCourse);
+                            $teacherDictatesClassCourse->setTeacherDictatesCourse($teacherDictatesCourse);
+                            $classCourse->addClassHasTeacher($teacherDictatesClassCourse);
+                            $teacherDictatesCourse->addClass($teacherDictatesClassCourse);
+                            $manager->persist($teacherDictatesClassCourse);
+                        }
+                        $manager->flush();
+                        $manager->clear();
                     }
+                    if($count%2000 == 0){
+                        echo '  > loading [4] Teachers and ClassCourses..'.$file.'..'.$count.PHP_EOL;
+                    }
+                    $count++;
                 }
+                fclose($handle);
             }
         }
         echo "  > Memory usage after: " . (memory_get_usage()/1048576) . " MB" . PHP_EOL;
@@ -216,7 +268,7 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
 
     public function getOrder()
     {
-        return 2;
+        return 4;
     }
 }
 ?> 

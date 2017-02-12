@@ -33,7 +33,7 @@ class LoadInitialData extends AbstractFixture implements OrderedFixtureInterface
      * ║ Esta fixture carga la informacion de las facultades y sus     ║
      * ║ cursos.                                                       ║
      * ╠═══════════════════════════════════════════════════════════════╣
-     * ║  @param ObjectManager $manager                               ║
+     * ║  @param ObjectManager $manager                                ║
      * ╚═══════════════════════════════════════════════════════════════╝
      */
     public function load(ObjectManager $manager)

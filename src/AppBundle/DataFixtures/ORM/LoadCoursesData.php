@@ -23,12 +23,46 @@ use AppBundle\Entity\Course;
 
 class LoadCoursesData extends AbstractFixture implements OrderedFixtureInterface
 {
+    /**
+     * ╔═══════════════════════════════════════════════════════════════╗
+     * ║ Function load                                                 ║
+     * ║ Creates data in the database entities from excel object.      ║
+     * ║ ------------------------------------------------------------- ║
+     * ║ Función load                                                  ║
+     * ║ Crea los datos en las entidades de la base de datos desde un  ║
+     * ║ objeto de excel o csv.                                        ║
+     * ║                                                               ║
+     * ║ Esta fixture carga la informacion de los cursos y profesores  ║
+     * ║ asignandoles la persona y la facultad                         ║
+     * ╠═══════════════════════════════════════════════════════════════╣
+     * ║  @param ObjectManager $manager                                ║
+     * ╚═══════════════════════════════════════════════════════════════╝
+     */
     public function load(ObjectManager $manager)
     {
+        /**
+         * ╔═══════════════════════════════════════════════════════════════╗
+         * ║ Reporte generado en el catalogo de consultas SAE              ║
+         * ║ Modulo QA Catálogo y Programación                             ║
+         * ║ División 2 Programación de Clases                             ║
+         * ║ Opcion 4 Listas Asociación Profesores                         ║
+         * ║ Parametros de la consulta                                     ║
+         * ║ Institucion académica  PUJAV                                  ║
+         * ║ Grado Académico        pregreado o postgrado                  ║
+         * ║ Org Académica          %                                      ║
+         * ║ Ciclo Lectivo:         0910-1420                              ║
+         * ║ ------------------------------------------------------------- ║
+         * ║ Se debe generar el archivo csv para cada ciclo lectivo        ║
+         * ║ Una vez generado el archivo, guardarlo en el directorio:      ║
+         * ║ /web/uploads/Files/Courses                                    ║
+         * ║ con nombre PUJAV_(POST o PREG)_cicloLectivo.csv               ║
+         * ╚═══════════════════════════════════════════════════════════════╝
+         */
+
         $manager->getConnection()->getConfiguration()->setSQLLogger(null);
         echo "  > Memory usage before: " . (memory_get_usage()/1048576) . " MB" . PHP_EOL;
         $dir = "web/uploads/Files/Courses";
-        foreach (scandir($dir) as $file) {
+        foreach (scandir($dir) as $file) {//42 COL
             if ('.' === $file || '..' === $file || '.DS_Store' === $file) continue;
             $filePath = $dir.'/'.$file;//
             $handle = fopen($filePath,'r');//opening the file in read mode
@@ -74,7 +108,6 @@ class LoadCoursesData extends AbstractFixture implements OrderedFixtureInterface
                             } elseif (count($nameex) == 2) {
                                 $secondName.= $nameex[1];
                             } elseif (count($nameex) > 2){
-                                $algo =true;
                                 for($i = 1 ; $i<count($nameex);$i++){
                                     $secondName.=($i==1)?$nameex[$i]:' '.$nameex[$i];
                                 }
@@ -86,7 +119,6 @@ class LoadCoursesData extends AbstractFixture implements OrderedFixtureInterface
                             } elseif (count($lastex) == 2) {
                                 $lastName2 .= $lastex[1];
                             }elseif(count($lastex) > 2){
-                                $algo =true;
                                 for($i = 1 ; $i<count($lastex);$i++){
                                     $lastName2.=($i==1)?$lastex[$i]:' '.$lastex[$i];
                                 }
