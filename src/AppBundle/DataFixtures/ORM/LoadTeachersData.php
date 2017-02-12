@@ -70,7 +70,7 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
             $manager->persist($facultyHasTeacher);
         }
         $manager->getConnection()->getConfiguration()->setSQLLogger(null);
-        echo "\033[0;33m  > \033[0;32m Memory usage before: " . (memory_get_usage()/1048576) . " MB\033[0;00m" . PHP_EOL;
+        echo "\033[0;33m  >\033[0;32m Memory usage before: " . (memory_get_usage()/1048576) . " MB\033[0;00m" . PHP_EOL;
         $dir = "web/uploads/Files/Teachers";
         foreach (scandir($dir) as $file) {//42 COL
             if ('.' === $file || '..' === $file || '.DS_Store' === $file) continue;
@@ -78,7 +78,7 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
             $handle = fopen($filePath,'r');//opening the file in read mode
             $data = array();//initialising array data
             if($handle) {//checking handle opens correctly
-                echo "\033[0;33m  > \033[0;32m loading [4] " . $file ."\033[0;00m". PHP_EOL;
+                echo "\033[0;33m  >\033[0;32m loading [4] " . $file ."\033[0;00m". PHP_EOL;
                 $count = 0;//course count in 0
                 while (($buffer = fgets($handle)) !== false) {//getting the first line
                     $buffer = str_replace("\r\n", '', $buffer);//replacing special chars \r\n
@@ -101,7 +101,7 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
                             $manager->persist($faculty);
                         }
                         if($faculty==null){
-                            echo "\033[0;33m  > \033[0;31m ERROR: loading [4] Teachers and ClassCourses..".$file.'..'.$count."\033[0;00m".PHP_EOL;
+                            echo "\033[0;33m  >\033[0;31m ERROR: loading [4] Teachers and ClassCourses..".$file.'..'.$count."\033[0;00m".PHP_EOL;
                             continue;
                         }
                         $courseCode = $data[$count][4];
@@ -142,7 +142,7 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
                             $manager->persist($course);
                         }
                         if ($facultyHasCourse == null){
-                            echo "\033[0;33m > \033[0;31m ERROR: loading [4] Teachers and ClassCourses..".$file.' '.$count."\033[0;00m".PHP_EOL;
+                            echo "\033[0;33m >\033[0;31m ERROR: loading [4] Teachers and ClassCourses..".$file.' '.$count."\033[0;00m".PHP_EOL;
                             continue;
                         }
                         $documentNumber = $data[$count][18];
@@ -251,14 +251,14 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
                         $manager->clear();
                     }
                     if($count%2000 == 0){
-                        echo "\033[0;33m  > \033[0;32m loading [4] Teachers and ClassCourses..".$file.' '.$count."\033[0;00m".PHP_EOL;
+                        echo "\033[0;33m  >\033[0;32m loading [4] Teachers and ClassCourses..".$file.' '.$count."\033[0;00m".PHP_EOL;
                     }
                     $count++;
                 }
                 fclose($handle);
             }
         }
-        echo "\033[0;33m  > \033[0;32m Memory usage after: " . (memory_get_usage()/1048576) . " MB\033[0;00m" . PHP_EOL;
+        echo "\033[0;33m  >\033[0;32m Memory usage after: " . (memory_get_usage()/1048576) . " MB\033[0;00m" . PHP_EOL;
     }
 
     public function getOrder()
