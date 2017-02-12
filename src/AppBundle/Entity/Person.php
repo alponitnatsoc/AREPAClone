@@ -83,6 +83,11 @@ class Person
      */
     private $personNotification;
 
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Notification",mappedBy="sender")
+     */
+    private $notifications;
+
     /** @ORM\Column(name="email",type="string",nullable=true) */
     private $email;
 
@@ -470,5 +475,39 @@ class Person
     public function getGender()
     {
         return $this->gender;
+    }
+
+    /**
+     * Add notification
+     *
+     * @param \AppBundle\Entity\Notification $notification
+     *
+     * @return Person
+     */
+    public function addNotification(\AppBundle\Entity\Notification $notification)
+    {
+        $this->notifications[] = $notification;
+
+        return $this;
+    }
+
+    /**
+     * Remove notification
+     *
+     * @param \AppBundle\Entity\Notification $notification
+     */
+    public function removeNotification(\AppBundle\Entity\Notification $notification)
+    {
+        $this->notifications->removeElement($notification);
+    }
+
+    /**
+     * Get notifications
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getNotifications()
+    {
+        return $this->notifications;
     }
 }

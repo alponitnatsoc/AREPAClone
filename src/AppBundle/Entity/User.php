@@ -38,6 +38,14 @@ class User extends BaseUser
         parent::__construct();
     }
 
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
 
     /**
      * Set personPerson

@@ -2,7 +2,9 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\ClassCourse;
 use AppBundle\Entity\Course;
+use AppBundle\Entity\CourseContributesOutcome;
 use AppBundle\Entity\Faculty;
 use AppBundle\Entity\Period;
 use AppBundle\Entity\Person;
@@ -79,7 +81,26 @@ class AdminController extends Controller
                 $tempPeriod=$formActivePeriod->get('period')->getData();
                 try{
                     if($tempPeriod->getCode()!= $plataform->getActivePeriod()){
+                        /** @var Period $period */
+                        $period = $em->getRepository("AppBundle:Period")->findOneBy(array('code'=>$plataform->getActivePeriod()));
+                        $ccos = $em->getRepository('AppBundle:CourseContributesOutcome')->findBy(array('period'=>$period));
                         $plataform->setActivePeriod($tempPeriod->getCode());
+                        /** @var Period $newPeriod */
+                        $newPeriod = $em->getRepository("AppBundle:Period")->findOneBy(array('code'=>$plataform->getActivePeriod()));
+                        $newCcos = $em->getRepository('AppBundle:CourseContributesOutcome')->findBy(array('period'=>$newPeriod));
+                        if(count($newCcos)==0){
+                            /** @var CourseContributesOutcome $cco */
+                            foreach ($ccos as $cco) {
+                                $newcco = new CourseContributesOutcome();
+                                $newcco->setCourseCourse($cco->getCourseCourse());
+                                $newcco->setBloomLevel($cco->getBloomLevel());
+                                $newcco->setOutcomeOutcome($cco->getOutcomeOutcome());
+                                $newcco->setPeriod($newPeriod);
+                                $cco->getOutcomeOutcome()->addCourseContributesOutcome($newcco);
+                                $em->persist($cco->getOutcomeOutcome());
+                                $em->persist($newcco);
+                            }
+                        }
                         $em->persist($plataform);
                         $em->flush();
                         $this->addFlash('message_title','app.success_period_change');
@@ -194,6 +215,24 @@ class AdminController extends Controller
             $em = $this->getDoctrine()->getManager();
             $plataform = $em->getRepository("AppBundle:Plataform")->find(1);
             $faculty = $this->getUser()->getPersonPerson()->getTeacher()->getTeacherHasfaculty()->first()->getFacultyFaculty();
+
+
+            $formCoursesInfo= $this->createForm(addDocument::class);
+            $formCoursesInfo
+                ->add('upload', SubmitType::class);
+            $formCoursesInfo['type']->setData('CourseInfo');
+            $formCoursesInfo->handleRequest($request);
+
+            if ($formCoursesInfo->isValid() and $formCoursesInfo->isSubmitted()) {
+                if($this->checkFileCourses($formCoursesInfo->get('document')->getData())){
+                    $this->addFlash('message_title','app.import_courses_success');
+                    $this->addFlash('message_body','app.import_courses_success_content');
+                }else{
+                    $this->addFlash('message_title','app.import_courses_fail');
+                    $this->addFlash('message_body','app.import_courses_fail_content');
+                }
+            }
+
             if($active){
                 /** @var QueryBuilder $query */
                 $query = $em->createQueryBuilder();
@@ -207,6 +246,7 @@ class AdminController extends Controller
                     ->setParameter('2',$faculty);
                 $courses = $query->getQuery()->getResult();
                 return $this->render('@App/Admin/courses_lookup.html.twig',array(
+                    'formInfoCourses'=>$formCoursesInfo->createView(),
                     'courses'=>$courses,
                     'faculty'=>$faculty,
                     'active'=>true,
@@ -214,6 +254,7 @@ class AdminController extends Controller
             }else{
                 $facultyHasCourses = $faculty->getFacultyHasCourses();
                 return $this->render('@App/Admin/courses_lookup.html.twig',array(
+                    'formInfoCourses'=>$formCoursesInfo->createView(),
                     'courses'=>$facultyHasCourses,
                     'faculty'=>$faculty,
                 ));
@@ -290,6 +331,23 @@ class AdminController extends Controller
             $em = $this->getDoctrine()->getManager();
             $plataform = $em->getRepository("AppBundle:Plataform")->find(1);
             $faculty = $this->getUser()->getPersonPerson()->getTeacher()->getTeacherHasfaculty()->first()->getFacultyFaculty();
+
+            $formClassesInfo= $this->createForm(addDocument::class);
+            $formClassesInfo
+                ->add('upload', SubmitType::class);
+            $formClassesInfo['type']->setData('ClassesInfo');
+            $formClassesInfo->handleRequest($request);
+
+            if ($formClassesInfo->isValid() and $formClassesInfo->isSubmitted()) {
+                if($this->checkFileClasses($formClassesInfo->get('document')->getData())){
+                    $this->addFlash('message_title','app.import_classes_success');
+                    $this->addFlash('message_body','app.import_classes_success_content');
+                }else{
+                    $this->addFlash('message_title','app.import_classes_fail');
+                    $this->addFlash('message_body','app.import_classes_fail_content');
+                }
+            }
+
             /** @var QueryBuilder $query */
             $query = $em->createQueryBuilder();
             $query->select('cl');
@@ -302,7 +360,8 @@ class AdminController extends Controller
                 ->setParameter('1',$plataform->getActivePeriod())
                 ->setParameter('2',$faculty);
 
-            return $this->render('@App/Admin/Classes_lookup.html.twig',array(
+            return $this->render('@App/Admin/classes_lookup.html.twig',array(
+                'formInfoClasses'=>$formClassesInfo->createView(),
                 'classes'=>$query->getQuery()->getResult(),
                 'faculty'=>$faculty,
             ));
@@ -410,5 +469,66 @@ class AdminController extends Controller
             return true;
         }
     }
+
+
+    private function checkFileCourses($file){
+        if (!file_exists('uploads/Files/TempFiles')) {
+            mkdir('uploads/Files/TempFiles', 0777, true);
+        }
+        $em = $this->getDoctrine()->getManager();
+        $absPath = getcwd();
+        $tempFile = $file;
+        $fileName = md5(uniqid()).'.'.$tempFile->guessExtension();
+        $tempFile->move('uploads/Files/Tempfiles',$fileName);
+        $inputFileType = \PHPExcel_IOFactory::identify('uploads/Files/Tempfiles'. '/' . $fileName);
+        $objReader = \PHPExcel_IOFactory::createReader($inputFileType);
+        /** @var \PHPExcel $obj */
+        $obj = $objReader->load('uploads/Files/Tempfiles' . '/' . $fileName);
+        /** @var \PHPExcel_Worksheet $worksheet */
+        foreach ($obj->getWorksheetIterator() as $worksheet) {
+            $rowCount = 1;
+            /** @var \PHPExcel_Worksheet_Row $row */
+            foreach ($worksheet->getRowIterator() as $row) {
+                if($rowCount==2){
+                    if(!($worksheet->getCellByColumnAndRow(0, $rowCount)->getValue() == 'ID' and
+                        $worksheet->getCellByColumnAndRow(1, $rowCount)->getValue() == 'CODE' and
+                        $worksheet->getCellByColumnAndRow(2, $rowCount)->getValue() == 'SHORT NAME' and
+                        $worksheet->getCellByColumnAndRow(3, $rowCount)->getValue() == 'NAME' and
+                        $worksheet->getCellByColumnAndRow(4, $rowCount)->getValue() == 'ACADEMIC_GRADE' and
+                        $worksheet->getCellByColumnAndRow(5, $rowCount)->getValue() == 'COMPONENT' and
+                        $worksheet->getCellByColumnAndRow(6, $rowCount)->getValue() == 'CREDITS')){
+                        unlink('uploads/Files/Tempfiles'.'/'.$fileName);
+                        return false;
+                    }
+                }
+                if ($rowCount > 2) {
+                    $courseCode = $worksheet->getCellByColumnAndRow(1, $rowCount)->getValue();
+                    $courseShortName = $worksheet->getCellByColumnAndRow(2, $rowCount)->getValue();
+                    $courseName = $worksheet->getCellByColumnAndRow(3, $rowCount)->getValue();
+                    $courseAcademicGrade = $worksheet->getCellByColumnAndRow(4, $rowCount)->getValue();
+                    $component = $worksheet->getCellByColumnAndRow(5, $rowCount)->getValue();
+                    $credits = $worksheet->getCellByColumnAndRow(6, $rowCount)->getValue();
+                    /** @var Course $course */
+                    $course = $em->getRepository('AppBundle:Course')->findOneBy(array('courseCode'=>$courseCode));
+                    if($course) {
+                        if ($course->getShortNameCourse() != $courseShortName) $course->setShortNameCourse($courseShortName);
+                        if ($course->getNameCourse() != $courseName) $course->setNameCourse($courseName);
+                        if ($course->getAcademicGrade() != $courseAcademicGrade) $course->setAcademicGrade($courseAcademicGrade);
+                        if ($course->getComponent() != $component) $course->setComponent($component);
+                        if ($course->getCredits() != $courseShortName) $course->setCredits($credits);
+
+                        $em->persist($course);
+                        $em->flush();
+                      }
+                    }
+
+                $rowCount++;
+            }
+            unlink('uploads/Files/Tempfiles'.'/'.$fileName);
+            return true;
+        }
+    }
+
+
 
 }

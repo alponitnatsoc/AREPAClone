@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 use Symfony\Component\Validator\Constraints\DateTime;
@@ -51,7 +52,7 @@ class Teacher
     private $teacherCode;
 
     /**
-     * @ORM\OneToMany( targetEntity="AppBundle\Entity\TeacherHasRole" , mappedBy="teacherTeacher", cascade={"persist","remove"})
+     * @ORM\OneToMany( targetEntity="AppBundle\Entity\TeacherHasRole", mappedBy="teacherTeacher", cascade={"persist","remove"})
      */
     private $teacherHasRoles;
 
@@ -69,17 +70,6 @@ class Teacher
      * @ORM\Column(name="created_at",type="datetime", nullable=true)
      */
     private $createdAt = null;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->teacherHasRoles = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->teacherDictatesCourses = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->teacherHasfaculty = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->createdAt = new \DateTime();
-    }
 
     /**
      * Get idTeacher
@@ -264,4 +254,13 @@ class Teacher
     {
         return $this->createdAt;
     }
+
+    public function getTeacherDictatesCourseByCourse($course)
+    {
+        $criteria = Criteria::create()
+            ->where(Criteria::expr()->eq('courseCourse',$course));
+        return $this->teacherDictatesCourses->matching($criteria);
+    }
+
+
 }

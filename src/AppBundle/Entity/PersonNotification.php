@@ -44,4 +44,62 @@ class PersonNotification
      */
     private $personPerson;
 
+
+    /**
+     * Get idPersonNotification
+     *
+     * @return integer
+     */
+    public function getIdPersonNotification()
+    {
+        return $this->idPersonNotification;
+    }
+
+    /**
+     * Set notificationNotification
+     *
+     * @param \AppBundle\Entity\Notification $notificationNotification
+     *
+     * @return PersonNotification
+     */
+    public function setNotificationNotification(\AppBundle\Entity\Notification $notificationNotification = null)
+    {
+        $this->notificationNotification = $notificationNotification;
+
+        return $this;
+    }
+
+    /**
+     * Get notificationNotification
+     *
+     * @return \AppBundle\Entity\Notification
+     */
+    public function getNotificationNotification()
+    {
+        return $this->notificationNotification;
+    }
+
+    /**
+     * Set personPerson
+     *
+     * @param \AppBundle\Entity\Person $personPerson
+     *
+     * @return PersonNotification
+     */
+    public function setPersonPerson(\AppBundle\Entity\Person $personPerson = null)
+    {
+        $this->personPerson = $personPerson;
+
+        return $this;
+    }
+
+    /**
+     * Get personPerson
+     *
+     * @return \AppBundle\Entity\Person
+     */
+    public function getPersonPerson()
+    {
+        return $this->personPerson;
+    }
 }

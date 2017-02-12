@@ -19,15 +19,18 @@ var CURRENT_URL = window.location.href.split('?')[0],
 
 
 // Sidebar
-$(window).resize(function () {
+$(window).on('focus change click resize',function () {
     $MAIN_CONTAINER.css('height',InitialHeight);
-    // reset height
     var windowHeight = $(window).height(),
         container=$CONTAINER.height(),
         footerHeight= $FOOTER.outerHeight(),
         leftCol = $LEFT_COL.outerHeight(),
+        mainContainer = container<windowHeight ? windowHeight : container+footerHeight,
         minHeight = Math.max(windowHeight,container,leftCol);
-        console.log(modalHeight);
+    $('.modal-dialog').css('height',windowHeight);
+    $('.modal-dialog').css('maxHeight',windowHeight);
+    $('.modal-content').css('maxHeight',windowHeight*0.85);
+    $(".modal-body").css('maxHeight',windowHeight*0.70);
     $LEFT_COL.css('minHeight',windowHeight);
     $LEFT_COL.css('maxHeight',windowHeight);
     $MAIN_CONTAINER.css('height',(container+footerHeight) > minHeight ? container + footerHeight : minHeight);
@@ -42,7 +45,10 @@ $(document).ready(function() {
             leftCol = $LEFT_COL.outerHeight(),
             mainContainer = container<windowHeight ? windowHeight : container+footerHeight,
             minHeight = Math.max(windowHeight,container,leftCol);
-
+        $('.modal-dialog').css('height',windowHeight);
+        $('.modal-dialog').css('maxHeight',windowHeight);
+        $('.modal-content').css('maxHeight',windowHeight*0.85);
+        $(".modal-body").css('maxHeight',windowHeight*0.70);
         $LEFT_COL.css('minHeight',windowHeight);
         $LEFT_COL.css('maxHeight',windowHeight);
         $MAIN_CONTAINER.css('height',(container+footerHeight) > minHeight ? container + footerHeight : minHeight);

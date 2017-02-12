@@ -23,10 +23,19 @@ teacher_lookup:
 teacher_dashboard:
     path: /teacher/dashboard/{type}
     defaults: {_controller: AppBundle:Teacher:teacherDashboard,type: 0}
+course_info:
+    path: /course/info/{courseCode}
+    defaults: {_controller: AppBundle:Course:showCourseInfo}
+view_class:
+    path: /class/info/{idClass}
+    defaults: {_controller: AppBundle:Course:showClassCourseInfo}
 
 student_dashboard:
-    path: /student/dashboard
-    defaults: {_controller: AppBundle:Dashboard:studentDashboard}
+    path: /student/dashboard/{active}
+    defaults: {_controller: AppBundle:Student:studentDashboard, active: null}
+#student_dashboard:
+#    path: /student/dashboard
+#    defaults: {_controller: AppBundle:Dashboard:studentDashboard}
 
 dashboard:
     path: /dashboard
