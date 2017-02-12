@@ -2,24 +2,20 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\ClassCourse;
+use AppBundle\Entity\Course;
 use AppBundle\Entity\Faculty;
 use AppBundle\Entity\Period;
 use AppBundle\Entity\Person;
-use AppBundle\Entity\Teacher;
 use AppBundle\Entity\User;
 use AppBundle\Form\addDocument;
-use Doctrine\DBAL\Types\StringType;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Config\Definition\Exception\Exception;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class AdminController extends Controller
 {

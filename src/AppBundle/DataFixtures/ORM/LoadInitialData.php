@@ -83,7 +83,7 @@ class LoadInitialData extends AbstractFixture implements OrderedFixtureInterface
                                 $faculty->setName(strval($facultyName));
                                 $faculty->setFacultyCode($facultyCode);
                                 $manager->persist($faculty);
-                                echo "   [--Facultad: ".$faculty->getName()." Cod: ".$facultyCode." creada.--]".PHP_EOL;
+                                //echo "   [--Facultad: ".$faculty->getName()." Cod: ".$facultyCode." creada.--]".PHP_EOL;
                             }
                             $courseCode = $data[$count][4];//getting the course code
                             $credits = $data[$count][7];//getting the course credits
@@ -104,7 +104,7 @@ class LoadInitialData extends AbstractFixture implements OrderedFixtureInterface
                                 $faculty->addFacultyHasCourse($facultyHasCourse);
                                 $course->addCourseHasfaculty($facultyHasCourse);
                                 $manager->persist($facultyHasCourse);
-                                echo "   [--Curso: ".$course->getNameCourse()." Cod: ".$course->getCourseCode()." creado.--]".PHP_EOL;
+                                //echo "   [--Curso: ".$course->getNameCourse()." Cod: ".$course->getCourseCode()." creado.--]".PHP_EOL;
                             }elseif($faculty and $course
                                 and !$manager->getRepository("AppBundle:FacultyHasCourses")->findOneBy(array('facultyFaculty'=>$faculty, 'courseCourse'=>$course))){
                                 //if both course and faculty exist but relation between them doesn't exist creating only the relation

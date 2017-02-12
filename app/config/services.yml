@@ -13,3 +13,7 @@ services:
         arguments: ['%kernel.default_locale%']
         tags:
             - { name: kernel.event_subscriber }
+
+    app.arepa_utils:
+        class: AppBundle\Controller\UtilsController
+        arguments: ["@service_container"]
