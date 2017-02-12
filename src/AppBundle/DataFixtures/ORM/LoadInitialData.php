@@ -54,7 +54,7 @@ class LoadInitialData extends AbstractFixture implements OrderedFixtureInterface
          * ╚═══════════════════════════════════════════════════════════════╝
          */
         $manager->getConnection()->getConfiguration()->setSQLLogger(null);
-        echo "  > Memory usage before: " . (memory_get_usage()/1048576) . " MB" . PHP_EOL;//printing actual memory usage
+        echo "\033[0;33m  >\033[0;32m Memory usage before: " . (memory_get_usage()/1048576) . " MB \033[0;00m " . PHP_EOL;//printing actual memory usage
         $dir = "web/uploads/Files/Faculty";//getting the faculties directory
         foreach (scandir($dir) as $file) {//getting all the files in directory
             if ('.' === $file || '..' === $file) continue;//ignoring linux and os x temporal files
@@ -131,14 +131,14 @@ class LoadInitialData extends AbstractFixture implements OrderedFixtureInterface
                             $manager->clear();
                         }
                         if($count%2000 == 0){
-                            echo '  > loading [1] Faculties and Courses..'.$count.PHP_EOL;
+                            echo "\033[0;33m  >\033[0;32m loading [1] Faculties and Courses..".$count."\033[0;00m".PHP_EOL;
                         }
                         $count++;
                     }
                     fclose($handle);
                 }
         }
-        echo "  > Memory usage after: " . (memory_get_usage()/1048576) . " MB" . PHP_EOL;
+        echo "\033[0;33m  >\033[0;32m Memory usage after: " . (memory_get_usage()/1048576) . " MB \033[0;00m". PHP_EOL;
     }
 
     public function getOrder()

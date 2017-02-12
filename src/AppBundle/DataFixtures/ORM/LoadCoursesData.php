@@ -60,7 +60,7 @@ class LoadCoursesData extends AbstractFixture implements OrderedFixtureInterface
          */
 
         $manager->getConnection()->getConfiguration()->setSQLLogger(null);
-        echo "  > Memory usage before: " . (memory_get_usage()/1048576) . " MB" . PHP_EOL;
+        echo "\033[0;33m  >\033[0;32m Memory usage before: " . (memory_get_usage()/1048576) . " MB \033[0;00m" . PHP_EOL;
         $dir = "web/uploads/Files/Courses";
         foreach (scandir($dir) as $file) {//42 COL
             if ('.' === $file || '..' === $file || '.DS_Store' === $file) continue;
@@ -68,7 +68,7 @@ class LoadCoursesData extends AbstractFixture implements OrderedFixtureInterface
             $handle = fopen($filePath,'r');//opening the file in read mode
             $data = array();//initialising array data
             if($handle){//checking handle opens correctly
-                echo '  > loading [3] '.$file.PHP_EOL;
+                echo "\033[0;33m  >\033[0;32m loading [3] ".$file."\033[0;00m".PHP_EOL;
                 $count = 0;//course count in 0
                 while(($buffer = fgets($handle)) !== false) {//getting the first line
                     $buffer = str_replace("\r\n",'',$buffer);//replacing special chars \r\n
@@ -223,14 +223,14 @@ class LoadCoursesData extends AbstractFixture implements OrderedFixtureInterface
                         $manager->clear();
                     }
                     if($count%2000 == 0){
-                        echo '  > loading [3] Teacher and ClassCourse '.$file.'..'.$count.PHP_EOL;
+                        echo "\033[0;33m  >\033[0;32m loading [3] Teacher and ClassCourse ".$file.' '.$count."\033[0;00m".PHP_EOL;
                     }
                     $count++;
                 }
                 fclose($handle);
             }
         }
-        echo "  > Memory usage after: " . (memory_get_usage()/1048576) . " MB" . PHP_EOL;
+        echo "\033[0;33m  >\033[0;32m Memory usage after: " . (memory_get_usage()/1048576) ." MB\033[0;00m". PHP_EOL;
     }
 
     public function getOrder()

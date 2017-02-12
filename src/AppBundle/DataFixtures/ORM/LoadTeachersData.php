@@ -70,7 +70,7 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
             $manager->persist($facultyHasTeacher);
         }
         $manager->getConnection()->getConfiguration()->setSQLLogger(null);
-        echo "  > Memory usage before: " . (memory_get_usage()/1048576) . " MB" . PHP_EOL;
+        echo "\033[0;33m  > \033[0;32m Memory usage before: " . (memory_get_usage()/1048576) . " MB\033[0;00m" . PHP_EOL;
         $dir = "web/uploads/Files/Teachers";
         foreach (scandir($dir) as $file) {//42 COL
             if ('.' === $file || '..' === $file || '.DS_Store' === $file) continue;
@@ -78,7 +78,7 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
             $handle = fopen($filePath,'r');//opening the file in read mode
             $data = array();//initialising array data
             if($handle) {//checking handle opens correctly
-                echo '  > loading [3] ' . $file . PHP_EOL;
+                echo "\033[0;33m  > \033[0;32m loading [4] " . $file ."\033[0;00m". PHP_EOL;
                 $count = 0;//course count in 0
                 while (($buffer = fgets($handle)) !== false) {//getting the first line
                     $buffer = str_replace("\r\n", '', $buffer);//replacing special chars \r\n
@@ -95,16 +95,19 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
                         if($facultyCode =='INGEN') $facultyCode='DPT-ISIST';
                         /** @var Faculty $faculty */
                         $faculty = $manager->getRepository("AppBundle:Faculty")->findOneBy(array('facultyCode' =>$facultyCode));
-                        if(!$faculty){
+                        if($faculty == null){
                             $faculty = new Faculty();
                             $faculty->setFacultyCode($facultyCode);
                             $manager->persist($faculty);
                         }
+                        if($faculty==null){
+                            echo "\033[0;33m  > \033[0;31m ERROR: loading [4] Teachers and ClassCourses..".$file.'..'.$count."\033[0;00m".PHP_EOL;
+                            continue;
+                        }
                         $courseCode = $data[$count][4];
                         /** @var Course $course */
                         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode' => $courseCode));
-                        $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode' => $courseCode));
-                        if(!$course and $faculty){
+                        if($course == null){
                             $course = new Course();
                             $academicGrade = $data[$count][0];
                             $courseName = $data[$count][1];
@@ -120,25 +123,27 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
                             $faculty->addFacultyHasCourse($facultyHasCourse);
                             $course->addCourseHasfaculty($facultyHasCourse);
                             $manager->persist($facultyHasCourse);
-                        }elseif($course and $faculty and !$manager->getRepository("AppBundle:FacultyHasCourses")->findOneBy(array('facultyFaculty'=>$faculty, 'courseCourse'=>$course))){
-                            $courseComponent = $data[$count][14];
-                            if(!$course->getComponent())
-                                $course->setComponent($courseComponent);
-                            if($course->getComponent()=='Teorico' and $courseComponent =='Teorico Práctico')
-                                $course->setComponent($courseComponent);
-                            $facultyHasCourse = new FacultyHasCourses();
-                            $facultyHasCourse->setCourseCourse($course);
-                            $facultyHasCourse->setFacultyFaculty($faculty);
-                            $faculty->addFacultyHasCourse($facultyHasCourse);
-                            $course->addCourseHasfaculty($facultyHasCourse);
-                            $manager->persist($facultyHasCourse);
                         }else{
                             $courseComponent = $data[$count][14];
                             if(!$course->getComponent())
                                 $course->setComponent($courseComponent);
                             if($course->getComponent()=='Teorico' and $courseComponent=='Teorico Práctico')
                                 $course->setComponent($courseComponent);
+                            if($manager->getRepository("AppBundle:FacultyHasCourses")->findOneBy(array('facultyFaculty'=>$faculty, 'courseCourse'=>$course))==null){
+                                $facultyHasCourse = new FacultyHasCourses();
+                                $facultyHasCourse->setCourseCourse($course);
+                                $facultyHasCourse->setFacultyFaculty($faculty);
+                                $faculty->addFacultyHasCourse($facultyHasCourse);
+                                $course->addCourseHasfaculty($facultyHasCourse);
+                                $manager->persist($facultyHasCourse);
+                            }else{
+                                $facultyHasCourse =$manager->getRepository("AppBundle:FacultyHasCourses")->findOneBy(array('facultyFaculty'=>$faculty, 'courseCourse'=>$course));
+                            }
                             $manager->persist($course);
+                        }
+                        if ($facultyHasCourse == null){
+                            echo "\033[0;33m > \033[0;31m ERROR: loading [4] Teachers and ClassCourses..".$file.' '.$count."\033[0;00m".PHP_EOL;
+                            continue;
                         }
                         $documentNumber = $data[$count][18];
                         $fullName = $data[$count][19];//getting the person name
@@ -185,7 +190,7 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
                         $teacherCode = $data[$count][17];
                         /** @var Teacher $teacher */
                         $teacher = $manager->getRepository("AppBundle:Teacher")->findOneBy(array('teacherCode' => $teacherCode));
-                        if(!$teacher){
+                        if($teacher == null){
                             $teacher = new Teacher();
                             $teacher->setTeacherCode($teacherCode);
                             if(!$person->getTeacher()){
@@ -199,16 +204,6 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
                             $person->setTeacher($teacher);
                             $manager->persist($person);
                             $manager->persist($teacher);
-                        }
-                        /** @var FacultyHasCourses $facultyHasCourse */
-                        $facultyHasCourse = $manager->getRepository("AppBundle:FacultyHasCourses")->findOneBy(array('facultyFaculty'=>$faculty,'courseCourse'=>$course));
-                        if(!$facultyHasCourse){
-                            $facultyHasCourse = new FacultyHasCourses();
-                            $facultyHasCourse->setCourseCourse($course);
-                            $facultyHasCourse->setFacultyFaculty($faculty);
-                            $faculty->addFacultyHasCourse($facultyHasCourse);
-                            $course->addCourseHasfaculty($facultyHasCourse);
-                            $manager->persist($facultyHasCourse);
                         }
                         /** @var TeacherDictatesCourse $teacherDictatesCourse */
                         $teacherDictatesCourse = $manager->getRepository("AppBundle:TeacherDictatesCourse")->findOneBy(array('courseCourse' => $course, 'teacherTeacher' => $teacher));
@@ -256,14 +251,14 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
                         $manager->clear();
                     }
                     if($count%2000 == 0){
-                        echo '  > loading [4] Teachers and ClassCourses..'.$file.'..'.$count.PHP_EOL;
+                        echo "\033[0;33m  > \033[0;32m loading [4] Teachers and ClassCourses..".$file.' '.$count."\033[0;00m".PHP_EOL;
                     }
                     $count++;
                 }
                 fclose($handle);
             }
         }
-        echo "  > Memory usage after: " . (memory_get_usage()/1048576) . " MB" . PHP_EOL;
+        echo "\033[0;33m  > \033[0;32m Memory usage after: " . (memory_get_usage()/1048576) . " MB\033[0;00m" . PHP_EOL;
     }
 
     public function getOrder()
