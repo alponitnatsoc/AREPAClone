@@ -131,7 +131,7 @@ class LoadInitialData extends AbstractFixture implements OrderedFixtureInterface
                             $manager->clear();
                         }
                         if($count%2000 == 0){
-                            echo "\033[0;33m  >\033[0;32m loading [1] Faculties and Courses..".$count."\033[0;00m".PHP_EOL;
+                            echo "\033[0;33m  >\033[0;32m loading [2] Faculties and Courses..".$count."\033[0;00m".PHP_EOL;
                         }
                         $count++;
                     }
