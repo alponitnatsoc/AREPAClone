@@ -142,7 +142,7 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
                             $manager->persist($course);
                         }
                         if ($facultyHasCourse == null){
-                            echo "\033[0;33m >\033[0;31m ERROR: loading [4] Teachers and ClassCourses..".$file.' '.$count."\033[0;00m".PHP_EOL;
+                            echo "\033[0;33m >\033[0;31m ERROR: loading [4] Teachers and ClassCourses ".$file.' '.$count."\033[0;00m".PHP_EOL;
                             continue;
                         }
                         $documentNumber = $data[$count][18];
