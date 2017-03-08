@@ -44,7 +44,7 @@ class File
      */
     private $context;
 
-    /**
+    /**file
      * @var string
      *
      * @ORM\Column(name="file_type",type="string",nullable=true)
@@ -64,7 +64,7 @@ class File
     private $updatedAt;
 
     /**
-     * @ORM\Column(name="size",type="integer",nullable=true)
+     * @ORM\Column(name="size",type="float",nullable=true)
      */
     private $size;
 
@@ -214,30 +214,7 @@ class File
     {
         return $this->updatedAt;
     }
-
-    /**
-     * Set size
-     *
-     * @param integer $size
-     *
-     * @return File
-     */
-    public function setSize($size)
-    {
-        $this->size = $size;
-
-        return $this;
-    }
-
-    /**
-     * Get size
-     *
-     * @return integer
-     */
-    public function getSize()
-    {
-        return $this->size;
-    }
+    
 
     /**
      * Set documentType
@@ -261,5 +238,29 @@ class File
     public function getDocumentType()
     {
         return $this->documentType;
+    }
+
+    /**
+     * Set size
+     *
+     * @param float $size
+     *
+     * @return File
+     */
+    public function setSize($size)
+    {
+        $this->size = $size;
+
+        return $this;
+    }
+
+    /**
+     * Get size
+     *
+     * @return float
+     */
+    public function getSize()
+    {
+        return $this->size;
     }
 }

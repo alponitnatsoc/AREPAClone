@@ -3,44 +3,44 @@ home:
     path: /
     defaults: {_controller: AppBundle:Default:index}
 
-#Secure Pages
-
-#admin_pages
-admin_dasboard:
-    path: /admin/dashboard
-    defaults: {_controller: AppBundle:Admin:adminDashboard}
-course_lookup:
-    path: /admin/lookup/courses/{active}
-    defaults: {_controller: AppBundle:Admin:lookupCourses,active: null}
-class_lookup:
-    path: /admin/lookup/classes
-    defaults: {_controller: AppBundle:Admin:lookupClasses}
-teacher_lookup:
-    path: /admin/lookup/teachers/{active}
-    defaults: {_controller: AppBundle:Admin:lookupTeachers,active: null}
-
-#teacher_pages
-teacher_dashboard:
-    path: /teacher/dashboard/{type}
-    defaults: {_controller: AppBundle:Teacher:teacherDashboard,type: 0}
-course_info:
-    path: /course/info/{courseCode}
-    defaults: {_controller: AppBundle:Course:showCourseInfo}
-view_class:
-    path: /class/info/{idClass}
-    defaults: {_controller: AppBundle:Course:showClassCourseInfo}
-
-student_dashboard:
-    path: /student/dashboard/{active}
-    defaults: {_controller: AppBundle:Student:studentDashboard, active: null}
+##Secure Pages
+#
+##admin_pages
+#admin_dasboard:
+#    path: /admin/dashboard
+#    defaults: {_controller: AppBundle:Admin:adminDashboard}
+#course_lookup:
+#    path: /admin/lookup/courses/{active}
+#    defaults: {_controller: AppBundle:Admin:lookupCourses,active: null}
+#class_lookup:
+#    path: /admin/lookup/classes
+#    defaults: {_controller: AppBundle:Admin:lookupClasses}
+#teacher_lookup:
+#    path: /admin/lookup/teachers/{active}
+#    defaults: {_controller: AppBundle:Admin:lookupTeachers,active: null}
+#
+##teacher_pages
+#teacher_dashboard:
+#    path: /teacher/dashboard/{type}
+#    defaults: {_controller: AppBundle:Teacher:teacherDashboard,type: 0}
+#course_info:
+#    path: /course/info/{courseCode}
+#    defaults: {_controller: AppBundle:Course:showCourseInfo}
+#view_class:
+#    path: /class/info/{idClass}
+#    defaults: {_controller: AppBundle:Course:showClassCourseInfo}
+#
 #student_dashboard:
-#    path: /student/dashboard
-#    defaults: {_controller: AppBundle:Dashboard:studentDashboard}
-
-dashboard:
-    path: /dashboard
-    defaults: {_controller: AppBundle:Dashboard:dashboard}
-
-export_document:
-    path: /admin/export/document/{type}/{all}
-    defaults: {_controller: AppBundle:Export:generateXLS,type: null,all: false}
+#    path: /student/dashboard/{active}
+#    defaults: {_controller: AppBundle:Student:studentDashboard, active: null}
+##student_dashboard:
+##    path: /student/dashboard
+##    defaults: {_controller: AppBundle:Dashboard:studentDashboard}
+#
+#dashboard:
+#    path: /dashboard
+#    defaults: {_controller: AppBundle:Dashboard:dashboard}
+#
+#export_document:
+#    path: /admin/export/document/{type}/{all}
+#    defaults: {_controller: AppBundle:Export:generateXLS,type: null,all: false}

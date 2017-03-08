@@ -11,60 +11,21 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * Class Student
  * @package AppBundle\Entity
  *
- * @ORM\Table(name="teacher",
- *     uniqueConstraints={
- *          @UniqueConstraint(
- *              name="personTeacherUnique", columns={"id_teacher", "person_id_person"}
- *          )
- *     })
  * @ORM\Entity
  */
-class Teacher
+class Teacher extends Role
 {
-
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id_teacher",type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $idTeacher;
-
-    /**
-     * @var Person
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Person",inversedBy="teacher", cascade={"persist"})
-     * @ORM\JoinColumn(name="person_id_person",referencedColumnName="id_person")
-     */
-    private $personPerson;
-
     /**
      * @var string
      *
-     * @ORM\Column(name="code_teacher",type="string",nullable=true)
+     * @ORM\Column(name="code_teacher",type="string", unique=TRUE, nullable=true)
      */
     private $teacherCode;
-
-    /**
-     * @ORM\OneToMany( targetEntity="AppBundle\Entity\TeacherHasRole", mappedBy="teacherTeacher", cascade={"persist","remove"})
-     */
-    private $teacherHasRoles;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TeacherDictatesCourse",mappedBy="teacherTeacher",cascade={"persist","remove"})
-     */
-    private $teacherDictatesCourses;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\FacultyHasTeachers",mappedBy="teacherTeacher",cascade={"persist","remove"})
-     */
-    private $teacherHasfaculty;
 
     /**
      * @ORM\Column(name="created_at",type="datetime", nullable=true)
@@ -72,13 +33,51 @@ class Teacher
     private $createdAt = null;
 
     /**
-     * Get idTeacher
-     *
-     * @return integer
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Course", inversedBy="teachers", cascade={"persist"})
+     * @ORM\JoinTable(name="teacher_dictates_course",
+     *      joinColumns={@ORM\JoinColumn(name="role_id",referencedColumnName="id_role")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="course_id",referencedColumnName="id_course")}
+     *     )
      */
-    public function getIdTeacher()
+    private $courses;
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Section", inversedBy="sectionChief", cascade={"persist"})
+     * @ORM\Column(name="section", nullable=TRUE)
+     */
+    private $section;
+
+    /**
+     * @return string
+     */
+    public function __toString()
     {
-        return $this->idTeacher;
+        return $this->getClass()." ".$this->getTeacherCode();
+    }
+
+    /**
+     * Student constructor.
+     * @param Person|null $person
+     * @param string $teacherCode
+     * @param \DateTime $createdAt
+     */
+    public function __construct(Person $person = null, $teacherCode = null, $createdAt = null)
+    {
+        parent::__construct($person);
+        $this->teacherCode = $teacherCode;
+        $this->createdAt = $createdAt;
+        $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+
+    /**
+     * get class
+     * returns the name of the class
+     * @return string
+     */
+    public function getClass(){
+        $path = explode('\\', __CLASS__);
+        return array_pop($path);
     }
 
     /**
@@ -106,132 +105,6 @@ class Teacher
     }
 
     /**
-     * Set personPerson
-     *
-     * @param \AppBundle\Entity\Person $personPerson
-     *
-     * @return Teacher
-     */
-    public function setPersonPerson(\AppBundle\Entity\Person $personPerson = null)
-    {
-        $this->personPerson = $personPerson;
-
-        return $this;
-    }
-
-    /**
-     * Get personPerson
-     *
-     * @return \AppBundle\Entity\Person
-     */
-    public function getPersonPerson()
-    {
-        return $this->personPerson;
-    }
-
-    /**
-     * Add teacherHasRole
-     *
-     * @param \AppBundle\Entity\TeacherHasRole $teacherHasRole
-     *
-     * @return Teacher
-     */
-    public function addTeacherHasRole(\AppBundle\Entity\TeacherHasRole $teacherHasRole)
-    {
-        $this->teacherHasRoles[] = $teacherHasRole;
-        $teacherHasRole->setTeacherTeacher($this);
-        return $this;
-    }
-
-    /**
-     * Remove teacherHasRole
-     *
-     * @param \AppBundle\Entity\TeacherHasRole $teacherHasRole
-     */
-    public function removeTeacherHasRole(\AppBundle\Entity\TeacherHasRole $teacherHasRole)
-    {
-        $this->teacherHasRoles->removeElement($teacherHasRole);
-    }
-
-    /**
-     * Get teacherHasRoles
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTeacherHasRoles()
-    {
-        return $this->teacherHasRoles;
-    }
-
-    /**
-     * Add teacherDictatesCourse
-     *
-     * @param \AppBundle\Entity\TeacherDictatesCourse $teacherDictatesCourse
-     *
-     * @return Teacher
-     */
-    public function addTeacherDictatesCourse(\AppBundle\Entity\TeacherDictatesCourse $teacherDictatesCourse)
-    {
-        $this->teacherDictatesCourses[] = $teacherDictatesCourse;
-
-        return $this;
-    }
-
-    /**
-     * Remove teacherDictatesCourse
-     *
-     * @param \AppBundle\Entity\TeacherDictatesCourse $teacherDictatesCourse
-     */
-    public function removeTeacherDictatesCourse(\AppBundle\Entity\TeacherDictatesCourse $teacherDictatesCourse)
-    {
-        $this->teacherDictatesCourses->removeElement($teacherDictatesCourse);
-    }
-
-    /**
-     * Get teacherDictatesCourses
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTeacherDictatesCourses()
-    {
-        return $this->teacherDictatesCourses;
-    }
-
-    /**
-     * Add teacherHasfaculty
-     *
-     * @param \AppBundle\Entity\FacultyHasTeachers $teacherHasfaculty
-     *
-     * @return Teacher
-     */
-    public function addTeacherHasfaculty(\AppBundle\Entity\FacultyHasTeachers $teacherHasfaculty)
-    {
-        $this->teacherHasfaculty[] = $teacherHasfaculty;
-
-        return $this;
-    }
-
-    /**
-     * Remove teacherHasfaculty
-     *
-     * @param \AppBundle\Entity\FacultyHasTeachers $teacherHasfaculty
-     */
-    public function removeTeacherHasfaculty(\AppBundle\Entity\FacultyHasTeachers $teacherHasfaculty)
-    {
-        $this->teacherHasfaculty->removeElement($teacherHasfaculty);
-    }
-
-    /**
-     * Get teacherHasfaculty
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getTeacherHasfaculty()
-    {
-        return $this->teacherHasfaculty;
-    }
-
-    /**
      * Set createdAt
      *
      * @param \DateTime $createdAt
@@ -255,12 +128,66 @@ class Teacher
         return $this->createdAt;
     }
 
-    public function getTeacherDictatesCourseByCourse($course)
+    /**
+     * Add course
+     *
+     * @param \AppBundle\Entity\Course $course
+     *
+     * @return Teacher
+     */
+    public function addCourse(\AppBundle\Entity\Course $course)
     {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('courseCourse',$course));
-        return $this->teacherDictatesCourses->matching($criteria);
+        $this->courses[] = $course;
+
+        return $this;
     }
 
+    /**
+     * Remove course
+     *
+     * @param \AppBundle\Entity\Course $course
+     */
+    public function removeCourse(\AppBundle\Entity\Course $course)
+    {
+        $this->courses->removeElement($course);
+    }
 
+    /**
+     * Get courses
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCourses()
+    {
+        return $this->courses;
+    }
+
+    /**
+     * Set section
+     *
+     * @param string $section
+     *
+     * @return Teacher
+     */
+    public function setSection($section)
+    {
+        $this->section = $section;
+
+        return $this;
+    }
+
+    /**
+     * Get section
+     *
+     * @return string
+     */
+    public function getSection()
+    {
+        return $this->section;
+    }
+
+    public function isSectionChief()
+    {
+        return ($this->section != null)? true : false;
+    }
 }

@@ -43,9 +43,20 @@ class Section
     private $sectionCode;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SectionHasCourse", mappedBy="sectionSection", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Course", mappedBy="section", cascade={"persist", "remove"})
      */
-    private $sectionHasCourses;
+    private $courses;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Faculty", inversedBy="sections", cascade={"persist"})
+     * @ORM\JoinColumn(name="faculty_id", referencedColumnName="id_faculty")
+     */
+    private $faculty;
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Teacher",mappedBy="section", cascade={"persist"})
+     * @ORM\Column(name="section_chief",unique=TRUE,nullable=TRUE)
+     */
+    private $sectionChief;
 
 }

@@ -7,7 +7,6 @@
  */
 
 namespace AppBundle\Entity;
-
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,8 +27,8 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Person", cascade={"persist"})
-     * @ORM\JoinColumn(name="person_id_person", referencedColumnName="id_person")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Person", mappedBy="user", cascade={"persist"})
+     * @ORM\JoinColumn(name="person_id_person", referencedColumnName="id_person", unique=TRUE)
      */
     private $personPerson;
 
@@ -69,5 +68,15 @@ class User extends BaseUser
     public function getPersonPerson()
     {
         return $this->personPerson;
+    }
+
+    public function getStudent()
+    {
+        return ($this->getPersonPerson()->isStudent())?$this->getPersonPerson()->getStudent():null;
+    }
+
+    public function getTeacher()
+    {
+        return ($this->getPersonPerson()->isTeacher())?$this->getPersonPerson()->getTeacher():null;
     }
 }

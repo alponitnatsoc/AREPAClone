@@ -4,8 +4,13 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Course;
 use AppBundle\Entity\Person;
+use AppBundle\Entity\Role;
+use AppBundle\Entity\Student;
+use AppBundle\Entity\Teacher;
 use AppBundle\Entity\User;
 use AppBundle\Form\newPersonForm;
+use Doctrine\DBAL\Driver\Mysqli\MysqliException;
+use Exception;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,10 +20,34 @@ class DefaultController extends Controller
     public function indexAction( Request $request)
     {
 
-        /** @var User $user */
-        $user=$this->getUser();
-        $person = new Person();
-        $form = $this->createForm(newPersonForm::class,$person);
+        try{
+            $em = $this->getDoctrine()->getManager();
+            $person = new Person("Andres","Felipe","Ramirez","Bonilla","CC","1020772509","a.ramirezb@javeriana.edu.co","a.ramirezb","3183941645","M");
+            $student = new Student(null,'1020340023',0.0,120);
+            $teacher = new Teacher(null,'9871239',new \DateTime());
+            $person->addPersonRole($student);
+            $person->addPersonRole($teacher);
+            $em->persist($person);
+            $em->flush();
+            $person = $em->getRepository("AppBundle:Person")->find(1);
+            $roles = $person->getPersonRole();
+            foreach ($roles as $role) {
+                if($role instanceof Student){
+                    dump($role->getAverageGrade());
+                }elseif( $role instanceof Teacher){
+                    dump($role->getCreatedAt());
+                }
+            }
+            dump("hello");die;
+        }catch (Exception $e){
+            dump("Error code: ".$e->getCode()." Error message: ".$e->getMessage());
+            die;
+        }
+
+//        /** @var User $user */
+//        $user=$this->getUser();
+//        $person = new Person();
+//        $form = $this->createForm(newPersonForm::class,$person);
 
 //        if(!$user){
 //            $user = new User();

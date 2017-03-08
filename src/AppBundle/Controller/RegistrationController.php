@@ -61,7 +61,7 @@ class RegistrationController extends BaseController
                 $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
                 $person = $this->getDoctrine()->getRepository('AppBundle:Person')->findOneBy(array('email'=>$user->getEmail()));
                 if($person){
-                    $person->setUserName($user->getUsername());
+                    $person->setPeopleSoftUserName($user->getUsername());
                     if($person->getTeacher()!= null){
                         $rolesArr = array('ROLE_TEACHER');
                         $teacherHasRole = new TeacherHasRole();

@@ -24,11 +24,11 @@ class CourseContributesOutcome
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_course_aports_outcome",type="integer")
+     * @ORM\Column(name="id_course_contributes_outcome",type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $idCourseAportsOutcome;
+    private $idCourseContributesOutcome;
 
     /**
      * @var integer
@@ -38,71 +38,95 @@ class CourseContributesOutcome
 
     /**
      * @var string
-     * @ORM\Column(name="below_standard",type="text",nullable=true,length=20000)
+     * @ORM\Column(name="active_period",type="string",length=7, nullable=true)
      */
-    private $belowStandard;
+    private $activePeriod;
 
     /**
      * @var string
-     * @ORM\Column(name="competent",type="text",nullable=true,length=20000)
+     * @ORM\Column(name="below_standard_spanish",type="text",nullable=true,length=20000)
      */
-    private $competent;
+    private $belowStandardSpanish;
 
     /**
      * @var string
-     * @ORM\Column(name="exemplary",type="text",nullable=true,length=20000)
+     * @ORM\Column(name="competent_spanish",type="text",nullable=true,length=20000)
      */
-    private $exemplary;
+    private $competentSpanish;
 
     /**
      * @var string
-     * @ORM\Column(name="english_below_standard",type="text",nullable=true,length=20000)
+     * @ORM\Column(name="exemplary_spanish",type="text",nullable=true,length=20000)
      */
-    private $englishBelowStandard;
+    private $exemplarySpanish;
 
     /**
      * @var string
-     * @ORM\Column(name="english_competent",type="text",nullable=true,length=20000)
+     * @ORM\Column(name="below_standard_english",type="text",nullable=true,length=20000)
      */
-    private $englishCompetent;
+    private $belowStandardEnglish;
 
     /**
      * @var string
-     * @ORM\Column(name="english_exemplary",type="text",nullable=true,length=20000)
+     * @ORM\Column(name="competent_english",type="text",nullable=true,length=20000)
      */
-    private $englishExemplary;
+    private $competentEnglish;
 
     /**
-     * @var Content
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Course", inversedBy="courseContributesOutcome")
+     * @var string
+     * @ORM\Column(name="exemplary_english",type="text",nullable=true,length=20000)
+     */
+    private $exemplaryEnglish;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Course", inversedBy="courseContributesOutcome", cascade={"persist"})
      * @ORM\JoinColumn(name="course_id", referencedColumnName="id_course")
      */
-    private $courseCourse;
+    private $course;
 
     /**
-     * @var Outcome
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Outcome", inversedBy="courseContributesOutcome")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Outcome", inversedBy="courseContributesOutcome", cascade={"persist"})
      * @ORM\JoinColumn(name="outcome_id", referencedColumnName="id_outcome")
      */
-    private $outcomeOutcome;
+    private $outcome;
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Period")
-     * @ORM\JoinColumn(name="period_id",referencedColumnName="id_period",nullable=true)
+     * @var float
+     *
+     * @ORM\Column(name="ex_student_outcome_value",type="float",nullable=true)
      */
-    private $period;
-
+    private $exStudentOutcomeValue;
 
     /**
-     * Get idCourseAportsOutcome
+     * @var float
+     *
+     * @ORM\Column(name="internal_outcome_value",type="float",nullable=true)
+     */
+    private $internalOutcomeValue;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="ex_student_percentage_value",type="float",nullable=true)
+     */
+    private $exStudentPercentageValue;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="total_value",type="float",nullable=true)
+     */
+    private $totalValue;
+    
+
+    /**
+     * Get idCourseContributesOutcome
      *
      * @return integer
      */
-    public function getIdCourseAportsOutcome()
+    public function getIdCourseContributesOutcome()
     {
-        return $this->idCourseAportsOutcome;
+        return $this->idCourseContributesOutcome;
     }
 
     /**
@@ -130,218 +154,314 @@ class CourseContributesOutcome
     }
 
     /**
-     * Set belowStandard
+     * Set activePeriod
      *
-     * @param string $belowStandard
+     * @param string $activePeriod
      *
      * @return CourseContributesOutcome
      */
-    public function setBelowStandard($belowStandard)
+    public function setActivePeriod($activePeriod)
     {
-        $this->belowStandard = $belowStandard;
+        $this->activePeriod = $activePeriod;
 
         return $this;
     }
 
     /**
-     * Get belowStandard
+     * Get activePeriod
      *
      * @return string
      */
-    public function getBelowStandard()
+    public function getActivePeriod()
     {
-        return $this->belowStandard;
+        return $this->activePeriod;
     }
 
     /**
-     * Set competent
+     * Set belowStandardSpanish
      *
-     * @param string $competent
+     * @param string $belowStandardSpanish
      *
      * @return CourseContributesOutcome
      */
-    public function setCompetent($competent)
+    public function setBelowStandardSpanish($belowStandardSpanish)
     {
-        $this->competent = $competent;
+        $this->belowStandardSpanish = $belowStandardSpanish;
 
         return $this;
     }
 
     /**
-     * Get competent
+     * Get belowStandardSpanish
      *
      * @return string
      */
-    public function getCompetent()
+    public function getBelowStandardSpanish()
     {
-        return $this->competent;
+        return $this->belowStandardSpanish;
     }
 
     /**
-     * Set exemplary
+     * Set competentSpanish
      *
-     * @param string $exemplary
+     * @param string $competentSpanish
      *
      * @return CourseContributesOutcome
      */
-    public function setExemplary($exemplary)
+    public function setCompetentSpanish($competentSpanish)
     {
-        $this->exemplary = $exemplary;
+        $this->competentSpanish = $competentSpanish;
 
         return $this;
     }
 
     /**
-     * Get exemplary
+     * Get competentSpanish
      *
      * @return string
      */
-    public function getExemplary()
+    public function getCompetentSpanish()
     {
-        return $this->exemplary;
+        return $this->competentSpanish;
     }
 
     /**
-     * Set englishBelowStandard
+     * Set exemplarySpanish
      *
-     * @param string $englishBelowStandard
+     * @param string $exemplarySpanish
      *
      * @return CourseContributesOutcome
      */
-    public function setEnglishBelowStandard($englishBelowStandard)
+    public function setExemplarySpanish($exemplarySpanish)
     {
-        $this->englishBelowStandard = $englishBelowStandard;
+        $this->exemplarySpanish = $exemplarySpanish;
 
         return $this;
     }
 
     /**
-     * Get englishBelowStandard
+     * Get exemplarySpanish
      *
      * @return string
      */
-    public function getEnglishBelowStandard()
+    public function getExemplarySpanish()
     {
-        return $this->englishBelowStandard;
+        return $this->exemplarySpanish;
     }
 
     /**
-     * Set englishCompetent
+     * Set belowStandardEnglish
      *
-     * @param string $englishCompetent
+     * @param string $belowStandardEnglish
      *
      * @return CourseContributesOutcome
      */
-    public function setEnglishCompetent($englishCompetent)
+    public function setBelowStandardEnglish($belowStandardEnglish)
     {
-        $this->englishCompetent = $englishCompetent;
+        $this->belowStandardEnglish = $belowStandardEnglish;
 
         return $this;
     }
 
     /**
-     * Get englishCompetent
+     * Get belowStandardEnglish
      *
      * @return string
      */
-    public function getEnglishCompetent()
+    public function getBelowStandardEnglish()
     {
-        return $this->englishCompetent;
+        return $this->belowStandardEnglish;
     }
 
     /**
-     * Set englishExemplary
+     * Set competentEnglish
      *
-     * @param string $englishExemplary
+     * @param string $competentEnglish
      *
      * @return CourseContributesOutcome
      */
-    public function setEnglishExemplary($englishExemplary)
+    public function setCompetentEnglish($competentEnglish)
     {
-        $this->englishExemplary = $englishExemplary;
+        $this->competentEnglish = $competentEnglish;
 
         return $this;
     }
 
     /**
-     * Get englishExemplary
+     * Get competentEnglish
      *
      * @return string
      */
-    public function getEnglishExemplary()
+    public function getCompetentEnglish()
     {
-        return $this->englishExemplary;
+        return $this->competentEnglish;
     }
 
     /**
-     * Set courseCourse
+     * Set exemplaryEnglish
      *
-     * @param \AppBundle\Entity\Course $courseCourse
+     * @param string $exemplaryEnglish
      *
      * @return CourseContributesOutcome
      */
-    public function setCourseCourse(\AppBundle\Entity\Course $courseCourse = null)
+    public function setExemplaryEnglish($exemplaryEnglish)
     {
-        $this->courseCourse = $courseCourse;
+        $this->exemplaryEnglish = $exemplaryEnglish;
 
         return $this;
     }
 
     /**
-     * Get courseCourse
+     * Get exemplaryEnglish
+     *
+     * @return string
+     */
+    public function getExemplaryEnglish()
+    {
+        return $this->exemplaryEnglish;
+    }
+
+    /**
+     * Set exStudentOutcomeValue
+     *
+     * @param float $exStudentOutcomeValue
+     *
+     * @return CourseContributesOutcome
+     */
+    public function setExStudentOutcomeValue($exStudentOutcomeValue)
+    {
+        $this->exStudentOutcomeValue = $exStudentOutcomeValue;
+
+        return $this;
+    }
+
+    /**
+     * Get exStudentOutcomeValue
+     *
+     * @return float
+     */
+    public function getExStudentOutcomeValue()
+    {
+        return $this->exStudentOutcomeValue;
+    }
+
+    /**
+     * Set internalOutcomeValue
+     *
+     * @param float $internalOutcomeValue
+     *
+     * @return CourseContributesOutcome
+     */
+    public function setInternalOutcomeValue($internalOutcomeValue)
+    {
+        $this->internalOutcomeValue = $internalOutcomeValue;
+
+        return $this;
+    }
+
+    /**
+     * Get internalOutcomeValue
+     *
+     * @return float
+     */
+    public function getInternalOutcomeValue()
+    {
+        return $this->internalOutcomeValue;
+    }
+
+    /**
+     * Set exStudentPercentageValue
+     *
+     * @param float $exStudentPercentageValue
+     *
+     * @return CourseContributesOutcome
+     */
+    public function setExStudentPercentageValue($exStudentPercentageValue)
+    {
+        $this->exStudentPercentageValue = $exStudentPercentageValue;
+
+        return $this;
+    }
+
+    /**
+     * Get exStudentPercentageValue
+     *
+     * @return float
+     */
+    public function getExStudentPercentageValue()
+    {
+        return $this->exStudentPercentageValue;
+    }
+
+    /**
+     * Set totalValue
+     *
+     * @param float $totalValue
+     *
+     * @return CourseContributesOutcome
+     */
+    public function setTotalValue($totalValue)
+    {
+        $this->totalValue = $totalValue;
+
+        return $this;
+    }
+
+    /**
+     * Get totalValue
+     *
+     * @return float
+     */
+    public function getTotalValue()
+    {
+        return $this->totalValue;
+    }
+
+    /**
+     * Set course
+     *
+     * @param \AppBundle\Entity\Course $course
+     *
+     * @return CourseContributesOutcome
+     */
+    public function setCourse(\AppBundle\Entity\Course $course = null)
+    {
+        $this->course = $course;
+
+        return $this;
+    }
+
+    /**
+     * Get course
      *
      * @return \AppBundle\Entity\Course
      */
-    public function getCourseCourse()
+    public function getCourse()
     {
-        return $this->courseCourse;
+        return $this->course;
     }
 
     /**
-     * Set outcomeOutcome
+     * Set outcome
      *
-     * @param \AppBundle\Entity\Outcome $outcomeOutcome
+     * @param \AppBundle\Entity\Outcome $outcome
      *
      * @return CourseContributesOutcome
      */
-    public function setOutcomeOutcome(\AppBundle\Entity\Outcome $outcomeOutcome = null)
+    public function setOutcome(\AppBundle\Entity\Outcome $outcome = null)
     {
-        $this->outcomeOutcome = $outcomeOutcome;
+        $this->outcome = $outcome;
 
         return $this;
     }
 
     /**
-     * Get outcomeOutcome
+     * Get outcome
      *
      * @return \AppBundle\Entity\Outcome
      */
-    public function getOutcomeOutcome()
+    public function getOutcome()
     {
-        return $this->outcomeOutcome;
-    }
-
-    /**
-     * Set period
-     *
-     * @param \AppBundle\Entity\Period $period
-     *
-     * @return CourseContributesOutcome
-     */
-    public function setPeriod(\AppBundle\Entity\Period $period = null)
-    {
-        $this->period = $period;
-
-        return $this;
-    }
-
-    /**
-     * Get period
-     *
-     * @return \AppBundle\Entity\Period
-     */
-    public function getPeriod()
-    {
-        return $this->period;
+        return $this->outcome;
     }
 }
