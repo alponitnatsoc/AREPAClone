@@ -70,6 +70,10 @@ class User extends BaseUser
         return $this->personPerson;
     }
 
+    /**
+     * returns the Student if person has Role Student
+     * @return Student|null
+     */
     public function getStudent()
     {
         return ($this->getPersonPerson()->isStudent())?$this->getPersonPerson()->getStudent():null;

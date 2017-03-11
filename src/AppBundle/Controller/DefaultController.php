@@ -2,7 +2,10 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\AssessmentContent;
+use AppBundle\Entity\ClassCourse;
 use AppBundle\Entity\Course;
+use AppBundle\Entity\EvaluationModel;
 use AppBundle\Entity\Person;
 use AppBundle\Entity\Role;
 use AppBundle\Entity\Student;
@@ -39,6 +42,7 @@ class DefaultController extends Controller
                 }
             }
             dump("hello");die;
+
         }catch (Exception $e){
             dump("Error code: ".$e->getCode()." Error message: ".$e->getMessage());
             die;
