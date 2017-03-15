@@ -172,8 +172,10 @@ class ClassCourse
      */
     public function addRole(\AppBundle\Entity\Role $role)
     {
-
         $role->addClassCourse($this);
+        if($role instanceof Teacher){
+            $role->addCourse($this->course);
+        }
         $this->roles[] = $role;
         return $this;
     }

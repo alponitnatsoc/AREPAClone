@@ -102,7 +102,7 @@ Class Course
     private $section;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\EvaluationModel",mappedBy="course",cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\EvaluationModel",inversedBy="course",cascade={"persist"})
      * @ORM\JoinColumn(name="evaluation_model_id", referencedColumnName="id_evaluation_model", unique=TRUE)
      */
     private $evaluationModel;

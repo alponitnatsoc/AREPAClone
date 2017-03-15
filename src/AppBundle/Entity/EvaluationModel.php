@@ -34,7 +34,7 @@ class EvaluationModel
     private $owner;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Course",inversedBy="evaluationModel", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Course",mappedBy="evaluationModel", cascade={"persist"})
      */
     private $course;
 

@@ -32,13 +32,16 @@ class DefaultController extends Controller
             $person->addPersonRole($student);
             $person->addPersonRole($teacher);
             $em->persist($person);
+            $person2 = new Person("Jaime","Andres","Pavlich","Mariscal","CC","102921031","jpavlich@javeriana.edu.co","jpavlich","3183941645","M");
+            $teacher2 = new Teacher(null,'0912390',new \DateTime());
+            $person2->addPersonRole($teacher2);
+            $em->persist($person2);
+            $em->flush();
             $course = new Course("PREG","0238219",3,"Pensamiento Algoritmico","Pensamiento","Teorico-Practico",null);
             $classCourse = new ClassCourse("10021","1710",$course);
             $em->persist($classCourse);
-            $person2 = new Person("Jaime","Andres","Pavlich","Mariscal","CC","102921031","jpavlich@javeriana.edu.co","jpavlich","3183941645","M");
-            $teacher2 = new Teacher(null,'0912390',new \DateTime());
-            $person2->addPersonRole($teacher);
-            $em->persist($person2);
+
+            $classCourse->addRole($teacher);
             $classCourse->addRole($teacher2);
             $classCourse->addRole($student);
             $em->persist($classCourse);
