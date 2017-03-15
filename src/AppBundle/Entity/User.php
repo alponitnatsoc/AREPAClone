@@ -45,7 +45,6 @@ class User extends BaseUser
         return $this->id;
     }
 
-
     /**
      * Set personPerson
      *
@@ -79,8 +78,21 @@ class User extends BaseUser
         return ($this->getPersonPerson()->isStudent())?$this->getPersonPerson()->getStudent():null;
     }
 
+    /**
+     * returns the Teacher if person has Role Teacher
+     * @return Teacher|null
+     */
     public function getTeacher()
     {
         return ($this->getPersonPerson()->isTeacher())?$this->getPersonPerson()->getTeacher():null;
+    }
+
+    /**
+     * returns the TeacherAssistant if person has Role TeacherAssistant
+     * @return TeacherAssistant|null
+     */
+    public function getTeacherAssistant()
+    {
+        return ($this->getPersonPerson()->isTeacherAssistant())?$this->getPersonPerson()->getTeacherAssistant():null;
     }
 }

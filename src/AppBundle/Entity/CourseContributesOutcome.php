@@ -81,7 +81,19 @@ class CourseContributesOutcome
      * @ORM\Column(name="total_value",type="float",nullable=true)
      */
     private $totalValue;
-    
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\AssessmentComponent", mappedBy="courseContributeOutcomes",cascade={"persist"})
+     */
+    private $assessmentComponents;
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->assessmentComponents = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get idCourseContributesOutcome
@@ -283,5 +295,39 @@ class CourseContributesOutcome
     public function getOutcome()
     {
         return $this->outcome;
+    }
+
+    /**
+     * Add assessmentComponent
+     *
+     * @param \AppBundle\Entity\AssessmentComponent $assessmentComponent
+     *
+     * @return CourseContributesOutcome
+     */
+    public function addAssessmentComponent(\AppBundle\Entity\AssessmentComponent $assessmentComponent)
+    {
+        $this->assessmentComponents[] = $assessmentComponent;
+
+        return $this;
+    }
+
+    /**
+     * Remove assessmentComponent
+     *
+     * @param \AppBundle\Entity\AssessmentComponent $assessmentComponent
+     */
+    public function removeAssessmentComponent(\AppBundle\Entity\AssessmentComponent $assessmentComponent)
+    {
+        $this->assessmentComponents->removeElement($assessmentComponent);
+    }
+
+    /**
+     * Get assessmentComponents
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getAssessmentComponents()
+    {
+        return $this->assessmentComponents;
     }
 }

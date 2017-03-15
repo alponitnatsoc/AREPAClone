@@ -48,6 +48,11 @@ class Teacher extends Role
     private $section;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\EvaluationModel",mappedBy="owner", cascade={"persist"})
+     */
+    private $evaluationModels;
+
+    /**
      * @return string
      */
     public function __toString()
@@ -67,6 +72,7 @@ class Teacher extends Role
         $this->teacherCode = $teacherCode;
         $this->createdAt = $createdAt;
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->evaluationModels = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
 
@@ -189,5 +195,39 @@ class Teacher extends Role
     public function isSectionChief()
     {
         return ($this->section != null)? true : false;
+    }
+
+    /**
+     * Add evaluationModel
+     *
+     * @param \AppBundle\Entity\EvaluationModel $evaluationModel
+     *
+     * @return Teacher
+     */
+    public function addEvaluationModel(\AppBundle\Entity\EvaluationModel $evaluationModel)
+    {
+        $this->evaluationModels[] = $evaluationModel;
+
+        return $this;
+    }
+
+    /**
+     * Remove evaluationModel
+     *
+     * @param \AppBundle\Entity\EvaluationModel $evaluationModel
+     */
+    public function removeEvaluationModel(\AppBundle\Entity\EvaluationModel $evaluationModel)
+    {
+        $this->evaluationModels->removeElement($evaluationModel);
+    }
+
+    /**
+     * Get evaluationModels
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEvaluationModels()
+    {
+        return $this->evaluationModels;
     }
 }

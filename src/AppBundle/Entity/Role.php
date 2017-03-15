@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="role")
  * @ORM\Entity
  * @ORM\InheritanceType("JOINED")
- * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorColumn(name="class", type="string")
  * @ORM\DiscriminatorMap({"student" = "Student","teacher"="Teacher","teacher_assistant"="TeacherAssistant"})
  */
 abstract class Role
@@ -50,7 +50,7 @@ abstract class Role
     protected $classCourses;
 
     /**
-     * get class
+     * get Class
      * returns the name of the class for the child entities
      * @return string
      */

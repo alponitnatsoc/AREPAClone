@@ -76,6 +76,11 @@ Class Course
     private $classCourses;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CourseContributesOutcome",mappedBy="course", cascade={"persist"})
+     */
+    private $courseContributesOutcome;
+
+    /**
      * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Faculty",mappedBy="courses")
      */
     private $faculties;
@@ -91,16 +96,44 @@ Class Course
     private $createdAt = null;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CourseContributesOutcome",mappedBy="course", cascade={"persist"})
-     */
-    private $courseContributesOutcome;
-
-    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Section",inversedBy="courses", cascade={"persist"})
      * @ORM\JoinColumn(name="section_id", referencedColumnName="id_section")
      */
     private $section;
-    
+
+    /**
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\EvaluationModel",mappedBy="course",cascade={"persist"})
+     * @ORM\JoinColumn(name="evaluation_model_id", referencedColumnName="id_evaluation_model", unique=TRUE)
+     */
+    private $evaluationModel;
+
+    /**
+     * Course constructor.
+     * @param string|null $academicGrade
+     * @param string|null $courseCode
+     * @param integer|null $credits
+     * @param string|null $nameCourse
+     * @param string|null $shortNameCourse
+     * @param string|null $component
+     * @param Section|null $section
+     */
+    public function __construct($academicGrade = null, $courseCode = null, $credits = null, $nameCourse = null, $shortNameCourse = null, $component = null,
+                                Section $section = null)
+    {
+        $this->academicGrade = $academicGrade;
+        $this->courseCode = $courseCode;
+        $this->credits = $credits;
+        $this->nameCourse = $nameCourse;
+        $this->shortNameCourse = $shortNameCourse;
+        $this->component = $component;
+        $this->section = $section;
+        $this->createdAt = new \DateTime();
+        $this->classCourses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->faculties = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->teachers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->courseContributesOutcome = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
     /**
      * Get idCourse
      *
@@ -440,13 +473,26 @@ Class Course
     }
 
     /**
-     * Constructor
+     * Set evaluationModel
+     *
+     * @param \AppBundle\Entity\EvaluationModel $evaluationModel
+     *
+     * @return Course
      */
-    public function __construct()
+    public function setEvaluationModel(\AppBundle\Entity\EvaluationModel $evaluationModel = null)
     {
-        $this->classCourses = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->faculties = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->teachers = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->courseContributesOutcome = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->evaluationModel = $evaluationModel;
+
+        return $this;
+    }
+
+    /**
+     * Get evaluationModel
+     *
+     * @return \AppBundle\Entity\EvaluationModel
+     */
+    public function getEvaluationModel()
+    {
+        return $this->evaluationModel;
     }
 }

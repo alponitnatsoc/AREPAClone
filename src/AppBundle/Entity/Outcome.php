@@ -15,12 +15,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  * Class Outcome
  * @package AppBundle\Entity
  *
- * @ORM\Table(name="outcome",
- *     uniqueConstraints={
- *          @UniqueConstraint(
- *              name="outcomeUnique", columns={"name_outcome"}
- *          )
- *     })
+ * @ORM\Table(name="outcome")
  * @ORM\Entity
  */
 class Outcome
@@ -38,7 +33,7 @@ class Outcome
     /**
      * @var string
      *
-     * @ORM\Column(name="name",type="string")
+     * @ORM\Column(name="name",type="string",unique=TRUE)
      */
     private $name;
 

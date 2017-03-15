@@ -28,27 +28,101 @@ class EvaluationModel
     private $idEvaluationModel;
 
     /**
-     * @var integer
-     * @ORM\Column(name="owner",type="integer",nullable=TRUE)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Teacher", inversedBy="evaluationModels", cascade={"persist"})
+     * @ORM\JoinColumn(name="role_id",referencedColumnName="id_role", nullable=TRUE)
      */
     private $owner;
 
     /**
-     * @var integer
-     * @ORM\Column(name="course",type="integer",nullable=TRUE)
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Course",inversedBy="evaluationModel", cascade={"persist"})
      */
     private $course;
 
     /**
-     * @var integer
-     * @ORM\Column(name="class_course",type="integer",nullable=TRUE)
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\AssessmentComponent", cascade={"persist"})
+     * @ORM\JoinColumn(name="assessment_component_id",referencedColumnName="id_assessment_component")
      */
-    private $classCourse;
+    private $assessmentComponent;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\AssessmentComponent", cascade={"persist"})
-     * @ORM\JoinColumn(name="assessment_tool_id",referencedColumnName="id_assessment_component")
+     * Get idEvaluationModel
+     *
+     * @return integer
      */
-    private $assessmentTool;
+    public function getIdEvaluationModel()
+    {
+        return $this->idEvaluationModel;
+    }
 
+    /**
+     * Set owner
+     *
+     * @param \AppBundle\Entity\Teacher $owner
+     *
+     * @return EvaluationModel
+     */
+    public function setOwner(\AppBundle\Entity\Teacher $owner = null)
+    {
+        $this->owner = $owner;
+
+        return $this;
+    }
+
+    /**
+     * Get owner
+     *
+     * @return \AppBundle\Entity\Teacher
+     */
+    public function getOwner()
+    {
+        return $this->owner;
+    }
+
+    /**
+     * Set course
+     *
+     * @param \AppBundle\Entity\Course $course
+     *
+     * @return EvaluationModel
+     */
+    public function setCourse(\AppBundle\Entity\Course $course = null)
+    {
+        $this->course = $course;
+
+        return $this;
+    }
+
+    /**
+     * Get course
+     *
+     * @return \AppBundle\Entity\Course
+     */
+    public function getCourse()
+    {
+        return $this->course;
+    }
+
+    /**
+     * Set assessmentComponent
+     *
+     * @param \AppBundle\Entity\AssessmentComponent $assessmentComponent
+     *
+     * @return EvaluationModel
+     */
+    public function setAssessmentComponent(\AppBundle\Entity\AssessmentComponent $assessmentComponent = null)
+    {
+        $this->assessmentComponent = $assessmentComponent;
+
+        return $this;
+    }
+
+    /**
+     * Get assessmentComponent
+     *
+     * @return \AppBundle\Entity\AssessmentComponent
+     */
+    public function getAssessmentComponent()
+    {
+        return $this->assessmentComponent;
+    }
 }

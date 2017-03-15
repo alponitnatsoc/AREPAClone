@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 
@@ -67,10 +68,16 @@ class ClassCourse
     }
 
     /**
-     * Constructor
+     * ClassCourse constructor.
+     * @param string|null $classCode
+     * @param string|null $activePeriod
+     * @param Course|null $course
      */
-    public function __construct()
+    public function __construct($classCode = null, $activePeriod = null, Course $course = null)
     {
+        $this->classCode = $classCode;
+        $this->activePeriod = $activePeriod;
+        $this->course = $course;
         $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -165,8 +172,9 @@ class ClassCourse
      */
     public function addRole(\AppBundle\Entity\Role $role)
     {
-        $this->roles[] = $role;
 
+        $role->addClassCourse($this);
+        $this->roles[] = $role;
         return $this;
     }
 
@@ -188,5 +196,27 @@ class ClassCourse
     public function getRoles()
     {
         return $this->roles;
+    }
+
+    /**
+     * Returns the collection with Teachers for the actual ClassCourse
+     * @return \Doctrine\Common\Collections\ArrayCollection|null
+     */
+    public function getTeachers()
+    {
+        $criteria = Criteria::create();
+        $criteria->where(Criteria::expr()->eq("Class",'Teacher'));
+        return ($this->roles->matching($criteria)->count()>0)?$this->roles->matching($criteria):null;
+    }
+
+    /**
+     * Returns the collection with Students for the actual ClassCourse
+     * @return \Doctrine\Common\Collections\ArrayCollection|null
+     */
+    public function getStudents()
+    {
+        $criteria = Criteria::create();
+        $criteria->where(Criteria::expr()->eq("Class",'Student'));
+        return ($this->roles->matching($criteria)->count()>0)?$this->roles->matching($criteria):null;
     }
 }

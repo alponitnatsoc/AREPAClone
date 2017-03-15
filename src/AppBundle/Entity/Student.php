@@ -41,6 +41,11 @@ class Student extends Role
     private $approvedCredits=0;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Grade",mappedBy="student", cascade={"persist"})
+     */
+    private $grades;
+
+    /**
      * @return string
      */
     public function __toString()
@@ -61,6 +66,7 @@ class Student extends Role
         $this->averageGrade = $averageGrade;
         $this->approvedCredits = $approvedCredits;
         $this->studentCode = $studentCode;
+        $this->grades = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -143,5 +149,39 @@ class Student extends Role
     public function getApprovedCredits()
     {
         return $this->approvedCredits;
+    }
+
+    /**
+     * Add grade
+     *
+     * @param \AppBundle\Entity\Grade $grade
+     *
+     * @return Student
+     */
+    public function addGrade(\AppBundle\Entity\Grade $grade)
+    {
+        $this->grades[] = $grade;
+
+        return $this;
+    }
+
+    /**
+     * Remove grade
+     *
+     * @param \AppBundle\Entity\Grade $grade
+     */
+    public function removeGrade(\AppBundle\Entity\Grade $grade)
+    {
+        $this->grades->removeElement($grade);
+    }
+
+    /**
+     * Get grades
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGrades()
+    {
+        return $this->grades;
     }
 }

@@ -59,6 +59,20 @@ abstract class AssessmentComponent
     protected $assessmentTool;
 
     /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Grade",mappedBy="assessmentComponent", cascade={"persist"})
+     */
+    protected $grades;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\CourseContributesOutcome", inversedBy="assessmentComponents", cascade={"persist"})
+     * @ORM\JoinTable(name="assessment_component_has_course_contributes_outcome",
+     *      joinColumns={@ORM\JoinColumn(name="assessment_component_id",referencedColumnName="id_assessment_component")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="course_contributes_outcome_id",referencedColumnName="id_course_contributes_outcome")}
+     *     )
+     */
+    protected $courseContributeOutcomes;
+
+    /**
      * get class
      * returns the name of the class for the child entities
      * @return string
@@ -66,6 +80,15 @@ abstract class AssessmentComponent
     public function getClass(){
         $path = explode('\\', __CLASS__);
         return array_pop($path);
+    }
+    
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->courseContributeOutcomes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->grades = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -172,5 +195,73 @@ abstract class AssessmentComponent
     public function getAssessmentTool()
     {
         return $this->assessmentTool;
+    }
+
+    /**
+     * Add grade
+     *
+     * @param \AppBundle\Entity\Grade $grade
+     *
+     * @return AssessmentComponent
+     */
+    public function addGrade(\AppBundle\Entity\Grade $grade)
+    {
+        $this->grades[] = $grade;
+
+        return $this;
+    }
+
+    /**
+     * Remove grade
+     *
+     * @param \AppBundle\Entity\Grade $grade
+     */
+    public function removeGrade(\AppBundle\Entity\Grade $grade)
+    {
+        $this->grades->removeElement($grade);
+    }
+
+    /**
+     * Get grades
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getGrades()
+    {
+        return $this->grades;
+    }
+
+    /**
+     * Add courseContributeOutcome
+     *
+     * @param \AppBundle\Entity\CourseContributesOutcome $courseContributeOutcome
+     *
+     * @return AssessmentComponent
+     */
+    public function addCourseContributeOutcome(\AppBundle\Entity\CourseContributesOutcome $courseContributeOutcome)
+    {
+        $courseContributeOutcome->addAssessmentComponent($this);
+        $this->courseContributeOutcomes[] = $courseContributeOutcome;
+        return $this;
+    }
+
+    /**
+     * Remove courseContributeOutcome
+     *
+     * @param \AppBundle\Entity\CourseContributesOutcome $courseContributeOutcome
+     */
+    public function removeCourseContributeOutcome(\AppBundle\Entity\CourseContributesOutcome $courseContributeOutcome)
+    {
+        $this->courseContributeOutcomes->removeElement($courseContributeOutcome);
+    }
+
+    /**
+     * Get courseContributeOutcomes
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCourseContributeOutcomes()
+    {
+        return $this->courseContributeOutcomes;
     }
 }
