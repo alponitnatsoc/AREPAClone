@@ -206,8 +206,8 @@ abstract class AssessmentComponent
      */
     public function addGrade(\AppBundle\Entity\Grade $grade)
     {
+        $grade->setAssessmentComponent($this);
         $this->grades[] = $grade;
-
         return $this;
     }
 

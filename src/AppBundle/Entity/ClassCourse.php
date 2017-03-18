@@ -174,7 +174,8 @@ class ClassCourse
     {
         $role->addClassCourse($this);
         if($role instanceof Teacher){
-            $role->addCourse($this->course);
+            if(!$role->getCourses()->contains($this->course))
+                $role->addCourse($this->course);
         }
         $this->roles[] = $role;
         return $this;

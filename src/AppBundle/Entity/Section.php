@@ -59,4 +59,134 @@ class Section
      */
     private $sectionChief;
 
+
+    /**
+     * Section constructor.
+     * @param string|null $sectionCode
+     * @param Faculty|null $faculty
+     * @param Teacher|null $sectionChief
+     */
+    public function __construct($sectionCode = null, Faculty $faculty = null, Teacher $sectionChief = null )
+    {
+        $this->sectionCode = $sectionCode;
+        $this->faculty = $faculty;
+        $this->sectionChief = $sectionChief;
+        $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get idSection
+     *
+     * @return integer
+     */
+    public function getIdSection()
+    {
+        return $this->idSection;
+    }
+
+    /**
+     * Set sectionCode
+     *
+     * @param string $sectionCode
+     *
+     * @return Section
+     */
+    public function setSectionCode($sectionCode)
+    {
+        $this->sectionCode = $sectionCode;
+
+        return $this;
+    }
+
+    /**
+     * Get sectionCode
+     *
+     * @return string
+     */
+    public function getSectionCode()
+    {
+        return $this->sectionCode;
+    }
+
+    /**
+     * Set sectionChief
+     *
+     * @param string $sectionChief
+     *
+     * @return Section
+     */
+    public function setSectionChief($sectionChief)
+    {
+        $this->sectionChief = $sectionChief;
+
+        return $this;
+    }
+
+    /**
+     * Get sectionChief
+     *
+     * @return string
+     */
+    public function getSectionChief()
+    {
+        return $this->sectionChief;
+    }
+
+    /**
+     * Add course
+     *
+     * @param \AppBundle\Entity\Course $course
+     *
+     * @return Section
+     */
+    public function addCourse(\AppBundle\Entity\Course $course)
+    {
+        if($course->getSection()!= $this)$course->setSection($this);
+        $this->courses[] = $course;
+        return $this;
+    }
+
+    /**
+     * Remove course
+     *
+     * @param \AppBundle\Entity\Course $course
+     */
+    public function removeCourse(\AppBundle\Entity\Course $course)
+    {
+        $this->courses->removeElement($course);
+    }
+
+    /**
+     * Get courses
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCourses()
+    {
+        return $this->courses;
+    }
+
+    /**
+     * Set faculty
+     *
+     * @param \AppBundle\Entity\Faculty $faculty
+     *
+     * @return Section
+     */
+    public function setFaculty(\AppBundle\Entity\Faculty $faculty = null)
+    {
+        $this->faculty = $faculty;
+
+        return $this;
+    }
+
+    /**
+     * Get faculty
+     *
+     * @return \AppBundle\Entity\Faculty
+     */
+    public function getFaculty()
+    {
+        return $this->faculty;
+    }
 }

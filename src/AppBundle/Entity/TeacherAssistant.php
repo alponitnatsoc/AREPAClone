@@ -36,6 +36,7 @@ class TeacherAssistant extends Role
         parent::__construct($person);
 
     }
+
     /**
      * get class
      * returns the name of the class

@@ -307,7 +307,6 @@ class CourseContributesOutcome
     public function addAssessmentComponent(\AppBundle\Entity\AssessmentComponent $assessmentComponent)
     {
         $this->assessmentComponents[] = $assessmentComponent;
-
         return $this;
     }
 

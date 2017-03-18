@@ -89,10 +89,26 @@ class Faculty
     }
 
     /**
-     * Constructor
+     * Get TeacherAssistants
+     *
+     * @return \Doctrine\Common\Collections\Collection
      */
-    public function __construct()
+    public function getTeacherAssistants()
     {
+        $criteria = Criteria::create()->where(Criteria::expr()->eq("Class",'TeacherAssistant'));
+        return $this->roles->matching($criteria);
+    }
+
+
+    /**
+     * Faculty constructor.
+     * @param string|null $name
+     * @param string|null $facultyCode
+     */
+    public function __construct($name = null, $facultyCode = null)
+    {
+        $this->name = $name;
+        $this->facultyCode = $facultyCode;
         $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
         $this->courses = new \Doctrine\Common\Collections\ArrayCollection();
         $this->sections = new \Doctrine\Common\Collections\ArrayCollection();
@@ -256,5 +272,13 @@ class Faculty
     public function getSections()
     {
         return $this->sections;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->name.' '.$this->facultyCode;
     }
 }

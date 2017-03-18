@@ -45,6 +45,19 @@ class EvaluationModel
     private $assessmentComponent;
 
     /**
+     * EvaluationModel constructor.
+     * @param Teacher|null $owner
+     * @param Course|null $course
+     * @param AssessmentComponent|null $assessmentComponent
+     */
+    public function __construct(Teacher $owner = null, Course $course = null, AssessmentComponent $assessmentComponent = null)
+    {
+        $this->owner = $owner;
+        $this->course = $course;
+        $this->assessmentComponent = $assessmentComponent;
+    }
+
+    /**
      * Get idEvaluationModel
      *
      * @return integer

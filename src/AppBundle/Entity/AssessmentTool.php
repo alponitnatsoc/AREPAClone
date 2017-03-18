@@ -49,8 +49,8 @@ class AssessmentTool extends AssessmentComponent
      */
     public function addAssessmentComponent(\AppBundle\Entity\AssessmentComponent $assessmentComponent)
     {
+        $assessmentComponent->setAssessmentTool($this);
         $this->assessmentComponents[] = $assessmentComponent;
-
         return $this;
     }
 

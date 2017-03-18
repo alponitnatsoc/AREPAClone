@@ -40,20 +40,23 @@ class DefaultController extends Controller
             $course = new Course("PREG","0238219",3,"Pensamiento Algoritmico","Pensamiento","Teorico-Practico",null);
             $classCourse = new ClassCourse("10021","1710",$course);
             $em->persist($classCourse);
-
+            $classCourse2 = new ClassCourse("10022","1710",$course);
             $classCourse->addRole($teacher);
+            $classCourse2->addRole($teacher);
             $classCourse->addRole($teacher2);
             $classCourse->addRole($student);
             $em->persist($classCourse);
             $em->flush();
 //            $classCourse = $em->getRepository("AppBundle:ClassCourse")->findOneBy(array('classCode'=>'10021'));
             dump($classCourse->getTeachers());
+            dump($classCourse2->getTeachers());
             dump($classCourse->getStudents());
+            die;
 
 
 //
 //            dump($person->isTeacher());
-            die;
+//            die;
 //        }catch (Exception $e){
 //            dump("Error code: ".$e->getCode()." Error message: ".$e->getMessage());
 //            die;

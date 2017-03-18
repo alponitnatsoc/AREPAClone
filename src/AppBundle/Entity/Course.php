@@ -107,6 +107,15 @@ Class Course
      */
     private $evaluationModel;
 
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getShortNameCourse().' '.$this->courseCode;
+    }
+
     /**
      * Course constructor.
      * @param string|null $academicGrade
@@ -321,8 +330,8 @@ Class Course
      */
     public function addClassCourse(\AppBundle\Entity\ClassCourse $classCourse)
     {
+        if($classCourse->getCourse()!=$this)$classCourse->setCourse($this);
         $this->classCourses[] = $classCourse;
-
         return $this;
     }
 
@@ -355,8 +364,8 @@ Class Course
      */
     public function addFaculty(\AppBundle\Entity\Faculty $faculty)
     {
+        $faculty->addCourse($this);
         $this->faculties[] = $faculty;
-
         return $this;
     }
 
@@ -367,6 +376,7 @@ Class Course
      */
     public function removeFaculty(\AppBundle\Entity\Faculty $faculty)
     {
+        $faculty->removeCourse($this);
         $this->faculties->removeElement($faculty);
     }
 
@@ -423,8 +433,8 @@ Class Course
      */
     public function addCourseContributesOutcome(\AppBundle\Entity\CourseContributesOutcome $courseContributesOutcome)
     {
+        $courseContributesOutcome->setCourse($this);
         $this->courseContributesOutcome[] = $courseContributesOutcome;
-
         return $this;
     }
 

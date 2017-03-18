@@ -143,8 +143,8 @@ class Teacher extends Role
      */
     public function addCourse(\AppBundle\Entity\Course $course)
     {
+        $course->addTeacher($this);
         $this->courses[] = $course;
-
         return $this;
     }
 
@@ -155,6 +155,7 @@ class Teacher extends Role
      */
     public function removeCourse(\AppBundle\Entity\Course $course)
     {
+        $course->removeTeacher($this);
         $this->courses->removeElement($course);
     }
 
@@ -206,8 +207,8 @@ class Teacher extends Role
      */
     public function addEvaluationModel(\AppBundle\Entity\EvaluationModel $evaluationModel)
     {
+        $evaluationModel->setOwner($this);
         $this->evaluationModels[] = $evaluationModel;
-
         return $this;
     }
 
