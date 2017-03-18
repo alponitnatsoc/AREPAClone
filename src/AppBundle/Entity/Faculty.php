@@ -181,8 +181,8 @@ class Faculty
      */
     public function addRole(\AppBundle\Entity\Role $role)
     {
+        $role->addFaculty($this);
         $this->roles[] = $role;
-
         return $this;
     }
 

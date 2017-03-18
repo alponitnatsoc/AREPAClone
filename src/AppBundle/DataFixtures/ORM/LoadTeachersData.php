@@ -10,12 +10,8 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\ClassCourse;
 use AppBundle\Entity\Faculty;
-use AppBundle\Entity\FacultyHasCourses;
-use AppBundle\Entity\FacultyHasTeachers;
 use AppBundle\Entity\Person;
 use AppBundle\Entity\Teacher;
-use AppBundle\Entity\TeacherDictatesClassCourse;
-use AppBundle\Entity\TeacherDictatesCourse;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -61,13 +57,9 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
          */
         $faculty = $manager->getRepository('AppBundle:Faculty')->findOneBy(array('facultyCode'=>'DPT-ISIST'));
         $teacher = $manager->getRepository('AppBundle:Teacher')->findOneBy(array('teacherCode'=>'ADMINISTRATOR'));
-        if($teacher->getTeacherHasfaculty()->isEmpty()){
-            $facultyHasTeacher=new FacultyHasTeachers();
-            $facultyHasTeacher->setFacultyFaculty($faculty);
-            $facultyHasTeacher->setTeacherTeacher($teacher);
-            $teacher->addTeacherHasfaculty($facultyHasTeacher);
-            $faculty->addFacultyHasTeacher($facultyHasTeacher);
-            $manager->persist($facultyHasTeacher);
+        if($teacher->getFaculties()->isEmpty()){
+            $faculty->addRole($teacher);
+            $manager->persist($faculty);
         }
         $manager->getConnection()->getConfiguration()->setSQLLogger(null);
         echo "\033[0;33m  >\033[0;32m Memory usage before: " . (memory_get_usage()/1048576) . " MB\033[0;00m" . PHP_EOL;

@@ -25,33 +25,33 @@ class DefaultController extends Controller
     {
 
 //        try{
-            $em = $this->getDoctrine()->getManager();
-            $person = new Person("Andres","Felipe","Ramirez","Bonilla","CC","1020772509","a.ramirezb@javeriana.edu.co","a.ramirezb","3183941645","M");
-            $student = new Student(null,'1020340023',0.0,120);
-            $teacher = new Teacher(null,'9871239',new \DateTime());
-            $person->addPersonRole($student);
-            $person->addPersonRole($teacher);
-            $em->persist($person);
-            $person2 = new Person("Jaime","Andres","Pavlich","Mariscal","CC","102921031","jpavlich@javeriana.edu.co","jpavlich","3183941645","M");
-            $teacher2 = new Teacher(null,'0912390',new \DateTime());
-            $person2->addPersonRole($teacher2);
-            $em->persist($person2);
-            $em->flush();
-            $course = new Course("PREG","0238219",3,"Pensamiento Algoritmico","Pensamiento","Teorico-Practico",null);
-            $classCourse = new ClassCourse("10021","1710",$course);
-            $em->persist($classCourse);
-            $classCourse2 = new ClassCourse("10022","1710",$course);
-            $classCourse->addRole($teacher);
-            $classCourse2->addRole($teacher);
-            $classCourse->addRole($teacher2);
-            $classCourse->addRole($student);
-            $em->persist($classCourse);
-            $em->flush();
+//            $em = $this->getDoctrine()->getManager();
+//            $person = new Person("Andres","Felipe","Ramirez","Bonilla","CC","1020772509","a.ramirezb@javeriana.edu.co","a.ramirezb","3183941645","M");
+//            $student = new Student(null,'1020340023',0.0,120);
+//            $teacher = new Teacher(null,'9871239',new \DateTime());
+//            $person->addPersonRole($student);
+//            $person->addPersonRole($teacher);
+//            $em->persist($person);
+//            $person2 = new Person("Jaime","Andres","Pavlich","Mariscal","CC","102921031","jpavlich@javeriana.edu.co","jpavlich","3183941645","M");
+//            $teacher2 = new Teacher(null,'0912390',new \DateTime());
+//            $person2->addPersonRole($teacher2);
+//            $em->persist($person2);
+//            $em->flush();
+//            $course = new Course("PREG","0238219",3,"Pensamiento Algoritmico","Pensamiento","Teorico-Practico",null);
+//            $classCourse = new ClassCourse("10021","1710",$course);
+//            $em->persist($classCourse);
+//            $classCourse2 = new ClassCourse("10022","1710",$course);
+//            $classCourse->addRole($teacher);
+//            $classCourse2->addRole($teacher);
+//            $classCourse->addRole($teacher2);
+//            $classCourse->addRole($student);
+//            $em->persist($classCourse);
+//            $em->flush();
 //            $classCourse = $em->getRepository("AppBundle:ClassCourse")->findOneBy(array('classCode'=>'10021'));
-            dump($classCourse->getTeachers());
-            dump($classCourse2->getTeachers());
-            dump($classCourse->getStudents());
-            die;
+//            dump($classCourse->getTeachers());
+//            dump($classCourse2->getTeachers());
+//            dump($classCourse->getStudents());
+//            die;
 
 
 //
