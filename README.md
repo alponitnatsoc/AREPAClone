@@ -161,7 +161,3 @@ When everything is downloaded and it's placed in the correct web/Uploads/Files/ 
     php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/LoadClassCourseData.php --append
     php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/loadTeacherData.php --append
     php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/LoadCoursesContributesOutcomeData.php --append
-  
-    php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/LoadCoursesData.php --append
-    php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/LoadTeachersData.php --append
-
