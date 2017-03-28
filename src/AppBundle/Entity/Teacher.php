@@ -231,4 +231,13 @@ class Teacher extends Role
     {
         return $this->evaluationModels;
     }
+
+    /**
+     * return true if teacher dictates course
+     * @param Course $course
+     * @return bool
+     */
+    public function dictatesCourse(Course $course){
+        return $this->courses->contains($course);
+    }
 }

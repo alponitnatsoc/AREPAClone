@@ -6,6 +6,7 @@ use AppBundle\Entity\AssessmentContent;
 use AppBundle\Entity\ClassCourse;
 use AppBundle\Entity\Course;
 use AppBundle\Entity\EvaluationModel;
+use AppBundle\Entity\Faculty;
 use AppBundle\Entity\Person;
 use AppBundle\Entity\Role;
 use AppBundle\Entity\Student;
@@ -23,7 +24,6 @@ class DefaultController extends Controller
 {
     public function indexAction( Request $request)
     {
-
 //        try{
 //            $em = $this->getDoctrine()->getManager();
 //            $person = new Person("Andres","Felipe","Ramirez","Bonilla","CC","1020772509","a.ramirezb@javeriana.edu.co","a.ramirezb","3183941645","M");
@@ -53,8 +53,6 @@ class DefaultController extends Controller
 //            dump($classCourse->getStudents());
 //            die;
 
-
-//
 //            dump($person->isTeacher());
 //            die;
 //        }catch (Exception $e){

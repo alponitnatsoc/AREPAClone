@@ -216,7 +216,6 @@ class Faculty
     public function addCourse(\AppBundle\Entity\Course $course)
     {
         $this->courses[] = $course;
-
         return $this;
     }
 
@@ -281,4 +280,43 @@ class Faculty
     {
         return $this->name.' '.$this->facultyCode;
     }
+
+    /**
+     * returns true if faculty has course
+     *
+     * @param Course $course
+     * @return bool
+     */
+    public function hasCourse($course)
+    {
+        return $this->courses->contains($course);
+    }
+
+    /**
+     * return true if faculty has the role
+     * @param Role $role
+     * @return bool
+     */
+    public function hasRole(Role $role){
+        return $this->roles->contains($role);
+    }
+
+    /**
+     * return true if faculty has the teacher
+     * @param Teacher $teacher
+     * @return bool
+     */
+    public function hasTeacher(Teacher $teacher){
+        return $this->roles->contains($teacher);
+    }
+
+    /**
+     * return true if faculty has the student
+     * @param Student $student
+     * @return bool
+     */
+    public function hasStudent(Student $student){
+        return $this->roles->contains($student);
+    }
+
 }

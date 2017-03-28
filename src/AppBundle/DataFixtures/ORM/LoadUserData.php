@@ -40,8 +40,6 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         //creating person for administrator user
         $person = new Person('Administrator');
         $manager->persist($person);
-        //creating a direct reference in the manager
-        $this->addReference('admin-person', $person);
         //creating the teacher for the person administrator
         $teacher = new Teacher(null,'ADMINISTRATOR',new \DateTime());
         //adding the teacher role to the administrator person
@@ -61,7 +59,7 @@ class LoadUserData extends AbstractFixture implements OrderedFixtureInterface, C
         $rolesArr = array('ROLE_ADMIN');
         $userAdmin->setRoles($rolesArr);
         //linking the person with the user
-        $userAdmin->setPersonPerson($manager->getRepository("AppBundle:Person")->find(1));
+        $userAdmin->setPersonPerson($person);
         $manager->persist($userAdmin);
         $manager->flush();
         //creating a direct reference for the user in the manager

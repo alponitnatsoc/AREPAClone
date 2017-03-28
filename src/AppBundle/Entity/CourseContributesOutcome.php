@@ -31,8 +31,8 @@ class CourseContributesOutcome
     private $idCourseContributesOutcome;
 
     /**
-     * @var integer
-     * @ORM\Column(name="bloom_level",type="integer", length=1)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\BloomLevel")
+     * @ORM\JoinColumn(name="bloom_level", referencedColumnName="level")
      */
     private $bloomLevel;
 
@@ -87,11 +87,22 @@ class CourseContributesOutcome
      */
     private $assessmentComponents;
 
+
     /**
-     * Constructor
+     * CourseContributesOutcome constructor.
+     * @param BloomLevel|null $bloomLevel
+     * @param null $activePeriod
+     * @param Course|null $course
+     * @param Outcome|null $outcome
+     * @param float|null $exStudentPercentageValue
      */
-    public function __construct()
+    public function __construct(BloomLevel $bloomLevel = null, $activePeriod = null, Course $course = null, $exStudentPercentageValue = null,Outcome $outcome = null)
     {
+        $this->bloomLevel = $bloomLevel;
+        $this->activePeriod = $activePeriod;
+        $this->course = $course;
+        $this->outcome = $outcome;
+        $this->exStudentPercentageValue = $exStudentPercentageValue;
         $this->assessmentComponents = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
@@ -103,30 +114,6 @@ class CourseContributesOutcome
     public function getIdCourseContributesOutcome()
     {
         return $this->idCourseContributesOutcome;
-    }
-
-    /**
-     * Set bloomLevel
-     *
-     * @param integer $bloomLevel
-     *
-     * @return CourseContributesOutcome
-     */
-    public function setBloomLevel($bloomLevel)
-    {
-        $this->bloomLevel = $bloomLevel;
-
-        return $this;
-    }
-
-    /**
-     * Get bloomLevel
-     *
-     * @return integer
-     */
-    public function getBloomLevel()
-    {
-        return $this->bloomLevel;
     }
 
     /**
@@ -250,6 +237,30 @@ class CourseContributesOutcome
     }
 
     /**
+     * Set bloomLevel
+     *
+     * @param \AppBundle\Entity\BloomLevel $bloomLevel
+     *
+     * @return CourseContributesOutcome
+     */
+    public function setBloomLevel(\AppBundle\Entity\BloomLevel $bloomLevel = null)
+    {
+        $this->bloomLevel = $bloomLevel;
+
+        return $this;
+    }
+
+    /**
+     * Get bloomLevel
+     *
+     * @return \AppBundle\Entity\BloomLevel
+     */
+    public function getBloomLevel()
+    {
+        return $this->bloomLevel;
+    }
+
+    /**
      * Set course
      *
      * @param \AppBundle\Entity\Course $course
@@ -307,6 +318,7 @@ class CourseContributesOutcome
     public function addAssessmentComponent(\AppBundle\Entity\AssessmentComponent $assessmentComponent)
     {
         $this->assessmentComponents[] = $assessmentComponent;
+
         return $this;
     }
 

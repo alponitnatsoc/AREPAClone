@@ -54,6 +54,7 @@ class User extends BaseUser
      */
     public function setPersonPerson(\AppBundle\Entity\Person $personPerson = null)
     {
+        $personPerson->setUser($this);
         $this->personPerson = $personPerson;
 
         return $this;

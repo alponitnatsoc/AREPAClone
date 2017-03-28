@@ -81,7 +81,7 @@ Class Course
     private $courseContributesOutcome;
 
     /**
-     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Faculty",mappedBy="courses")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Faculty",mappedBy="courses",cascade={"persist"})
      */
     private $faculties;
 
@@ -492,7 +492,6 @@ Class Course
     public function setEvaluationModel(\AppBundle\Entity\EvaluationModel $evaluationModel = null)
     {
         $this->evaluationModel = $evaluationModel;
-
         return $this;
     }
 
@@ -504,5 +503,15 @@ Class Course
     public function getEvaluationModel()
     {
         return $this->evaluationModel;
+    }
+
+    /**
+     * Returns true if the course belongs to the faculty
+     * @param Faculty $faculty
+     * @return bool
+     */
+    public function belongsToFaculty(Faculty $faculty)
+    {
+        return $this->faculties->contains($faculty);
     }
 }
