@@ -1,13 +1,14 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: erikaxu
+ * User: andres
  * Date: 14/09/16
  * Time: 06:57 PM
  */
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 
@@ -15,12 +16,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  * Class Outcome
  * @package AppBundle\Entity
  *
- * @ORM\Table(name="outcome",
- *     uniqueConstraints={
- *          @UniqueConstraint(
- *              name="outcomeUnique", columns={"name_outcome"}
- *          )
- *     })
+ * @ORM\Table(name="outcome")
  * @ORM\Entity
  */
 class Outcome
@@ -38,43 +34,33 @@ class Outcome
     /**
      * @var string
      *
-     * @ORM\Column(name="name_outcome",type="string")
+     * @ORM\Column(name="name",type="string",unique=TRUE)
      */
-    private $nameOutcome;
+    private $name;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="description_outcome",length=20000,type="text",nullable=true)
+     * @ORM\Column(name="description_spanish",length=20000,type="text",nullable=true)
      */
-    private $descriptionOutcome;
+    private $descriptionSpanish;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="english_description_outcome",length=20000,type="text",nullable=true)
+     * @ORM\Column(name="description_english",length=20000,type="text",nullable=true)
      */
-    private $englishDescriptionOutcome;
+    private $descriptionEnglish;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\OutcomeValue",mappedBy="outcomeOutcome")
-     */
-    private $outcomeValue;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\AssessmentToolContributeOutcomes", mappedBy="outcomeOutcome", cascade={"persist", "remove"})
-     */
-    private $assessmentToolContributeOutcomes;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ContentContributesOutcome", mappedBy="outcomeOutcome", cascade={"persist", "remove"})
-     */
-    private $contentContributesOutcome;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CourseContributesOutcome", mappedBy="outcomeOutcome", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CourseContributesOutcome", mappedBy="outcome", cascade={"persist", "remove"})
      */
     private $courseContributesOutcome;
+
+    /**
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PerformanceIndicator", mappedBy="outcome", cascade={"persist", "remove"})
+     */
+    private $performanceIndicators;
 
     /**
      * ToString
@@ -83,7 +69,7 @@ class Outcome
      */
     public function __toString()
     {
-        return $this->nameOutcome;
+        return $this->name;
     }
 
     /**
@@ -91,10 +77,8 @@ class Outcome
      */
     public function __construct()
     {
-        $this->outcomeValue = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->assessmentToolContributeOutcomes = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->contentContributesOutcome = new \Doctrine\Common\Collections\ArrayCollection();
         $this->courseContributesOutcome = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->performanceIndicators = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -108,177 +92,75 @@ class Outcome
     }
 
     /**
-     * Set nameOutcome
+     * Set name
      *
-     * @param string $nameOutcome
+     * @param string $name
      *
      * @return Outcome
      */
-    public function setNameOutcome($nameOutcome)
+    public function setName($name)
     {
-        $this->nameOutcome = $nameOutcome;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get nameOutcome
+     * Get name
      *
      * @return string
      */
-    public function getNameOutcome()
+    public function getName()
     {
-        return $this->nameOutcome;
+        return $this->name;
     }
 
     /**
-     * Set descriptionOutcome
+     * Set descriptionSpanish
      *
-     * @param string $descriptionOutcome
+     * @param string $descriptionSpanish
      *
      * @return Outcome
      */
-    public function setDescriptionOutcome($descriptionOutcome)
+    public function setDescriptionSpanish($descriptionSpanish)
     {
-        $this->descriptionOutcome = $descriptionOutcome;
+        $this->descriptionSpanish = $descriptionSpanish;
 
         return $this;
     }
 
     /**
-     * Get descriptionOutcome
+     * Get descriptionSpanish
      *
      * @return string
      */
-    public function getDescriptionOutcome()
+    public function getDescriptionSpanish()
     {
-        return $this->descriptionOutcome;
+        return $this->descriptionSpanish;
     }
 
     /**
-     * Set englishDescriptionOutcome
+     * Set descriptionEnglish
      *
-     * @param string $englishDescriptionOutcome
+     * @param string $descriptionEnglish
      *
      * @return Outcome
      */
-    public function setEnglishDescriptionOutcome($englishDescriptionOutcome)
+    public function setDescriptionEnglish($descriptionEnglish)
     {
-        $this->englishDescriptionOutcome = $englishDescriptionOutcome;
+        $this->descriptionEnglish = $descriptionEnglish;
 
         return $this;
     }
 
     /**
-     * Get englishDescriptionOutcome
+     * Get descriptionEnglish
      *
      * @return string
      */
-    public function getEnglishDescriptionOutcome()
+    public function getDescriptionEnglish()
     {
-        return $this->englishDescriptionOutcome;
-    }
-
-    /**
-     * Add outcomeValue
-     *
-     * @param \AppBundle\Entity\OutcomeValue $outcomeValue
-     *
-     * @return Outcome
-     */
-    public function addOutcomeValue(\AppBundle\Entity\OutcomeValue $outcomeValue)
-    {
-        $this->outcomeValue[] = $outcomeValue;
-
-        return $this;
-    }
-
-    /**
-     * Remove outcomeValue
-     *
-     * @param \AppBundle\Entity\OutcomeValue $outcomeValue
-     */
-    public function removeOutcomeValue(\AppBundle\Entity\OutcomeValue $outcomeValue)
-    {
-        $this->outcomeValue->removeElement($outcomeValue);
-    }
-
-    /**
-     * Get outcomeValue
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getOutcomeValue()
-    {
-        return $this->outcomeValue;
-    }
-
-    /**
-     * Add assessmentToolContributeOutcome
-     *
-     * @param \AppBundle\Entity\AssessmentToolContributeOutcomes $assessmentToolContributeOutcome
-     *
-     * @return Outcome
-     */
-    public function addAssessmentToolContributeOutcome(\AppBundle\Entity\AssessmentToolContributeOutcomes $assessmentToolContributeOutcome)
-    {
-        $this->assessmentToolContributeOutcomes[] = $assessmentToolContributeOutcome;
-
-        return $this;
-    }
-
-    /**
-     * Remove assessmentToolContributeOutcome
-     *
-     * @param \AppBundle\Entity\AssessmentToolContributeOutcomes $assessmentToolContributeOutcome
-     */
-    public function removeAssessmentToolContributeOutcome(\AppBundle\Entity\AssessmentToolContributeOutcomes $assessmentToolContributeOutcome)
-    {
-        $this->assessmentToolContributeOutcomes->removeElement($assessmentToolContributeOutcome);
-    }
-
-    /**
-     * Get assessmentToolContributeOutcomes
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getAssessmentToolContributeOutcomes()
-    {
-        return $this->assessmentToolContributeOutcomes;
-    }
-
-    /**
-     * Add contentContributesOutcome
-     *
-     * @param \AppBundle\Entity\ContentContributesOutcome $contentContributesOutcome
-     *
-     * @return Outcome
-     */
-    public function addContentContributesOutcome(\AppBundle\Entity\ContentContributesOutcome $contentContributesOutcome)
-    {
-        $this->contentContributesOutcome[] = $contentContributesOutcome;
-
-        return $this;
-    }
-
-    /**
-     * Remove contentContributesOutcome
-     *
-     * @param \AppBundle\Entity\ContentContributesOutcome $contentContributesOutcome
-     */
-    public function removeContentContributesOutcome(\AppBundle\Entity\ContentContributesOutcome $contentContributesOutcome)
-    {
-        $this->contentContributesOutcome->removeElement($contentContributesOutcome);
-    }
-
-    /**
-     * Get contentContributesOutcome
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getContentContributesOutcome()
-    {
-        return $this->contentContributesOutcome;
+        return $this->descriptionEnglish;
     }
 
     /**
@@ -290,8 +172,8 @@ class Outcome
      */
     public function addCourseContributesOutcome(\AppBundle\Entity\CourseContributesOutcome $courseContributesOutcome)
     {
+        $courseContributesOutcome->setOutcome($this);
         $this->courseContributesOutcome[] = $courseContributesOutcome;
-
         return $this;
     }
 
@@ -313,5 +195,51 @@ class Outcome
     public function getCourseContributesOutcome()
     {
         return $this->courseContributesOutcome;
+    }
+
+    /**
+     * Add performanceIndicator
+     *
+     * @param \AppBundle\Entity\PerformanceIndicator $performanceIndicator
+     *
+     * @return Outcome
+     */
+    public function addPerformanceIndicator(\AppBundle\Entity\PerformanceIndicator $performanceIndicator)
+    {
+        $this->performanceIndicators[] = $performanceIndicator;
+
+        return $this;
+    }
+
+    /**
+     * Remove performanceIndicator
+     *
+     * @param \AppBundle\Entity\PerformanceIndicator $performanceIndicator
+     */
+    public function removePerformanceIndicator(\AppBundle\Entity\PerformanceIndicator $performanceIndicator)
+    {
+        $performanceIndicator->setOutcome($this);
+        $this->performanceIndicators->removeElement($performanceIndicator);
+    }
+
+    /**
+     * Get performanceIndicators
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getPerformanceIndicators()
+    {
+        return $this->performanceIndicators;
+    }
+
+    /**
+     * returns the performance indicators for the bloomLevel passed by parameter
+     * @param $bloomLevel
+     * @return \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection|null
+     */
+    public function getPerformanceIndicatorsByBloomLevel($bloomLevel)
+    {
+        $criteria = Criteria::create()->where(Criteria::expr()->eq('bloomLevel',$bloomLevel));
+        return ($this->performanceIndicators->matching($criteria)->count()>0)?$this->performanceIndicators->matching($criteria):null;
     }
 }

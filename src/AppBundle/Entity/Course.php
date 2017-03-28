@@ -1,7 +1,7 @@
 <?php
 /**
  * Created by PhpStorm.
- * User: erikaxu
+ * User: andres
  * Date: 14/09/16
  * Time: 12:05 PM
  */
@@ -16,12 +16,7 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  * Class Course
  * @package AppBundle\Entity
  *
- * @ORM\Table(name="course",
- *     uniqueConstraints={
- *          @UniqueConstraint(
- *              name="codeCourseUnique", columns={"course_code"}
- *          )
- *     })
+ * @ORM\Table(name="course")
  * @ORM\Entity
  */
 Class Course
@@ -44,7 +39,7 @@ Class Course
     /**
      * @var string
      *
-     * @ORM\Column(name="course_code",type="string", length=8, nullable=true)
+     * @ORM\Column(name="course_code",type="string", length=8, unique=TRUE, nullable=true)
      */
     private $courseCode;
 
@@ -70,52 +65,83 @@ Class Course
     private $shortNameCourse;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ClassCourse", mappedBy="courseCourse", cascade={"persist", "remove"})
-     */
-    private $classes;
-
-    /**
      * @var string
      * @ORM\Column(name="component",type="string",length=20, nullable=true)
      */
     private $component;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TeacherDictatesCourse", mappedBy="courseCourse", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ClassCourse", mappedBy="course", cascade={"persist"})
      */
-    private $courseIsDictatedByTeachers;
+    private $classCourses;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\SectionHasCourse", mappedBy="courseCourse", cascade={"persist", "remove"})
-     */
-    private $courseHasSection;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\FacultyHasCourses", mappedBy="courseCourse", cascade={"persist", "remove"})
-     */
-    private $courseHasfaculty;
-
-    /**
-     * @var boolean
-     * @ORM\Column(name="contribute_outcome",type="boolean", nullable=true)
-     */
-    private $contributeOutcome;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CourseContributesOutcome", mappedBy="courseCourse", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CourseContributesOutcome",mappedBy="course", cascade={"persist"})
      */
     private $courseContributesOutcome;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Faculty",mappedBy="courses",cascade={"persist"})
+     */
+    private $faculties;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Teacher",mappedBy="courses", cascade={"persist"})
+     */
+    private $teachers;
 
     /**
      * @ORM\Column(name="created_at",type="datetime", nullable=true)
      */
     private $createdAt = null;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Section",inversedBy="courses", cascade={"persist"})
+     * @ORM\JoinColumn(name="section_id", referencedColumnName="id_section")
+     */
+    private $section;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Rubric",mappedBy="courseCourse",cascade={"persist","remove"})
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\EvaluationModel",inversedBy="course",cascade={"persist"})
+     * @ORM\JoinColumn(name="evaluation_model_id", referencedColumnName="id_evaluation_model", unique=TRUE)
      */
-    private $rubrics;
+    private $evaluationModel;
+
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return $this->getShortNameCourse().' '.$this->courseCode;
+    }
+
+    /**
+     * Course constructor.
+     * @param string|null $academicGrade
+     * @param string|null $courseCode
+     * @param integer|null $credits
+     * @param string|null $nameCourse
+     * @param string|null $shortNameCourse
+     * @param string|null $component
+     * @param Section|null $section
+     */
+    public function __construct($academicGrade = null, $courseCode = null, $credits = null, $nameCourse = null, $shortNameCourse = null, $component = null,
+                                Section $section = null)
+    {
+        $this->academicGrade = $academicGrade;
+        $this->courseCode = $courseCode;
+        $this->credits = $credits;
+        $this->nameCourse = $nameCourse;
+        $this->shortNameCourse = $shortNameCourse;
+        $this->component = $component;
+        $this->section = $section;
+        $this->createdAt = new \DateTime();
+        $this->classCourses = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->faculties = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->teachers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->courseContributesOutcome = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get idCourse
@@ -224,6 +250,30 @@ Class Course
     }
 
     /**
+     * Set shortNameCourse
+     *
+     * @param string $shortNameCourse
+     *
+     * @return Course
+     */
+    public function setShortNameCourse($shortNameCourse)
+    {
+        $this->shortNameCourse = $shortNameCourse;
+
+        return $this;
+    }
+
+    /**
+     * Get shortNameCourse
+     *
+     * @return string
+     */
+    public function getShortNameCourse()
+    {
+        return $this->shortNameCourse;
+    }
+
+    /**
      * Set component
      *
      * @param string $component
@@ -272,164 +322,108 @@ Class Course
     }
 
     /**
-     * Add class
+     * Add classCourse
      *
-     * @param \AppBundle\Entity\ClassCourse $class
+     * @param \AppBundle\Entity\ClassCourse $classCourse
      *
      * @return Course
      */
-    public function addClass(\AppBundle\Entity\ClassCourse $class)
+    public function addClassCourse(\AppBundle\Entity\ClassCourse $classCourse)
     {
-        $class->setCourseCourse($this);
-        $this->classes[] = $class;
-
+        if($classCourse->getCourse()!=$this)$classCourse->setCourse($this);
+        $this->classCourses[] = $classCourse;
         return $this;
     }
 
     /**
-     * Remove class
+     * Remove classCourse
      *
-     * @param \AppBundle\Entity\ClassCourse $class
+     * @param \AppBundle\Entity\ClassCourse $classCourse
      */
-    public function removeClass(\AppBundle\Entity\ClassCourse $class)
+    public function removeClassCourse(\AppBundle\Entity\ClassCourse $classCourse)
     {
-        $this->classes->removeElement($class);
+        $this->classCourses->removeElement($classCourse);
     }
 
     /**
-     * Get classes
+     * Get classCourses
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getClasses()
+    public function getClassCourses()
     {
-        return $this->classes;
+        return $this->classCourses;
     }
 
     /**
-     * Add courseIsDictatedByTeacher
+     * Add faculty
      *
-     * @param \AppBundle\Entity\TeacherDictatesCourse $courseIsDictatedByTeacher
+     * @param \AppBundle\Entity\Faculty $faculty
      *
      * @return Course
      */
-    public function addCourseIsDictatedByTeacher(\AppBundle\Entity\TeacherDictatesCourse $courseIsDictatedByTeacher)
+    public function addFaculty(\AppBundle\Entity\Faculty $faculty)
     {
-        $this->courseIsDictatedByTeachers[] = $courseIsDictatedByTeacher;
+        $faculty->addCourse($this);
+        $this->faculties[] = $faculty;
         return $this;
     }
 
     /**
-     * Remove courseIsDictatedByTeacher
+     * Remove faculty
      *
-     * @param \AppBundle\Entity\TeacherDictatesCourse $courseIsDictatedByTeacher
+     * @param \AppBundle\Entity\Faculty $faculty
      */
-    public function removeCourseIsDictatedByTeacher(\AppBundle\Entity\TeacherDictatesCourse $courseIsDictatedByTeacher)
+    public function removeFaculty(\AppBundle\Entity\Faculty $faculty)
     {
-        $this->courseIsDictatedByTeachers->removeElement($courseIsDictatedByTeacher);
+        $faculty->removeCourse($this);
+        $this->faculties->removeElement($faculty);
     }
 
     /**
-     * Get courseIsDictatedByTeachers
+     * Get faculties
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCourseIsDictatedByTeachers()
+    public function getFaculties()
     {
-        return $this->courseIsDictatedByTeachers;
+        return $this->faculties;
     }
 
     /**
-     * Add courseHasSection
+     * Add teacher
      *
-     * @param \AppBundle\Entity\SectionHasCourse $courseHasSection
+     * @param \AppBundle\Entity\Teacher $teacher
      *
      * @return Course
      */
-    public function addCourseHasSection(\AppBundle\Entity\SectionHasCourse $courseHasSection)
+    public function addTeacher(\AppBundle\Entity\Teacher $teacher)
     {
-        $this->courseHasSection[] = $courseHasSection;
+        $this->teachers[] = $teacher;
+
         return $this;
     }
 
     /**
-     * Remove courseHasSection
+     * Remove teacher
      *
-     * @param \AppBundle\Entity\SectionHasCourse $courseHasSection
+     * @param \AppBundle\Entity\Teacher $teacher
      */
-    public function removeCourseHasSection(\AppBundle\Entity\SectionHasCourse $courseHasSection)
+    public function removeTeacher(\AppBundle\Entity\Teacher $teacher)
     {
-        $this->courseHasSection->removeElement($courseHasSection);
+        $this->teachers->removeElement($teacher);
     }
 
     /**
-     * Get courseHasSection
+     * Get teachers
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getCourseHasSection()
+    public function getTeachers()
     {
-        return $this->courseHasSection;
+        return $this->teachers;
     }
 
-    /**
-     * Add courseHasfaculty
-     *
-     * @param \AppBundle\Entity\FacultyHasCourses $courseHasfaculty
-     *
-     * @return Course
-     */
-    public function addCourseHasfaculty(\AppBundle\Entity\FacultyHasCourses $courseHasfaculty)
-    {
-        $this->courseHasfaculty[] = $courseHasfaculty;
-
-        return $this;
-    }
-
-    /**
-     * Remove courseHasfaculty
-     *
-     * @param \AppBundle\Entity\FacultyHasCourses $courseHasfaculty
-     */
-    public function removeCourseHasfaculty(\AppBundle\Entity\FacultyHasCourses $courseHasfaculty)
-    {
-        $this->courseHasfaculty->removeElement($courseHasfaculty);
-    }
-
-    /**
-     * Get courseHasfaculty
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCourseHasfaculty()
-    {
-        return $this->courseHasfaculty;
-    }
-
-    /**
-     * Set shortNameCourse
-     *
-     * @param string $shortNameCourse
-     *
-     * @return Course
-     */
-    public function setShortNameCourse($shortNameCourse)
-    {
-        $this->shortNameCourse = $shortNameCourse;
-
-        return $this;
-    }
-
-    /**
-     * Get shortNameCourse
-     *
-     * @return string
-     */
-    public function getShortNameCourse()
-    {
-        return $this->shortNameCourse;
-    }
-    
     /**
      * Add courseContributesOutcome
      *
@@ -439,8 +433,8 @@ Class Course
      */
     public function addCourseContributesOutcome(\AppBundle\Entity\CourseContributesOutcome $courseContributesOutcome)
     {
+        $courseContributesOutcome->setCourse($this);
         $this->courseContributesOutcome[] = $courseContributesOutcome;
-
         return $this;
     }
 
@@ -465,106 +459,59 @@ Class Course
     }
 
     /**
-     * Set contributeOutcome
+     * Set section
      *
-     * @param boolean $contributeOutcome
+     * @param \AppBundle\Entity\Section $section
      *
      * @return Course
      */
-    public function setContributeOutcome($contributeOutcome)
+    public function setSection(\AppBundle\Entity\Section $section = null)
     {
-        $this->contributeOutcome = $contributeOutcome;
+        $this->section = $section;
 
         return $this;
     }
 
     /**
-     * Get contributeOutcome
+     * Get section
      *
-     * @return boolean
+     * @return \AppBundle\Entity\Section
      */
-    public function getContributeOutcome()
+    public function getSection()
     {
-        return $this->contributeOutcome;
+        return $this->section;
     }
 
     /**
-     * Get ActiveCourseContributesOutcomes
+     * Set evaluationModel
      *
-     * @param Period $period
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getActiveCourseContributesOutcomes($period)
-    {
-        $criteria = Criteria::create()
-            ->where(Criteria::expr()->eq('period',$period));
-        return $this->courseContributesOutcome->matching($criteria);
-    }
-
-    /**
-     * Add rubric
-     *
-     * @param \AppBundle\Entity\Rubric $rubric
+     * @param \AppBundle\Entity\EvaluationModel $evaluationModel
      *
      * @return Course
      */
-    public function addRubric(\AppBundle\Entity\Rubric $rubric)
+    public function setEvaluationModel(\AppBundle\Entity\EvaluationModel $evaluationModel = null)
     {
-        $this->rubrics[] = $rubric;
-
+        $this->evaluationModel = $evaluationModel;
         return $this;
     }
 
     /**
-     * Remove rubric
+     * Get evaluationModel
      *
-     * @param \AppBundle\Entity\Rubric $rubric
+     * @return \AppBundle\Entity\EvaluationModel
      */
-    public function removeRubric(\AppBundle\Entity\Rubric $rubric)
+    public function getEvaluationModel()
     {
-        $this->rubrics->removeElement($rubric);
+        return $this->evaluationModel;
     }
 
     /**
-     * Get rubrics
-     *
-     * @return \Doctrine\Common\Collections\Collection
+     * Returns true if the course belongs to the faculty
+     * @param Faculty $faculty
+     * @return bool
      */
-    public function getRubrics()
+    public function belongsToFaculty(Faculty $faculty)
     {
-        return $this->rubrics;
-    }
-
-    /**
-     * Get RubricsByClassCourse
-     * @param ClassCourse $classCourse
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getRubricsByClassCourse($classCourse){
-        $criteria=Criteria::create()
-            ->where(Criteria::expr()->eq('classCourseClassCourse',$classCourse));
-        return $this->rubrics->matching($criteria);
-    }
-
-    /**
-     * Get RubricsByTeacherDictatesCourse
-     * @param TeacherDictatesCourse $teacherDictatesCourse
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getRubricsByTeacherDictatesCourse($teacherDictatesCourse){
-        $criteria=Criteria::create()
-            ->where(Criteria::expr()->eq('teacherDictatesCourse',$teacherDictatesCourse));
-        return $this->rubrics->matching($criteria);
-    }
-
-    /**
-     * Get RubricsNotMatchingTeacherDictatesCourse
-     * @param TeacherDictatesCourse $teacherDictatesCourse
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getRubricsNotMatchingTeacherDictatesCourse($teacherDictatesCourse){
-        $criteria=Criteria::create()
-            ->where(Criteria::expr()->neq('teacherDictatesCourse',$teacherDictatesCourse));
-        return $this->rubrics->matching($criteria);
+        return $this->faculties->contains($faculty);
     }
 }

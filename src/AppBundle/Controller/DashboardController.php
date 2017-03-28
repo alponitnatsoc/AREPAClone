@@ -4,11 +4,9 @@ namespace AppBundle\Controller;
 
 use AppBundle\Entity\Course;
 use AppBundle\Entity\Faculty;
-use AppBundle\Entity\FacultyHasTeachers;
-use AppBundle\Entity\RoleType;
-use AppBundle\Entity\TeacherHasRole;
 use AppBundle\Entity\User;
 use Doctrine\ORM\QueryBuilder;
+use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,27 +43,20 @@ class DashboardController extends Controller
                 $user = $this->getUser();
                 if(!$user->getPersonPerson()){
                     $em = $this->getDoctrine()->getManager();
-                    $person = $em->getRepository("AppBundle:Person")->findOneBy(array('email'=>$user->getEmail()));
+                    $person = $em->getRepository("AppBundle:Person")->findOneBy(array('peopleSoftEmail'=>$user->getEmail()));
                     if($person){
                         $user->setPersonPerson($person);
-                        if($person->getTeacher()){
+                        /** @var $userManager UserManagerInterface */
+                        $userManager = $this->get('fos_user.user_manager');
+                        if($person->isTeacher()){
                             $rolesArr = array('ROLE_TEACHER');
-                            $teacherHasRole = new TeacherHasRole();
-                            /** @var RoleType $roleType */
-                            $roleType = $em->getRepository('AppBundle:RoleType')->findOneBy(array('roleCode'=>'ROLE_TEACHER'));
-                            $teacherHasRole->setRoleTypeRoleType($roleType);
-                            $roleType->addTeachersHasRole($teacherHasRole);
-                            $teacherHasRole->setTeacherTeacher($person->getTeacher());
-                            $person->getTeacher()->addTeacherHasRole($teacherHasRole);
                             $user->setRoles($rolesArr);
-                            $em->persist($teacherHasRole);
-                            $em->persist($roleType);
-                        }elseif($person->getStudent()){
+                        }elseif($person->isStudent()){
                             $rolesArr = array('ROLE_STUDENT');
                             $user->setRoles($rolesArr);
                         }
+                        $userManager->updateUser($user);
                         $em->persist($user);
-                        $em->persist($person);
                         $em->flush();
                     }
                 }

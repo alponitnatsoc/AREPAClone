@@ -79,54 +79,30 @@ class LoadInitialData extends AbstractFixture implements OrderedFixtureInterface
                             /** @var Faculty $faculty */
                             $faculty = $manager->getRepository("AppBundle:Faculty")->findOneBy(array('facultyCode'=>$facultyCode));//finding if faculty already exist
                             if(!$faculty){//if not creates the new faculty with the previous params
-                                $faculty = new Faculty();
-                                $faculty->setName(strval($facultyName));
-                                $faculty->setFacultyCode($facultyCode);
+                                $faculty = new Faculty(strval($facultyName),strval($facultyCode));
                                 $manager->persist($faculty);
+                                $manager->flush();
                                 //echo "   [--Facultad: ".$faculty->getName()." Cod: ".$facultyCode." creada.--]".PHP_EOL;
                             }
+                            $academicGrade = $data[$count][0];//getting the course academic grade
                             $courseCode = $data[$count][4];//getting the course code
                             $credits = $data[$count][7];//getting the course credits
                             $courseName = $data[$count][5];//getting the course name
                             $shortName = $data[$count][6];//getting the course short name
                             $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode' => $courseCode));//finding if the course already exist
                             if($faculty and !$course){//if faculty exist and course doesn't exist creating the course and adding the relation with the faculty
-                                $course = new Course();
-                                $course->setCourseCode($courseCode);
-                                $course->setAcademicGrade($data[$count][0]);
-                                $course->setCreatedAt(new \DateTime());
-                                $course->setCredits($credits);
-                                $course->setNameCourse($courseName);
-                                $course->setShortNameCourse($shortName);
-                                $facultyHasCourse = new FacultyHasCourses();
-                                $facultyHasCourse->setCourseCourse($course);
-                                $facultyHasCourse->setFacultyFaculty($faculty);
-                                $faculty->addFacultyHasCourse($facultyHasCourse);
-                                $course->addCourseHasfaculty($facultyHasCourse);
-                                $manager->persist($facultyHasCourse);
-                                //echo "   [--Curso: ".$course->getNameCourse()." Cod: ".$course->getCourseCode()." creado.--]".PHP_EOL;
-                            }elseif($faculty and $course
-                                and !$manager->getRepository("AppBundle:FacultyHasCourses")->findOneBy(array('facultyFaculty'=>$faculty, 'courseCourse'=>$course))){
-                                //if both course and faculty exist but relation between them doesn't exist creating only the relation
-                                $facultyHasCourse = new FacultyHasCourses();
-                                $facultyHasCourse->setCourseCourse($course);
-                                $facultyHasCourse->setFacultyFaculty($faculty);
-                                $faculty->addFacultyHasCourse($facultyHasCourse);
-                                $course->addCourseHasfaculty($facultyHasCourse);
-                                $manager->persist($facultyHasCourse);
-                            }
-                            $manager->flush();
-                            /** @var FacultyHasCourses $facultyHasCourse */
-                            $facultyHasCourse = $manager->getRepository("AppBundle:FacultyHasCourses")->findOneBy(array('facultyFaculty'=>$faculty,'courseCourse'=>$course));
-                            //if the relation doesn't exist at this step crating only the relation
-                            if(!$facultyHasCourse){
-                                $facultyHasCourse = new FacultyHasCourses();
-                                $facultyHasCourse->setCourseCourse($course);
-                                $facultyHasCourse->setFacultyFaculty($faculty);
-                                $faculty->addFacultyHasCourse($facultyHasCourse);
-                                $course->addCourseHasfaculty($facultyHasCourse);
-                                $manager->persist($facultyHasCourse);
+                                $course = new Course($academicGrade,$courseCode,$credits,$courseName,$shortName);
+                                $course->addFaculty($faculty);
+                                $manager->persist($course);
                                 $manager->flush();
+                                //echo "   [--Curso: ".$course->getNameCourse()." Cod: ".$course->getCourseCode()." creado.--]".PHP_EOL;
+                            }elseif($faculty and $course and !$course->belongsToFaculty($faculty)){
+                                //if both course and faculty exist but relation between them doesn't exist creating only the relation
+                                $course->addFaculty($faculty);
+                                $manager->persist($course);
+                                $manager->flush();
+                            }else{
+                                echo "\033[0;33m  >\033[0;31\033[1m loading [2] Faculties and Courses.."."error:".$course->getCourseCode()." ".$faculty->getFacultyCode()."\033[0;00m".PHP_EOL;
                             }
                             $manager->clear();
                         }

@@ -89,8 +89,8 @@ __Now is time to install Git and composer__
 
 **composer can be a little bit tricky if you want to run it without _```composer_phar```_**
 
-    sudo php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-    sudo php -r "if (hash_file('SHA384', 'composer-setup.php') === '55d6ead61b29c7bdee5cccfb50076874187bd9f21f65d8991d46ec5cc90518f447387fb9f76ebae1fbbacf329e583e30') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
+    php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+    php -r "if (hash_file('SHA384', 'composer-setup.php') === '669656bab3166a7aff8a7506b8cb2d1c292f042046c5a994c43155c0be6190fa0355160742ab2e1c88d40d5be660b410') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;"
     sudo php composer-setup.php --install-dir=/usr/local/bin --filename=composer 
     sudo php -r "unlink('composer-setup.php');"
     
@@ -153,8 +153,11 @@ To initialize the database you need to download all the reports from javeriana p
 When everything is downloaded and it's placed in the correct web/Uploads/Files/ directory you can run one by one the next commands:
     
     php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/LoadPlataformData.php --append
+    php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/LoadSecurityRolesData.php --append
+    php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/LoadDocumentTypeData.php --append
+    php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/LoadOutcomeData.php --append
     php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/LoadUserData.php --append
-    php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/LoadRoleTypeData.php --append
     php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/LoadInitialData.php --append
-    php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/LoadCoursesData.php --append
-    php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/LoadTeachersData.php --append
+    php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/LoadClassCourseData.php --append
+    php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/loadTeacherData.php --append
+    php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/LoadCoursesContributesOutcomeData.php --append

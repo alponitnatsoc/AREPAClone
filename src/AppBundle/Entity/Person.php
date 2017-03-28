@@ -7,14 +7,25 @@
  */
 
 namespace AppBundle\Entity;
-
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * Class Person
  * @package AppBundle\Entity
  *
- * @ORM\Table(name="person")
+ * @ORM\Table(name="person",
+ *      uniqueConstraints={
+ *          @UniqueConstraint(
+ *              name="person_document_unique", columns={"document_type","document"}
+ *          ),@UniqueConstraint(
+ *              name="people_soft_email_unique", columns={"people_soft_email"}
+ *          ),@UniqueConstraint(
+ *              name="people_soft_user_name_unique", columns={"people_soft_user_name"}
+ *          )
+ *     })
  * @ORM\Entity
  */
 class Person
@@ -64,35 +75,11 @@ class Person
      */
     private $document;
 
-    /**
-     * @var Student
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Student", mappedBy="personPerson", cascade={"persist","remove"})
-     * @ORM\JoinColumn(name="student_id",referencedColumnName="id_student",nullable=true)
-     */
-    private $student;
+    /** @ORM\Column(name="people_soft_email",type="string",nullable=true) */
+    private $peopleSoftEmail;
 
-    /**
-     * @var Teacher
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Teacher", mappedBy="personPerson", cascade={"persist","remove"})
-     * @ORM\JoinColumn(name="teacher_id",referencedColumnName="id_teacher",nullable=true)
-     */
-    private $teacher;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PersonNotification", mappedBy="personPerson", cascade={"persist", "remove"})
-     */
-    private $personNotification;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Notification",mappedBy="sender")
-     */
-    private $notifications;
-
-    /** @ORM\Column(name="email",type="string",nullable=true) */
-    private $email;
-
-    /** @ORM\Column(name="user_name",type="string",nullable=true) */
-    private $userName;
+    /** @ORM\Column(name="people_soft_user_name",type="string",nullable=true) */
+    private $peopleSoftUserName;
 
     /** @ORM\Column(name="phone",type="string",nullable=true) */
     private $phone;
@@ -101,21 +88,19 @@ class Person
     private $gender;
 
     /**
-     * @var string
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\User", inversedBy="personPerson",cascade={"persist"})
+     * @ORM\JoinColumn(name="user_id", referencedColumnName="id", unique=TRUE)
      */
-    private $userUser;
+    private $user;
 
     /**
-     * Constructor
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Role",mappedBy="person", cascade={"persist"})
      */
-    public function __construct()
-    {
-        $this->personNotification = new \Doctrine\Common\Collections\ArrayCollection();
-    }
+    private $personRole;
 
     /**
      * Get FullName
-     *
+     *  returns the names and the last names of the person
      * @return string
      */
     public function getFullName()
@@ -144,6 +129,84 @@ class Person
         return $fullName;
     }
 
+    /**
+     * returns the full last name of the person
+     * @return string
+     */
+    public function getFullLastName()
+    {
+        $fullLastName = '';
+        if( $this->lastName1 !=''){
+            $fullLastName .= $this->lastName1;
+        }
+        if($this->lastName2!=''){
+            $fullLastName .=' '.$this->lastName2;
+        }
+        return $fullLastName;
+    }
+
+    /**
+     * return the full name of the person
+     * @return string
+     */
+    public function getNames()
+    {
+        $names = '';
+        if( $this->firstName !=''){
+            $names .= $this->firstName;
+        }
+        if($this->secondName!=''){
+            $names .=' '.$this->secondName;
+        }
+        return $names;
+    }
+
+
+    public function __toString()
+    {
+        return $this->getFullName();
+    }
+
+    /**
+     * like toString method but with document type and document number
+     * @return string
+     */
+    public function getInfo()
+    {
+        return $this->getFullLastName().', '.$this->getNames().". ".$this->getDocumentType()." ".$this->getDocument();
+    }
+
+    /**
+     * Constructor
+     * @param string $firstName
+     * @param string $secondName
+     * @param string $lastName1
+     * @param string $lastName2
+     * @param string $documentType
+     * @param string $document
+     * @param string $peopleSoftEmail
+     * @param string $peopleSoftUserName
+     * @param string $phone
+     * @param string $gender
+     * @param User $user
+     * @param ArrayCollection $personRoles
+     */
+    public function __construct($firstName = null, $secondName = null, $lastName1 = null, $lastName2 = null, $documentType = null,
+                                $document = null, $peopleSoftEmail = null, $peopleSoftUserName = null, $phone = null, $gender = null, User $user = null, ArrayCollection $personRoles = null)
+    {
+        $this->firstName = $firstName;
+        $this->secondName = $secondName;
+        $this->lastName1 = $lastName1;
+        $this->lastName2 = $lastName2;
+        $this->documentType = $documentType;
+        $this->document = $document;
+        $this->peopleSoftEmail = $peopleSoftEmail;
+        $this->peopleSoftUserName = $peopleSoftUserName;
+        $this->phone = $phone;
+        $this->gender = $gender;
+        $this->user = $user;
+        $this->personRole = ($personRoles!= null) ? $personRoles : new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get idPerson
@@ -300,133 +363,51 @@ class Person
     }
 
     /**
-     * Set student
+     * Set peopleSoftEmail
      *
-     * @param \AppBundle\Entity\Student $student
+     * @param string $peopleSoftEmail
      *
      * @return Person
      */
-    public function setStudent(\AppBundle\Entity\Student $student = null)
+    public function setPeopleSoftEmail($peopleSoftEmail)
     {
-        $this->student = $student;
+        $this->peopleSoftEmail = $peopleSoftEmail;
 
         return $this;
     }
 
     /**
-     * Get student
-     *
-     * @return \AppBundle\Entity\Student
-     */
-    public function getStudent()
-    {
-        return $this->student;
-    }
-
-    /**
-     * Set teacher
-     *
-     * @param \AppBundle\Entity\Teacher $teacher
-     *
-     * @return Person
-     */
-    public function setTeacher(\AppBundle\Entity\Teacher $teacher = null)
-    {
-        $this->teacher = $teacher;
-
-        return $this;
-    }
-
-    /**
-     * Get teacher
-     *
-     * @return \AppBundle\Entity\Teacher
-     */
-    public function getTeacher()
-    {
-        return $this->teacher;
-    }
-
-    /**
-     * Add personNotification
-     *
-     * @param \AppBundle\Entity\PersonNotification $personNotification
-     *
-     * @return Person
-     */
-    public function addPersonNotification(\AppBundle\Entity\PersonNotification $personNotification)
-    {
-        $this->personNotification[] = $personNotification;
-
-        return $this;
-    }
-
-    /**
-     * Remove personNotification
-     *
-     * @param \AppBundle\Entity\PersonNotification $personNotification
-     */
-    public function removePersonNotification(\AppBundle\Entity\PersonNotification $personNotification)
-    {
-        $this->personNotification->removeElement($personNotification);
-    }
-
-    /**
-     * Get personNotification
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getPersonNotification()
-    {
-        return $this->personNotification;
-    }
-
-    /**
-     * Set email
-     *
-     * @param string $email
-     *
-     * @return Person
-     */
-    public function setEmail($email)
-    {
-        $this->email = $email;
-
-        return $this;
-    }
-
-    /**
-     * Get email
+     * Get peopleSoftEmail
      *
      * @return string
      */
-    public function getEmail()
+    public function getPeopleSoftEmail()
     {
-        return $this->email;
+        return $this->peopleSoftEmail;
     }
 
     /**
-     * Set userName
+     * Set peopleSoftUserName
      *
-     * @param string $userName
+     * @param string $peopleSoftUserName
      *
      * @return Person
      */
-    public function setUserName($userName)
+    public function setPeopleSoftUserName($peopleSoftUserName)
     {
-        $this->userName = $userName;
+        $this->peopleSoftUserName = $peopleSoftUserName;
 
         return $this;
     }
 
     /**
-     * Get userName
+     * Get peopleSoftUserName
      *
      * @return string
      */
-    public function getUserName()
+    public function getPeopleSoftUserName()
     {
-        return $this->userName;
+        return $this->peopleSoftUserName;
     }
 
     /**
@@ -478,36 +459,140 @@ class Person
     }
 
     /**
-     * Add notification
+     * Set user
      *
-     * @param \AppBundle\Entity\Notification $notification
+     * @param \AppBundle\Entity\User $user
      *
      * @return Person
      */
-    public function addNotification(\AppBundle\Entity\Notification $notification)
+    public function setUser(\AppBundle\Entity\User $user = null)
     {
-        $this->notifications[] = $notification;
+        $this->user = $user;
 
         return $this;
     }
 
     /**
-     * Remove notification
+     * Get user
      *
-     * @param \AppBundle\Entity\Notification $notification
+     * @return \AppBundle\Entity\User
      */
-    public function removeNotification(\AppBundle\Entity\Notification $notification)
+    public function getUser()
     {
-        $this->notifications->removeElement($notification);
+        return $this->user;
+    }
+
+
+    /**
+     * @param Role $personRole
+     * @return $this
+     * @throws \Exception when person already has the role
+     */
+    public function addPersonRole(\AppBundle\Entity\Role $personRole)
+    {
+        if($personRole instanceof Student and $this->isStudent()) {
+            throw new \Exception("This person already has one role Student",101);
+        }elseif ($personRole instanceof Teacher and $this->isTeacher()) {
+            throw new \Exception("This person already has one role Teacher",101);
+        }elseif ($personRole instanceof TeacherAssistant and $this->isTeacherAssistant()) {
+            throw new \Exception("This person already has one role TeacherAssistant",101);
+        }
+        if($personRole->getPerson()==null){
+            $personRole->setPerson($this);
+        }
+        $this->personRole[]= $personRole;
+        return $this;
     }
 
     /**
-     * Get notifications
+     * Remove personRole
+     *
+     * @param \AppBundle\Entity\Role $personRole
+     */
+    public function removePersonRole(\AppBundle\Entity\Role $personRole)
+    {
+        $personRole->setPerson(null);
+        $this->personRole->removeElement($personRole);
+    }
+
+    /**
+     * Get personRole
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getNotifications()
+    public function getPersonRole()
     {
-        return $this->notifications;
+        return $this->personRole;
+    }
+
+    /**
+     * is student
+     * return true if the person has one role Student
+     *
+     * @return bool
+     */
+    public function isStudent()
+    {
+        $criteria = Criteria::create();
+        $criteria->where(Criteria::expr()->eq("Class",'Student'));
+        return ($this->personRole->matching($criteria)->count()>0)? true: false;
+    }
+
+    /**
+     * is teacher
+     * return true if the person has one role Teacher
+     * @return bool
+     */
+    public function isTeacher()
+    {
+        $criteria = Criteria::create();
+        $criteria->where(Criteria::expr()->eq("Class",'Teacher'));
+        return ($this->personRole->matching($criteria)->count()>0)? true: false;
+    }
+
+    /**
+     * is teacher assistant
+     * return true if the person has one role TeacherAssistant
+     *
+     * @return bool
+     */
+    public function isTeacherAssistant()
+    {
+        $criteria = Criteria::create();
+        $criteria->where(Criteria::expr()->eq("Class",'TeacherAssistant'));
+        return ($this->personRole->matching($criteria)->count()>0)? true: false;
+    }
+
+    /**
+     * if person has one student returns the Student else returns null
+     * @return Student
+     */
+    public function getStudent()
+    {
+        $criteria = Criteria::create();
+        $criteria->where(Criteria::expr()->eq("Class",'Student'));
+        return ($this->personRole->matching($criteria)->count()==1)? $this->personRole->matching($criteria)->first(): null;
+    }
+
+    /**
+     * if person has one teacher returns the Teacher else returns null
+     * @return Teacher
+     */
+    public function getTeacher()
+    {
+        $criteria = Criteria::create();
+        $criteria->where(Criteria::expr()->eq("Class",'Teacher'));
+        return ($this->personRole->matching($criteria)->count()==1)? $this->personRole->matching($criteria)->first(): null;
+    }
+
+    /**
+     * if person has one teacher assistant returns the TeacherAssistant else returns null
+     * @return Teacher
+     */
+    public function getTeacherAssistant()
+    {
+        $criteria = Criteria::create();
+        $criteria->where(Criteria::expr()->eq("Class",'TeacherAssistant'));
+        return ($this->personRole->matching($criteria)->count()==1)? $this->personRole->matching($criteria)->first(): null;
     }
 }

@@ -21,7 +21,7 @@ use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use AppBundle\Entity\Course;
 
-class LoadCoursesData extends AbstractFixture implements OrderedFixtureInterface
+class LoadClassCourseData extends AbstractFixture implements OrderedFixtureInterface
 {
     /**
      * ╔═══════════════════════════════════════════════════════════════╗
@@ -86,8 +86,7 @@ class LoadCoursesData extends AbstractFixture implements OrderedFixtureInterface
                         /** @var Faculty $faculty */
                         $faculty = $manager->getRepository("AppBundle:Faculty")->findOneBy(array('facultyCode' =>$facultyCode));
                         if(!$faculty){//if faculty not found creates the new faculty
-                            $faculty = new Faculty();
-                            $faculty->setFacultyCode($facultyCode);
+                            $faculty = new Faculty(null,$facultyCode);
                             $manager->persist($faculty);
                             //echo '   [--Faculty with code '.$facultyCode.' created.--]'.PHP_EOL;
                         }
@@ -96,9 +95,6 @@ class LoadCoursesData extends AbstractFixture implements OrderedFixtureInterface
                         /** @var Person $person */
                         $person = $manager->getRepository("AppBundle:Person")->findOneBy(array('document' => $documentNumber));
                         if($person == null){//if person not faund creates the new person and teacher
-                            $person = new Person();
-                            $person->setDocumentType('CC');
-                            $person->setDocument($documentNumber);
                             $strex = explode(',', $fullName);
                             $nameex = explode(' ', $strex[1]);
                             $lastex = explode(' ', $strex[0]);
@@ -124,106 +120,61 @@ class LoadCoursesData extends AbstractFixture implements OrderedFixtureInterface
                                 }
                             }
                             $lastName1 = $lastex[0];
-                            $person->setFirstName($firstName);
-                            $person->setSecondName($secondName);
-                            $person->setLastName1($lastName1);
-                            $person->setLastName2($lastName2);
-                            $manager->persist($person);
+                            $person = new Person($firstName,$secondName,$lastName1,$lastName2,'CC',$documentNumber);
                             //echo '   [--Person with document number '.$documentNumber.' created.--]'.PHP_EOL;
                         }
                         $teacherCode = $data[$count][14];//getting teacher code
                         /** @var Teacher $tTeacher */
                         $teacher = $manager->getRepository("AppBundle:Teacher")->findOneBy(array('teacherCode' => $teacherCode));
                         if($teacher == null ){
-                            $teacher = new Teacher();
-                            $teacher->setTeacherCode($teacherCode);
-                            if($person->getTeacher() == null){
-                                $teacher->setPersonPerson($person);
-                                $person->setTeacher($teacher);
-                                $manager->persist($person);
-                            }
-                            $manager->persist($teacher);
+                            $teacher = new Teacher(null,$teacherCode,new \DateTime());
+                            $person->addPersonRole($teacher);
                             //echo '   [--Teacher with code '.$teacherCode.' created.--]'.PHP_EOL;
-                        }elseif($teacher->getPersonPerson()== null and $person->getTeacher() == null){
-                            $teacher->setPersonPerson($person);
-                            $person->setTeacher($teacher);
-                            $manager->persist($person);
-                            $manager->persist($teacher);
                         }
+                        $manager->persist($person);
                         $courseCode = $data[$count][2];//getting the course code
                         /** @var Course $course */
                         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode' => $courseCode));
                         if($course){
                             $courseComponent = $data[$count][19];
-                            if($course->getComponent()){
-                                if($course->getComponent()=='Teorico' and $courseComponent=='Teorico Práctico'){
+                            if($course->getComponent() and $course->getComponent()=='Teorico' and $courseComponent=='Teorico Práctico'){
                                     $course->setComponent($courseComponent);
-                                    $manager->persist($course);
-                                }
                             }else{
                                 $course->setComponent($courseComponent);
-                                $manager->persist($course);
                             }
+                            $manager->persist($course);
                         }else{
-                            echo 'course with code: '.$courseCode. "not found.".PHP_EOL;die;
+                            echo 'course with code: '.$courseCode. "not found.".PHP_EOL;
+                            continue;
                         }
-                        /** @var FacultyHasCourses $facultyHasCourse */
-                        $facultyHasCourse = $manager->getRepository("AppBundle:FacultyHasCourses")->findOneBy(array('facultyFaculty'=>$faculty,'courseCourse'=>$course));
-                        if(!$facultyHasCourse){
-                            $facultyHasCourse = new FacultyHasCourses();
-                            $facultyHasCourse->setCourseCourse($course);
-                            $facultyHasCourse->setFacultyFaculty($faculty);
-                            $faculty->addFacultyHasCourse($facultyHasCourse);
-                            $course->addCourseHasfaculty($facultyHasCourse);
-                            $manager->persist($facultyHasCourse);
+                        //If course relation with faculty doesn't exist
+                        if(!$course->belongsToFaculty($faculty)){
+                            $course->addFaculty($faculty);
+                            $manager->persist($course);
                         }
-                        /** @var FacultyHasTeachers $facultyHasTeacher */
-                        $facultyHasTeacher = $manager->getRepository("AppBundle:FacultyHasTeachers")->findOneBy(array('facultyFaculty' => $faculty, 'teacherTeacher' => $teacher));
-                        if(!$facultyHasTeacher){
-                            $facultyHasTeacher = new FacultyHasTeachers();
-                            $facultyHasTeacher->setFacultyFaculty($faculty);
-                            $facultyHasTeacher->setTeacherTeacher($teacher);
-                            $teacher->addTeacherHasfaculty($facultyHasTeacher);
-                            $faculty->addFacultyHasTeacher($facultyHasTeacher);
-                            $manager->persist($facultyHasTeacher);
+                        if(!$faculty->hasTeacher($teacher)){
+                            $faculty->addRole($teacher);
+                            $manager->persist($faculty);
                         }
-                        /** @var TeacherDictatesCourse $teacherDictatesCourse */
-                        $teacherDictatesCourse = $manager->getRepository("AppBundle:TeacherDictatesCourse")->findOneBy(array('courseCourse' => $course, 'teacherTeacher' => $teacher));
-                        if(!$teacherDictatesCourse){
-                            $teacherDictatesCourse = new TeacherDictatesCourse();
-                            $teacherDictatesCourse->setCourseCourse($course);
-                            $teacherDictatesCourse->setTeacherTeacher($teacher);
-                            $teacher->addTeacherDictatesCourse($teacherDictatesCourse);
-                            $course->addCourseIsDictatedByTeacher($teacherDictatesCourse);
-                            $manager->persist($teacherDictatesCourse);
+
+                        if(!$teacher->dictatesCourse($course)){
+                            $teacher->addCourse($course);
+                            $manager->persist($teacher);
                         }
                         $classCode = $data[$count][4];
                         $activePeriod = $data[$count][9];
                         /** @var ClassCourse $classCourse */
                         $classCourse = $manager->getRepository("AppBundle:ClassCourse")->findOneBy(array('classCode'=> $classCode,'activePeriod' =>$activePeriod));
                         if(!$classCourse){
-                            $classCourse = new ClassCourse();
-                            $classCourse->setClassCode($classCode);
-                            $classCourse->setCourseCourse($course);
-                            $classCourse->setActivePeriod($activePeriod);
-                            $course->addClass($classCourse);
+                            $classCourse = new ClassCourse($classCode,$activePeriod,$course);
+                            $classCourse->addRole($teacher);
                             $manager->persist($classCourse);
-                        }
-                        /** @var TeacherDictatesClassCourse $teacherDictatesClassCourse */
-                        $teacherDictatesClassCourse = $manager->getRepository("AppBundle:TeacherDictatesClassCourse")->findOneBy(array('teacherDictatesCourse' => $teacherDictatesCourse, 'classClass' => $classCourse));
-                        if(!$teacherDictatesClassCourse){
-                            $teacherDictatesClassCourse = new TeacherDictatesClassCourse();
-                            $teacherDictatesClassCourse->setClassClass($classCourse);
-                            $teacherDictatesClassCourse->setTeacherDictatesCourse($teacherDictatesCourse);
-                            $classCourse->addClassHasTeacher($teacherDictatesClassCourse);
-                            $teacherDictatesCourse->addClass($teacherDictatesClassCourse);
-                            $manager->persist($teacherDictatesClassCourse);
                         }
                         $manager->flush();
                         $manager->clear();
                     }
                     if($count%2000 == 0){
-                        echo "\033[0;33m  >\033[0;32m loading [3] Teacher and ClassCourse ".$file.' '.$count."\033[0;00m".PHP_EOL;
+                        echo "\033[0;33m  >\033[0;32m loading [3] Teachers and ClassCourse ".$file.' '.$count."\033[0;00m".PHP_EOL;
                     }
                     $count++;
                 }

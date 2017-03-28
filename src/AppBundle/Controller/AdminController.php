@@ -29,9 +29,9 @@ class AdminController extends Controller
             /** @var User $user */
             $user = $this->getUser();
             /** @var Faculty $faculty */
-            $faculty = $user->getPersonPerson()->getTeacher()->getTeacherHasfaculty()->first()->getFacultyFaculty();
-            $facultyHasCourses = $faculty->getFacultyHasCourses();
-            $facultyHasTeachers = $faculty->getFacultyHasTeacher();
+            $faculty = $user->getPersonPerson()->getTeacher()->getFaculties()->first();
+            $facultyHasCourses = $faculty->getCourses();
+            $facultyHasTeachers = $faculty->getTeachers();
             /** @var QueryBuilder $query */
             $query = $em->createQueryBuilder();
             $query

@@ -7,7 +7,6 @@
  */
 
 namespace AppBundle\Entity;
-
 use FOS\UserBundle\Model\User as BaseUser;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,8 +27,8 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Person", cascade={"persist"})
-     * @ORM\JoinColumn(name="person_id_person", referencedColumnName="id_person")
+     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Person", mappedBy="user", cascade={"persist"})
+     * @ORM\JoinColumn(name="person_id_person", referencedColumnName="id_person", unique=TRUE)
      */
     private $personPerson;
 
@@ -46,7 +45,6 @@ class User extends BaseUser
         return $this->id;
     }
 
-
     /**
      * Set personPerson
      *
@@ -56,6 +54,7 @@ class User extends BaseUser
      */
     public function setPersonPerson(\AppBundle\Entity\Person $personPerson = null)
     {
+        $personPerson->setUser($this);
         $this->personPerson = $personPerson;
 
         return $this;
@@ -69,5 +68,32 @@ class User extends BaseUser
     public function getPersonPerson()
     {
         return $this->personPerson;
+    }
+
+    /**
+     * returns the Student if person has Role Student
+     * @return Student|null
+     */
+    public function getStudent()
+    {
+        return ($this->getPersonPerson()->isStudent())?$this->getPersonPerson()->getStudent():null;
+    }
+
+    /**
+     * returns the Teacher if person has Role Teacher
+     * @return Teacher|null
+     */
+    public function getTeacher()
+    {
+        return ($this->getPersonPerson()->isTeacher())?$this->getPersonPerson()->getTeacher():null;
+    }
+
+    /**
+     * returns the TeacherAssistant if person has Role TeacherAssistant
+     * @return TeacherAssistant|null
+     */
+    public function getTeacherAssistant()
+    {
+        return ($this->getPersonPerson()->isTeacherAssistant())?$this->getPersonPerson()->getTeacherAssistant():null;
     }
 }

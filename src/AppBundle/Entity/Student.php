@@ -9,36 +9,20 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\UniqueConstraint;
-
 
 /**
  * Class Student
  * @package AppBundle\Entity
  *
- * @ORM\Table(name="student",
- *     uniqueConstraints={
- *          @UniqueConstraint(
- *              name="personStudentUnique", columns={"id_student", "person_id_person"}
- *          )
- *     })
- * @ORM\Entity
+ * @ORM\Entity()
  */
 
-class Student
+class Student extends Role
 {
-    /**
-     * @var integer
-     * @ORM\Column(name="id_student",type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $idStudent;
-
     /**
      * @var string
      *
-     * @ORM\Column(name="code_student",type="string",nullable=true)
+     * @ORM\Column(name="code_student",type="string",unique=TRUE, nullable=true)
      */
     private $studentCode;
 
@@ -47,48 +31,52 @@ class Student
      *
      * @ORM\Column(name="grade_point_average",type="float")
      */
-    private $gradePointAverage=0.0;
+    private $averageGrade=0.0;
 
     /**
      * @var int
      *
      * @ORM\Column(type="integer")
      */
-    private $aprovedCredits=0;
+    private $approvedCredits=0;
 
     /**
-     * @var boolean
-     *
-     * @ORM\Column(name="is_monitor",type="boolean")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Grade",mappedBy="student", cascade={"persist"})
      */
-    private $isMonitor = false;
+    private $grades;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\StudentAssistClass",mappedBy="studentStudent",cascade={"persist", "remove"})
+     * @return string
      */
-    private $studentAssistClasses;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\FacultyHasStudents", mappedBy="studentStudent", cascade={"persist", "remove"})
-     */
-    private $studentHasFaculty;
-
-    /**
-     * @var Person
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Person",inversedBy="student", cascade={"persist"})
-     * @ORM\JoinColumn(name="person_id_person",referencedColumnName="id_person")
-     */
-    private $personPerson;
-    
-
-    /**
-     * Get idStudent
-     *
-     * @return integer
-     */
-    public function getIdStudent()
+    public function __toString()
     {
-        return $this->idStudent;
+        return $this->getClass()." ".$this->getStudentCode();
+    }
+
+    /**
+     * Student constructor.
+     * @param Person|null $person
+     * @param string $studentCode
+     * @param float $averageGrade
+     * @param int $approvedCredits
+     */
+    public function __construct(Person $person = null, $studentCode = null, $averageGrade = 0.0, $approvedCredits = 0)
+    {
+        parent::__construct($person);
+        $this->averageGrade = $averageGrade;
+        $this->approvedCredits = $approvedCredits;
+        $this->studentCode = $studentCode;
+        $this->grades = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * get class
+     * returns the name of the class
+     * @return string
+     */
+    public function getClass(){
+        $path = explode('\\', __CLASS__);
+        return array_pop($path);
     }
 
     /**
@@ -116,174 +104,84 @@ class Student
     }
 
     /**
-     * Set gradePointAverage
+     * Set averageGrade
      *
-     * @param float $gradePointAverage
+     * @param float $averageGrade
      *
      * @return Student
      */
-    public function setGradePointAverage($gradePointAverage)
+    public function setAverageGrade($averageGrade)
     {
-        $this->gradePointAverage = $gradePointAverage;
+        $this->averageGrade = $averageGrade;
 
         return $this;
     }
 
     /**
-     * Get gradePointAverage
+     * Get averageGrade
      *
      * @return float
      */
-    public function getGradePointAverage()
+    public function getAverageGrade()
     {
-        return $this->gradePointAverage;
+        return $this->averageGrade;
     }
 
     /**
-     * Set aprovedCredits
+     * Set approvedCredits
      *
-     * @param integer $aprovedCredits
+     * @param integer $approvedCredits
      *
      * @return Student
      */
-    public function setAprovedCredits($aprovedCredits)
+    public function setApprovedCredits($approvedCredits)
     {
-        $this->aprovedCredits = $aprovedCredits;
+        $this->approvedCredits = $approvedCredits;
 
         return $this;
     }
 
     /**
-     * Get aprovedCredits
+     * Get approvedCredits
      *
      * @return integer
      */
-    public function getAprovedCredits()
+    public function getApprovedCredits()
     {
-        return $this->aprovedCredits;
+        return $this->approvedCredits;
     }
 
     /**
-     * Set isMonitor
+     * Add grade
      *
-     * @param boolean $isMonitor
+     * @param \AppBundle\Entity\Grade $grade
      *
      * @return Student
      */
-    public function setIsMonitor($isMonitor)
+    public function addGrade(\AppBundle\Entity\Grade $grade)
     {
-        $this->isMonitor = $isMonitor;
+        $this->grades[] = $grade;
 
         return $this;
     }
 
     /**
-     * Get isMonitor
+     * Remove grade
      *
-     * @return boolean
+     * @param \AppBundle\Entity\Grade $grade
      */
-    public function getIsMonitor()
+    public function removeGrade(\AppBundle\Entity\Grade $grade)
     {
-        return $this->isMonitor;
+        $this->grades->removeElement($grade);
     }
 
     /**
-     * Add studentAssistClass
-     *
-     * @param \AppBundle\Entity\StudentAssistClass $studentAssistClass
-     *
-     * @return Student
-     */
-    public function addStudentAssistClass(\AppBundle\Entity\StudentAssistClass $studentAssistClass)
-    {
-        $this->studentAssistClasses[] = $studentAssistClass;
-        return $this;
-    }
-
-    /**
-     * Remove studentAssistClass
-     *
-     * @param \AppBundle\Entity\StudentAssistClass $studentAssistClass
-     */
-    public function removeStudentAssistClass(\AppBundle\Entity\StudentAssistClass $studentAssistClass)
-    {
-        $this->studentAssistClasses->removeElement($studentAssistClass);
-    }
-
-    /**
-     * Get studentAssistClasses
+     * Get grades
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getStudentAssistClasses()
+    public function getGrades()
     {
-        return $this->studentAssistClasses;
+        return $this->grades;
     }
-
-    /**
-     * Set personPerson
-     *
-     * @param \AppBundle\Entity\Person $personPerson
-     *
-     * @return Student
-     */
-    public function setPersonPerson(\AppBundle\Entity\Person $personPerson = null)
-    {
-        $this->personPerson = $personPerson;
-
-        return $this;
-    }
-
-    /**
-     * Get personPerson
-     *
-     * @return \AppBundle\Entity\Person
-     */
-    public function getPersonPerson()
-    {
-        return $this->personPerson;
-    }
-
-    /**
-     * Add studentHasFaculty
-     *
-     * @param \AppBundle\Entity\FacultyHasStudents $studentHasFaculty
-     *
-     * @return Student
-     */
-    public function addStudentHasFaculty(\AppBundle\Entity\FacultyHasStudents $studentHasFaculty)
-    {
-        $this->studentHasFaculty[] = $studentHasFaculty;
-
-        return $this;
-    }
-
-    /**
-     * Remove studentHasFaculty
-     *
-     * @param \AppBundle\Entity\FacultyHasStudents $studentHasFaculty
-     */
-    public function removeStudentHasFaculty(\AppBundle\Entity\FacultyHasStudents $studentHasFaculty)
-    {
-        $this->studentHasFaculty->removeElement($studentHasFaculty);
-    }
-
-    /**
-     * Get studentHasFaculty
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getStudentHasFaculty()
-    {
-        return $this->studentHasFaculty;
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->studentAssistClasses = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->studentHasFaculty = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
 }

@@ -3,8 +3,8 @@ home:
     path: /
     defaults: {_controller: AppBundle:Default:index}
 
-#Secure Pages
-
+##Secure Pages
+#
 #admin_pages
 admin_dasboard:
     path: /admin/dashboard
@@ -33,10 +33,8 @@ view_class:
 student_dashboard:
     path: /student/dashboard/{active}
     defaults: {_controller: AppBundle:Student:studentDashboard, active: null}
-#student_dashboard:
-#    path: /student/dashboard
-#    defaults: {_controller: AppBundle:Dashboard:studentDashboard}
 
+#generic pages
 dashboard:
     path: /dashboard
     defaults: {_controller: AppBundle:Dashboard:dashboard}

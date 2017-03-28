@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 
@@ -25,15 +26,14 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  */
 class ClassCourse
 {
-
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_class",type="integer")
+     * @ORM\Column(name="id_class_course",type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $idclass;
+    private $idClassCourse;
 
     /**
      * @var string
@@ -52,46 +52,43 @@ class ClassCourse
     /**
      * @var Course
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Course", inversedBy="classes")
-     * @ORM\JoinColumns({
-     *     @ORM\JoinColumn(name="course_id", referencedColumnName="id_course")
-     * })
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Course", inversedBy="classCourses", cascade={"persist"})
+     * @ORM\JoinColumn(name="course_id", referencedColumnName="id_course")
      */
-    private $courseCourse;
+    private $course;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\TeacherDictatesClassCourse", mappedBy="classClass")
+     * @ORM\ManyToMany(targetEntity="AppBundle\Entity\Role", mappedBy="classCourses",cascade={"persist"})
      */
-    private $classHasTeacher;
+    private $roles;
 
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\StudentAssistClass",mappedBy="classCourseClassCourse",cascade={"persist"})
-     */
-    private $classHasStudents;
-
-    /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Rubric", mappedBy="classCourseClassCourse", cascade={"persist"})
-     */
-    private $rubrics;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
+    public function __toString()
     {
-        $this->classHasTeacher = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->classHasStudents = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->rubrics = new \Doctrine\Common\Collections\ArrayCollection();
+        return $this->classCode.' '.$this->activePeriod;
     }
 
     /**
-     * Get idclass
+     * ClassCourse constructor.
+     * @param string|null $classCode
+     * @param string|null $activePeriod
+     * @param Course|null $course
+     */
+    public function __construct($classCode = null, $activePeriod = null, Course $course = null)
+    {
+        $this->classCode = $classCode;
+        $this->activePeriod = $activePeriod;
+        $this->course = $course;
+        $this->roles = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Get idClassCourse
      *
      * @return integer
      */
-    public function getIdclass()
+    public function getIdClassCourse()
     {
-        return $this->idclass;
+        return $this->idClassCourse;
     }
 
     /**
@@ -143,128 +140,86 @@ class ClassCourse
     }
 
     /**
-     * Set courseCourse
+     * Set course
      *
-     * @param \AppBundle\Entity\Course $courseCourse
+     * @param \AppBundle\Entity\Course $course
      *
      * @return ClassCourse
      */
-    public function setCourseCourse(\AppBundle\Entity\Course $courseCourse = null)
+    public function setCourse(\AppBundle\Entity\Course $course = null)
     {
-        $this->courseCourse = $courseCourse;
+        $this->course = $course;
 
         return $this;
     }
 
     /**
-     * Get courseCourse
+     * Get course
      *
      * @return \AppBundle\Entity\Course
      */
-    public function getCourseCourse()
+    public function getCourse()
     {
-        return $this->courseCourse;
+        return $this->course;
     }
 
     /**
-     * Add classHasTeacher
+     * Add role
      *
-     * @param \AppBundle\Entity\TeacherDictatesClassCourse $classHasTeacher
+     * @param \AppBundle\Entity\Role $role
      *
      * @return ClassCourse
      */
-    public function addClassHasTeacher(\AppBundle\Entity\TeacherDictatesClassCourse $classHasTeacher)
+    public function addRole(\AppBundle\Entity\Role $role)
     {
-        $this->classHasTeacher[] = $classHasTeacher;
-
+        $role->addClassCourse($this);
+        if($role instanceof Teacher){
+            if(!$role->getCourses()->contains($this->course))
+                $role->addCourse($this->course);
+        }
+        $this->roles[] = $role;
         return $this;
     }
 
     /**
-     * Remove classHasTeacher
+     * Remove role
      *
-     * @param \AppBundle\Entity\TeacherDictatesClassCourse $classHasTeacher
+     * @param \AppBundle\Entity\Role $role
      */
-    public function removeClassHasTeacher(\AppBundle\Entity\TeacherDictatesClassCourse $classHasTeacher)
+    public function removeRole(\AppBundle\Entity\Role $role)
     {
-        $this->classHasTeacher->removeElement($classHasTeacher);
+        $this->roles->removeElement($role);
     }
 
     /**
-     * Get classHasTeacher
+     * Get roles
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getClassHasTeacher()
+    public function getRoles()
     {
-        return $this->classHasTeacher;
+        return $this->roles;
     }
 
     /**
-     * Add classHasStudent
-     *
-     * @param \AppBundle\Entity\StudentAssistClass $classHasStudent
-     *
-     * @return ClassCourse
+     * Returns the collection with Teachers for the actual ClassCourse
+     * @return \Doctrine\Common\Collections\ArrayCollection|null
      */
-    public function addClassHasStudent(\AppBundle\Entity\StudentAssistClass $classHasStudent)
+    public function getTeachers()
     {
-        $this->classHasStudents[] = $classHasStudent;
-
-        return $this;
+        $criteria = Criteria::create();
+        $criteria->where(Criteria::expr()->eq("Class",'Teacher'));
+        return ($this->roles->matching($criteria)->count()>0)?$this->roles->matching($criteria):null;
     }
 
     /**
-     * Remove classHasStudent
-     *
-     * @param \AppBundle\Entity\StudentAssistClass $classHasStudent
+     * Returns the collection with Students for the actual ClassCourse
+     * @return \Doctrine\Common\Collections\ArrayCollection|null
      */
-    public function removeClassHasStudent(\AppBundle\Entity\StudentAssistClass $classHasStudent)
+    public function getStudents()
     {
-        $this->classHasStudents->removeElement($classHasStudent);
-    }
-
-    /**
-     * Get classHasStudents
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getClassHasStudents()
-    {
-        return $this->classHasStudents;
-    }
-
-    /**
-     * Add rubric
-     *
-     * @param \AppBundle\Entity\Rubric $rubric
-     *
-     * @return ClassCourse
-     */
-    public function addRubric(\AppBundle\Entity\Rubric $rubric)
-    {
-        $this->rubrics[] = $rubric;
-
-        return $this;
-    }
-
-    /**
-     * Remove rubric
-     *
-     * @param \AppBundle\Entity\Rubric $rubric
-     */
-    public function removeRubric(\AppBundle\Entity\Rubric $rubric)
-    {
-        $this->rubrics->removeElement($rubric);
-    }
-
-    /**
-     * Get rubrics
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getRubrics()
-    {
-        return $this->rubrics;
+        $criteria = Criteria::create();
+        $criteria->where(Criteria::expr()->eq("Class",'Student'));
+        return ($this->roles->matching($criteria)->count()>0)?$this->roles->matching($criteria):null;
     }
 }

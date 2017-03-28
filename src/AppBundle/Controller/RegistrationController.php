@@ -61,18 +61,9 @@ class RegistrationController extends BaseController
                 $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
                 $person = $this->getDoctrine()->getRepository('AppBundle:Person')->findOneBy(array('email'=>$user->getEmail()));
                 if($person){
-                    $person->setUserName($user->getUsername());
+                    $person->setPeopleSoftUserName($user->getUsername());
                     if($person->getTeacher()!= null){
                         $rolesArr = array('ROLE_TEACHER');
-                        $teacherHasRole = new TeacherHasRole();
-                        /** @var RoleType $roleType */
-                        $roleType = $em->getRepository('AppBundle:RoleType')->findOneBy(array('roleCode'=>'ROLE_TEACHER'));
-                        $teacherHasRole->setRoleTypeRoleType($roleType);
-                        $roleType->addTeachersHasRole($teacherHasRole);
-                        $teacherHasRole->setTeacherTeacher($person->getTeacher());
-                        $person->getTeacher()->addTeacherHasRole($teacherHasRole);
-                        $em->persist($teacherHasRole);
-                        $em->persist($roleType);
                         $user->setRoles($rolesArr);
                         $userManager->updateUser($user);
                     }elseif($person->getStudent()!=null){
