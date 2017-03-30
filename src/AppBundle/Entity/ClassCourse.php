@@ -222,4 +222,13 @@ class ClassCourse
         $criteria->where(Criteria::expr()->eq("Class",'Student'));
         return ($this->roles->matching($criteria)->count()>0)?$this->roles->matching($criteria):null;
     }
+
+    /**
+     * returns true if the student exist in class
+     * @param $student
+     * @return bool
+     */
+    public function hasStudent($student){
+        return $this->roles->contains($student);
+    }
 }

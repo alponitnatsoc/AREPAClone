@@ -45,14 +45,14 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
          * ║ Opcion 5 Cursos Programados con asoc                          ║
          * ║ Parametros de la consulta                                     ║
          * ║ Institucion académica  PUJAV                                  ║
-         * ║ Grado Academico        PREG POSG                              ║
+         * ║ Grado Academico        PREG|GRAD                              ║
          * ║ Org Académica          %                                      ║
-         * ║ Institucion académica  1430 - 1710                            ║
+         * ║ Ciclo Lectivo          1430 a 1710                            ║
          * ║ ------------------------------------------------------------- ║
-         * ║ Se debe generar el archivo csv                                ║
-         * ║ Una vez generado el archivo, guardarlo en el directorio:      ║
+         * ║ Se deben generar los archivos csv por cada ciclo lectivo      ║
+         * ║ Una vez generados guardarlos en el directorio:                ║
          * ║ /web/uploads/Files/Teachers                                   ║
-         * ║ con nombre PUJAV_TEACHERS_(PREG_POST)_periodo                 ║
+         * ║ con nombre PUJAV_TEACHERS_(PREG_POST)_{ciclo lectivo}.csv     ║
          * ╚═══════════════════════════════════════════════════════════════╝
          */
         $faculty = $manager->getRepository('AppBundle:Faculty')->findOneBy(array('facultyCode'=>'DPT-ISIST'));

@@ -8,6 +8,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -160,8 +161,8 @@ class Student extends Role
      */
     public function addGrade(\AppBundle\Entity\Grade $grade)
     {
+        $grade->setStudent($this);
         $this->grades[] = $grade;
-
         return $this;
     }
 
@@ -183,5 +184,11 @@ class Student extends Role
     public function getGrades()
     {
         return $this->grades;
+    }
+
+    public function getDefGrades()
+    {
+        $criteria = Criteria::create()->where(Criteria::expr()->eq('Class','DefGrade'));
+        return ($this->grades->matching($criteria)->count()>0)?$this->grades->matching($criteria):null;
     }
 }

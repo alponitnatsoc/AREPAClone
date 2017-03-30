@@ -1,7 +1,7 @@
 <?php
 // src/AppBundle/DataFixtures/ORM/LoadUserData.php
 
-namespace RocketSeller\TwoPickBundle\DataFixtures\ORM;
+namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Person;
 use AppBundle\Entity\Teacher;

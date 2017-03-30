@@ -16,6 +16,9 @@ use Doctrine\ORM\Mapping\UniqueConstraint;
  *
  * @ORM\Table(name="grade")
  * @ORM\Entity
+ * @ORM\InheritanceType("JOINED")
+ * @ORM\DiscriminatorColumn(name="class", type="string")
+ * @ORM\DiscriminatorMap({"grade"="Grade","def_grade" = "DefGrade"})
  */
 class Grade
 {
@@ -26,25 +29,25 @@ class Grade
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $idGrade;
+    protected $idGrade;
 
     /**
      * @var float
      * @ORM\Column(name="value", type="float", nullable=TRUE)
      */
-    private $value;
+    protected $value;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Student", inversedBy="grades", cascade={"persist"})
      * @ORM\JoinColumn(name="role_id",referencedColumnName="id_role", nullable=TRUE)
      */
-    private $student;
+    protected $student;
 
     /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\AssessmentComponent", inversedBy="grades", cascade={"persist"})
      * @ORM\JoinColumn(name="assessment_component_id",referencedColumnName="id_assessment_component", nullable=TRUE)
      */
-    private $assessmentComponent;
+    protected $assessmentComponent;
 
     /**
      * Get idGrade

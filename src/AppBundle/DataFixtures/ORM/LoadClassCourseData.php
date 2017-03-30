@@ -52,10 +52,10 @@ class LoadClassCourseData extends AbstractFixture implements OrderedFixtureInter
          * ║ Org Académica          %                                      ║
          * ║ Ciclo Lectivo:         0910-1420                              ║
          * ║ ------------------------------------------------------------- ║
-         * ║ Se debe generar el archivo csv para cada ciclo lectivo        ║
-         * ║ Una vez generado el archivo, guardarlo en el directorio:      ║
+         * ║ Se deben generar los archivos csv para cada ciclo lectivo     ║
+         * ║ Una vez generados guardarlos en el directorio:                ║
          * ║ /web/uploads/Files/Courses                                    ║
-         * ║ con nombre PUJAV_(POST o PREG)_cicloLectivo.csv               ║
+         * ║ con nombre PUJAV_(POST o PREG)_{cicloLectivo}.csv             ║
          * ╚═══════════════════════════════════════════════════════════════╝
          */
 
