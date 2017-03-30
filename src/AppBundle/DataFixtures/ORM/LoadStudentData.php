@@ -10,9 +10,6 @@ namespace AppBundle\DataFixtures\ORM;
 
 use AppBundle\Entity\Course;
 use AppBundle\Entity\Faculty;
-use AppBundle\Entity\FacultyHasCourses;
-use AppBundle\Entity\FacultyHasStudents;
-use AppBundle\Entity\FacultyHasTeachers;
 use AppBundle\Entity\Person;
 use AppBundle\Entity\Student;
 use Doctrine\Common\DataFixtures\AbstractFixture;
@@ -59,7 +56,7 @@ class LoadStudentData extends AbstractFixture implements OrderedFixtureInterface
          */
 
         $manager->getConnection()->getConfiguration()->setSQLLogger(null);
-        echo "  > Memory usage before: " . (memory_get_usage()/1048576) . " MB" . PHP_EOL;
+        echo "\033[0;33m  >\033[0;32m Memory usage before: " . (memory_get_usage()/1048576) . " MB\033[0;00m" . PHP_EOL;
         $dir = "web/uploads/Files/Students";
         foreach (scandir($dir) as $file) {//42 COL
             if ('.' === $file || '..' === $file || '.DS_Store' === $file) continue;
@@ -99,22 +96,23 @@ class LoadStudentData extends AbstractFixture implements OrderedFixtureInterface
                                 $peopleSoftUserName = explode('@', $peopleSoftEmail)[0];
                             }
                             $gender = $data[$count][16];
-                            if($noEmail and $manager->getRepository("AppBundle:Person")->findOneBy(array('document' => $documentNumber)) == null){
-                                $person = new Person($firstName, $secondName, $lastName1, $lastName2, $documentType, $documentNumber, null, null, $phone, $gender);
-                                if($person->getDocumentType()!=$documentType)$person->setDocumentType($documentType);
-                                if($person->getDocument()!=$documentNumber)$person->setDocument($documentNumber);
+                            if($noEmail){
+                                if($manager->getRepository("AppBundle:Person")->findOneBy(array('document' => $documentNumber))==null){
+                                    $person = new Person($firstName, $secondName, $lastName1, $lastName2, $documentType, $documentNumber, null, null, $phone, $gender);
+                                }else{
+                                    $person = $manager->getRepository("AppBundle:Person")->findOneBy(array('document' => $documentNumber));
+                                    if($person->getPhone()!=$phone and $phone!= null)$person->setPhone($phone);
+                                    if($person->getGender()!=$gender and $gender != null)$person->setGender($gender);
+                                }
                             }elseif($manager->getRepository("AppBundle:Person")->findOneBy(array('peopleSoftEmail' => $peopleSoftEmail))==null){
-                                $person = new Person($firstName, $secondName, $lastName1, $lastName2, $documentType, $documentNumber, $peopleSoftEmail,$peopleSoftUserName, $phone, $gender);
-                                if($person->getDocumentType()!=$documentType)$person->setDocumentType($documentType);
-                                if($person->getDocument()!=$documentNumber)$person->setDocument($documentNumber);
-                            }elseif($manager->getRepository("AppBundle:Person")->findOneBy(array('document' => $documentNumber))!=null){
-                                $person = $manager->getRepository("AppBundle:Person")->findOneBy(array('document' => $documentNumber));
-                                if($person->getPersonRole()->count()>0){
-                                    if($person->getDocumentType()!=$documentType)$person->setDocumentType($documentType);
-                                    if($person->getDocument()!=$documentNumber)$person->setDocument($documentNumber);
-                                    if($person->getPeopleSoftEmail()!=$peopleSoftEmail)$person->setPeopleSoftEmail($peopleSoftEmail);
-                                    if($person->getPeopleSoftUserName()!=$peopleSoftUserName)$person->setPeopleSoftUserName($peopleSoftUserName);
-                                    if($person->getPhone()!=$phone)$person->setPhone($phone);
+                                if($manager->getRepository("AppBundle:Person")->findOneBy(array('document' => $documentNumber)) != null){
+                                    $person = $manager->getRepository("AppBundle:Person")->findOneBy(array('document' => $documentNumber));
+                                    if($person->getPeopleSoftEmail()!=$peopleSoftEmail and !$noEmail)$person->setPeopleSoftEmail($peopleSoftEmail);
+                                    if($person->getPeopleSoftUserName()!=$peopleSoftUserName and !$noEmail)$person->setPeopleSoftUserName($peopleSoftUserName);
+                                    if($person->getPhone()!=$phone and $phone!= null)$person->setPhone($phone);
+                                    if($person->getGender()!=$gender and $gender != null)$person->setGender($gender);
+                                }else{
+                                    $person = new Person($firstName, $secondName, $lastName1, $lastName2, $documentType, $documentNumber, $peopleSoftEmail,$peopleSoftUserName, $phone, $gender);
                                 }
                             }else{
                                 continue;
@@ -123,6 +121,7 @@ class LoadStudentData extends AbstractFixture implements OrderedFixtureInterface
                             $student = $manager->getRepository("AppBundle:Student")->findOneBy(array('studentCode' => $studentCode));
                             if($student == null) {
                                 $student = new Student(null, $studentCode);
+                                $person->getPersonRole()->first();
                                 $person->addPersonRole($student);
                             }
                             $manager->persist($person);

@@ -21,6 +21,9 @@ class RegistrationController extends BaseController
 {
 
     /**
+     * This function triggers the events for user registration also find the person by email in the database
+     * and automatically assigns the student or teacher if person exist else create a default user
+     *
      * @param Request $request
      *
      * @return Response
@@ -61,16 +64,13 @@ class RegistrationController extends BaseController
                 $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
                 $person = $this->getDoctrine()->getRepository('AppBundle:Person')->findOneBy(array('email'=>$user->getEmail()));
                 if($person){
-                    $person->setPeopleSoftUserName($user->getUsername());
+                    if($person->getPeopleSoftUserName()!= $user->getUsername())$person->setPeopleSoftUserName($user->getUsername());
                     if($person->getTeacher()!= null){
                         $rolesArr = array('ROLE_TEACHER');
-                        $user->setRoles($rolesArr);
-                        $userManager->updateUser($user);
                     }elseif($person->getStudent()!=null){
                         $rolesArr = array('ROLE_STUDENT');
-                        $user->setRoles($rolesArr);
-                        $userManager->updateUser($user);
                     }
+                    $user->setRoles($rolesArr);
                     $em->persist($person);
                     $em->flush();
                 }
@@ -107,6 +107,13 @@ class RegistrationController extends BaseController
         ));
     }
 
+    /**
+     * Override of the confirm action to enable the user only after email confirmation
+     *
+     * @param Request $request
+     * @param string $token
+     * @return null|RedirectResponse|Response
+     */
     public function confirmAction(Request $request, $token)
     {
         /** @var $userManager \FOS\UserBundle\Model\UserManagerInterface */
@@ -120,7 +127,6 @@ class RegistrationController extends BaseController
 
         /** @var $dispatcher EventDispatcherInterface */
         $dispatcher = $this->get('event_dispatcher');
-
 
         $user->setConfirmationToken(null);
         $user->setEnabled(true);

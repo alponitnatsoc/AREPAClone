@@ -24,6 +24,7 @@ class TeacherController extends Controller
 
     public function teacherDashboardAction($type = 0, Request $request)
     {
+        dump('TEACHER');die;
         if($this->isGranted('ROLE_TEACHER')){
             $em = $this->getDoctrine()->getManager();
             /** @var Plataform $plataform */

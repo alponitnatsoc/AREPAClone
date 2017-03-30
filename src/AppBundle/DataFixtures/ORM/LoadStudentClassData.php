@@ -58,7 +58,7 @@ class LoadStudentClassData extends AbstractFixture implements OrderedFixtureInte
          * ╚═══════════════════════════════════════════════════════════════╝
          */
         $manager->getConnection()->getConfiguration()->setSQLLogger(null);
-        echo "  > Memory usage before: " . (memory_get_usage()/1048576) . " MB" . PHP_EOL;
+        echo "\033[0;33m  >\033[0;32m Memory usage before: " . (memory_get_usage()/1048576) . " MB\033[0;00m" . PHP_EOL;
         $dir = "web/uploads/Files/ClassCourses";
         foreach (scandir($dir) as $file) {//42 COL
             if ('.' === $file || '..' === $file || '.DS_Store' === $file) continue;
