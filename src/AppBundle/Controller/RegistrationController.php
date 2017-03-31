@@ -62,7 +62,7 @@ class RegistrationController extends BaseController
                 $em = $this->getDoctrine()->getManager();
                 $event = new FormEvent($form, $request);
                 $dispatcher->dispatch(FOSUserEvents::REGISTRATION_SUCCESS, $event);
-                $person = $this->getDoctrine()->getRepository('AppBundle:Person')->findOneBy(array('email'=>$user->getEmail()));
+                $person = $this->getDoctrine()->getRepository('AppBundle:Person')->findOneBy(array('peopleSoftEmail'=>$user->getEmail()));
                 if($person){
                     if($person->getPeopleSoftUserName()!= $user->getUsername())$person->setPeopleSoftUserName($user->getUsername());
                     if($person->getTeacher()!= null){

@@ -50,7 +50,7 @@
                 <h3 style="margin: 5% 0;font-size: 30px;color: #5a738e;">{{ 'app.active_period'|trans }}</h3>
                 <div>
                     <div class="col-md-6 noPadding">
-                        <h1 style="margin: 5px 0px 0px 20px; padding: 0;font-size: 30px;">{{ plataform.activePeriod }}</h1>
+                        <h1 style="margin: 5px 0px 0px 20px; padding: 0;font-size: 30px;">{{ platform.activePeriod }}</h1>
                     </div>
                     <div class="col-md-6 noPadding">
                         <div id="change_active_period" class="btn-arepa" data-toggle="modal" data-target="#modalChangePeriod" style="margin: 5px 20px 0 0;padding: 4px 15px;font-size: 16px" >
@@ -74,7 +74,7 @@
                                     <div id="errorChangePeriod" class="col-md-12 noPadding" >
                                     </div>
                                     <div class="col-md-12">
-                                        {{ form_widget(activePeriod.period,{'placeholder':'app.select_period'|trans,'attr':{'style':'height: 24px;width: 50%'}}) }}
+                                        {{ form_widget(activePeriod.activePeriod,{'placeholder':'app.select_period'|trans,'attr':{'style':'height: 24px;width: 50%'}}) }}
                                         {{ form_widget(activePeriod.submit,{'label':'app.select'|trans,'attr':{'style':'width: 35%'}}) }}
                                     </div>
                                 </div>
@@ -84,8 +84,8 @@
                                     <div id="errorAddPeriod" class="col-md-12 noPadding" >
                                     </div>
                                     <div class="col-md-12">
-                                    {{ form_widget(periodAdd.period,{'attr':{'placeholder':'app.period_code'|trans,'style':'border-radius: 5px;width: 50%'}}) }}
-                                    {{ form_widget(periodAdd.submit,{'label':'app.add'|trans,'attr':{'style':'width: 35%'}}) }}
+                                    {{ form_widget(periodAdd.period,{'attr':{'style':'border-radius: 5px;width: 50%;padding:1px 5px'}}) }}
+                                    {{ form_widget(periodAdd.submit,{'attr':{'style':'width: 35%'}}) }}
                                     </div>
 
                                 </div>
@@ -453,26 +453,26 @@
                     var validator2;
                     jQuery.validator.setDefaults({
                         errorPlacement: function (error, element) {
-                            if(element.attr("name")=='formAddPeriod[period]')
+                            if(element.attr("name")=='new_period_form[period]')
                                 error.appendTo('#errorAddPeriod');
-                            if(element.attr("name")=='formActivePeriod[period]')
+                            if(element.attr("name")=='active_period_form[activePeriod]')
                                 error.appendTo('#errorChangePeriod');
                         }
                     });
-                    validator1 = $("form[name='formAddPeriod']").validate({
+                    validator1 = $("form[name='new_period_form']").validate({
                         rules: {
-                            "formAddPeriod[period]": {required: true, minlength: 4,digits:true}
+                            "new_period_form[period]": {required: true, minlength: 4,digits:true}
                         },
                         messages: {
-                            "formAddPeriod[period]": {required: "{{ 'form.required'|trans }}",minlength: "{{ 'form.minlength'|trans }}",digits:"{{ 'form.numeric'|trans }}" }
+                            "new_period_form[period]": {required: "{{ 'required'|trans }}",minlength: "{{ 'minlength'|trans }}",digits:"{{ 'numeric'|trans }}" }
                         }
                     });
-                    validator2 = $("form[name='formActivePeriod']").validate({
+                    validator2 = $("form[name='active_period_form']").validate({
                         rules: {
-                            "formActivePeriod[period]": {required: true}
+                            "active_period_form[activePeriod]": {required: true}
                         },
                         messages: {
-                            "formActivePeriod[period]": {required: "{{ 'form.required'|trans }}" }
+                            "active_period_form[activePeriod]": {required: "{{ 'required'|trans }}" }
                         }
                     });
                 });
@@ -485,6 +485,7 @@
                         return;
                     }
                 });
+
                 $.getScript("{{ asset('assets/js/adminDashboard.js') }}").done(function () {
                     startAdmin();
                 });

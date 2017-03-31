@@ -18,7 +18,7 @@ class ExportController extends Controller
 
     public function generateXLSAction($type,$all=false){
         $em = $this->getDoctrine()->getManager();
-        $plataform = $em->getRepository("AppBundle:Plataform")->find(1);
+        $plataform = $em->getRepository("AppBundle:Platform")->find(1);
         /** @var Faculty $faculty */
         $faculty = $this->getUser()->getPersonPerson()->getTeacher()->getTeacherHasfaculty()->first()->getFacultyFaculty();
         switch ($type){

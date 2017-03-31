@@ -39,7 +39,7 @@ class StudentController extends Controller
 
             $em = $this->getDoctrine()->getManager();
             /** @var Plataform $plataform */
-            $plataform = $em->getRepository("AppBundle:Plataform")->find(1);
+            $plataform = $em->getRepository("AppBundle:Platform")->find(1);
             /** @var User $user */
             $user = $this->getUser();
             /** @var Faculty $faculty , *//*la facultad a la que pertence el estudiante*/

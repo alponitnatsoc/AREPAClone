@@ -8,9 +8,7 @@
 
 namespace AppBundle\Entity;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
  * Class Section
@@ -38,12 +36,12 @@ class Period
     private $code;
 
     /**
-     * @var Plataform
+     * @var Platform
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Plataform", inversedBy="periods")
-     * @ORM\JoinColumn(name="plataform_id", referencedColumnName="id_plataform")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Platform", inversedBy="periods")
+     * @ORM\JoinColumn(name="platform_id", referencedColumnName="id_platform")
      */
-    private $plataform;
+    private $platform;
 
 
     /**
@@ -89,15 +87,15 @@ class Period
     }
 
     /**
-     * Set plataform
+     * Set platform
      *
-     * @param \AppBundle\Entity\Plataform $plataform
+     * @param \AppBundle\Entity\Platform $platform
      *
      * @return Period
      */
-    public function setPlataform(\AppBundle\Entity\Plataform $plataform = null)
+    public function setPlatform(\AppBundle\Entity\Platform $platform = null)
     {
-        $this->plataform = $plataform;
+        $this->platform = $platform;
 
         return $this;
     }
@@ -105,10 +103,10 @@ class Period
     /**
      * Get plataform
      *
-     * @return \AppBundle\Entity\Plataform
+     * @return \AppBundle\Entity\Platform
      */
-    public function getPlataform()
+    public function getPlatform()
     {
-        return $this->plataform;
+        return $this->platform;
     }
 }

@@ -188,7 +188,6 @@ class Student extends Role
 
     public function getDefGrades()
     {
-        $criteria = Criteria::create()->where(Criteria::expr()->eq('Class','DefGrade'));
-        return ($this->grades->matching($criteria)->count()>0)?$this->grades->matching($criteria):null;
+        return ($this->grades->filter(function($grade){return $grade->getClass()=='DefGrade';})->count>0)?$this->grades->filter(function($grade){return $grade->getClass()=='DefGrade';}):null;
     }
 }

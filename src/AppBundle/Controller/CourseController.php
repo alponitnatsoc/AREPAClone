@@ -391,7 +391,7 @@ class CourseController extends Controller
 
     protected Function getActivePeriod(){
         return $this->getDoctrine()->getRepository('AppBundle:Period')->findOneBy(array(
-            'code'=>$this->getDoctrine()->getRepository('AppBundle:Plataform')->find(1)->getActivePeriod(),
+            'code'=>$this->getDoctrine()->getRepository('AppBundle:Platform')->find(1)->getActivePeriod(),
         ));
     }
 

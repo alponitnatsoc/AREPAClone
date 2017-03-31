@@ -12,22 +12,22 @@ use Doctrine\ORM\Mapping as ORM;
 use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
- * Class Section
+ * Class Platform
  * @package AppBundle\Entity
  *
- * @ORM\Table(name="plataform")
+ * @ORM\Table(name="platform")
  * @ORM\Entity
  */
-class Plataform
+class Platform
 {
     /**
      * @var integer
      *
-     * @ORM\Column(name="id_plataform",type="integer")
+     * @ORM\Column(name="id_platform",type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $idPlataform;
+    private $idPlatform;
 
     /**
      * @var string
@@ -36,7 +36,7 @@ class Plataform
     private $activePeriod;
 
     /**
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Period", mappedBy="plataform", cascade={"persist", "remove"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Period", mappedBy="platform", cascade={"persist", "remove"})
      */
     private $periods;
     /**
@@ -52,9 +52,9 @@ class Plataform
      *
      * @return integer
      */
-    public function getIdPlataform()
+    public function getIdPlatform()
     {
-        return $this->idPlataform;
+        return $this->idPlatform;
     }
 
     /**
@@ -62,7 +62,7 @@ class Plataform
      *
      * @param string $activePeriod
      *
-     * @return Plataform
+     * @return Platform
      */
     public function setActivePeriod($activePeriod)
     {
@@ -86,12 +86,12 @@ class Plataform
      *
      * @param \AppBundle\Entity\Period $period
      *
-     * @return Plataform
+     * @return Platform
      */
     public function addPeriod(\AppBundle\Entity\Period $period)
     {
         $this->periods[] = $period;
-        $period->setPlataform($this);
+        $period->setPlatform($this);
         return $this;
     }
 

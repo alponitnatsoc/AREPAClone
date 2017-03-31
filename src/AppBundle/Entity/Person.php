@@ -10,6 +10,7 @@ namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping\UniqueConstraint;
+use AppBundle\Entity\Role;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -533,9 +534,7 @@ class Person
      */
     public function isStudent()
     {
-        $criteria = Criteria::create();
-        $criteria->where(Criteria::expr()->eq("Class",'Student'));
-        return ($this->personRole->matching($criteria)->count()>0)? true: false;
+        return ($this->personRole->filter(function($role){return $role->getClass()=='Student';})->count()>0)?true:false;
     }
 
     /**
@@ -545,9 +544,7 @@ class Person
      */
     public function isTeacher()
     {
-        $criteria = Criteria::create();
-        $criteria->where(Criteria::expr()->eq("Class",'Teacher'));
-        return ($this->personRole->matching($criteria)->count()>0)? true: false;
+        return ($this->personRole->filter(function($role){return $role->getClass()=='Teacher';})->count()>0)?true:false;
     }
 
     /**
@@ -558,9 +555,7 @@ class Person
      */
     public function isTeacherAssistant()
     {
-        $criteria = Criteria::create();
-        $criteria->where(Criteria::expr()->eq("Class",'TeacherAssistant'));
-        return ($this->personRole->matching($criteria)->count()>0)? true: false;
+        return ($this->personRole->filter(function($role){return $role->getClass()=='teacherAssistant';})->count()>0)?true:false;
     }
 
     /**
@@ -569,9 +564,7 @@ class Person
      */
     public function getStudent()
     {
-        $criteria = Criteria::create();
-        $criteria->where(Criteria::expr()->eq("Class",'Student'));
-        return ($this->personRole->matching($criteria)->count()==1)? $this->personRole->matching($criteria)->first(): null;
+        return ($this->isStudent())?$this->personRole->filter(function($role){return $role->getClass()=='Student';})->first():null;
     }
 
     /**
@@ -580,9 +573,7 @@ class Person
      */
     public function getTeacher()
     {
-        $criteria = Criteria::create();
-        $criteria->where(Criteria::expr()->eq("Class",'Teacher'));
-        return ($this->personRole->matching($criteria)->count()==1)? $this->personRole->matching($criteria)->first(): null;
+        return ($this->isTeacher())?$this->personRole->filter(function($role){return $role->getClass()=='Teacher';})->first():null;
     }
 
     /**
@@ -591,8 +582,6 @@ class Person
      */
     public function getTeacherAssistant()
     {
-        $criteria = Criteria::create();
-        $criteria->where(Criteria::expr()->eq("Class",'TeacherAssistant'));
-        return ($this->personRole->matching($criteria)->count()==1)? $this->personRole->matching($criteria)->first(): null;
+        return ($this->isTeacherAssistant())?$this->personRole->filter(function($role){return $role->getClass()=='TeacherAssistant';})->first():null;
     }
 }

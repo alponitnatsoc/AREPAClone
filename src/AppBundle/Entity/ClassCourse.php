@@ -207,9 +207,7 @@ class ClassCourse
      */
     public function getTeachers()
     {
-        $criteria = Criteria::create();
-        $criteria->where(Criteria::expr()->eq("Class",'Teacher'));
-        return ($this->roles->matching($criteria)->count()>0)?$this->roles->matching($criteria):null;
+        return $this->roles->filter(function($role){return $role->getClass()=='Teacher';});
     }
 
     /**
@@ -218,9 +216,7 @@ class ClassCourse
      */
     public function getStudents()
     {
-        $criteria = Criteria::create();
-        $criteria->where(Criteria::expr()->eq("Class",'Student'));
-        return ($this->roles->matching($criteria)->count()>0)?$this->roles->matching($criteria):null;
+        return $this->roles->filter(function($role){return $role->getClass()=='Student';});
     }
 
     /**

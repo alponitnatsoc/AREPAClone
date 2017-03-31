@@ -8,149 +8,82 @@ use AppBundle\Entity\CourseContributesOutcome;
 use AppBundle\Entity\Faculty;
 use AppBundle\Entity\Period;
 use AppBundle\Entity\Person;
+use AppBundle\Entity\Platform;
+use AppBundle\Entity\Teacher;
 use AppBundle\Entity\User;
+use AppBundle\Form\ActivePeriodForm;
 use AppBundle\Form\addDocument;
-use Doctrine\ORM\EntityRepository;
+use AppBundle\Form\NewPeriodType;
+use AppBundle\Form\Type\PeriodType;
+use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\QueryBuilder;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
+use AppBundle\Traits\PlatformMethodTrait;
+
 
 class AdminController extends Controller
 {
+    use PlatformMethodTrait;
+
     public function adminDashboardAction(Request $request)
     {
         if($this->isGranted('ROLE_ADMIN')){
-            $em = $this->getDoctrine()->getManager();
-            $plataform = $em->getRepository("AppBundle:Plataform")->find(1);
+
+            /** @var ObjectManager $em */
+            $em = $this->getManager();
+            $platform = $this->getPlatform();
             /** @var User $user */
             $user = $this->getUser();
+            $facultyCode = 'DPT-ISIST';
             /** @var Faculty $faculty */
-            $faculty = $user->getPersonPerson()->getTeacher()->getFaculties()->first();
-            $facultyHasCourses = $faculty->getCourses();
-            $facultyHasTeachers = $faculty->getTeachers();
-            /** @var QueryBuilder $query */
-            $query = $em->createQueryBuilder();
-            $query
-                ->select('c,MAX(c.createdAt) AS max_score')
-                ->from("AppBundle:Course",'c')
-                ->groupBy('c.idCourse')
-                ->setMaxResults(1)
-                ->orderBy('max_score','DESC');
-            $query2 = $em->createQueryBuilder();
-            $query2
-                ->select('t,MAX(t.createdAt) AS max_score')
-                ->from("AppBundle:Teacher",'t')
-                ->groupBy('t.idTeacher')
-                ->setMaxResults(1)
-                ->orderBy('max_score','DESC');
+            $faculty = $this->getFacultyByCode($facultyCode);
+
+            $courses = $faculty->getCourses();
+            $teachers = $faculty->getTeachers();
+
             /** @var Course $lastCourse */
-            $lastCourse = $query->getQuery()->getResult()[0][0];
-            $lastTeacher = $query2->getQuery()->getResult()[0][0];
-            $formActivePeriod = $this->get('form.factory')->createNamedBuilder('formActivePeriod')
-                ->add('period',EntityType::class,array(
-                    'class'=>'AppBundle\Entity\Period',
-                    'query_builder' => function (EntityRepository $er) {
-                        return $er->createQueryBuilder('p')
-                            ->orderBy('p.code', 'DESC');
-                    },
-                    'required'=>true,
-                    'expanded'=>false,
-                    'multiple'=>false,
-                ))
-                ->add('submit',SubmitType::class)
-                ->getForm();
+            $lastCourse = $this->getLastCourse($faculty);
+            /** @var Teacher $lastTeacher */
+            $lastTeacher = $this->getLastTeacher($faculty);
 
-            $formPeriod = $this->get('form.factory')->createNamedBuilder('formAddPeriod')
-                ->add('period',TextType::class,array('label'=>false,'required'=>true))
-                ->add('submit',SubmitType::class)
-                ->getForm();
-
-            $formCoursesDocument = $this->createForm(addDocument::class);
-            $formCoursesDocument
+            $formActivePeriod = $this->createForm(ActivePeriodForm::class);
+            $formPeriod = $this->createForm(NewPeriodType::class);
+            $formCoursesDocument = $this->createForm(addDocument::class)
                 ->add('upload', SubmitType::class);
             $formCoursesDocument['type']->setData('Course');
 
             $formActivePeriod->handleRequest($request);
-
             if($formActivePeriod->isSubmitted() and $formActivePeriod->isValid()){
-                /** @var Period $tempPeriod */
-                $tempPeriod=$formActivePeriod->get('period')->getData();
-                try{
-                    if($tempPeriod->getCode()!= $plataform->getActivePeriod()){
-                        /** @var Period $period */
-                        $period = $em->getRepository("AppBundle:Period")->findOneBy(array('code'=>$plataform->getActivePeriod()));
-                        $ccos = $em->getRepository('AppBundle:CourseContributesOutcome')->findBy(array('period'=>$period));
-                        $plataform->setActivePeriod($tempPeriod->getCode());
-                        /** @var Period $newPeriod */
-                        $newPeriod = $em->getRepository("AppBundle:Period")->findOneBy(array('code'=>$plataform->getActivePeriod()));
-                        $newCcos = $em->getRepository('AppBundle:CourseContributesOutcome')->findBy(array('period'=>$newPeriod));
-                        if(count($newCcos)==0){
-                            /** @var CourseContributesOutcome $cco */
-                            foreach ($ccos as $cco) {
-                                $newcco = new CourseContributesOutcome();
-                                $newcco->setCourseCourse($cco->getCourseCourse());
-                                $newcco->setBloomLevel($cco->getBloomLevel());
-                                $newcco->setOutcomeOutcome($cco->getOutcomeOutcome());
-                                $newcco->setPeriod($newPeriod);
-                                $cco->getOutcomeOutcome()->addCourseContributesOutcome($newcco);
-                                $em->persist($cco->getOutcomeOutcome());
-                                $em->persist($newcco);
-                            }
-                        }
-                        $em->persist($plataform);
-                        $em->flush();
-                        $this->addFlash('message_title','app.success_period_change');
-                        $this->addFlash('message_body','app.success_period_change_content');
-                    }else{
-                        $this->addFlash('message_title','app.same_period');
-                        $this->addFlash('message_body','app.same_period_content');
-                    }
-                }catch(Exception $e){
-                    $this->addFlash('message_title','app.period_change_fail');
-                    $this->addFlash('message_body','app.period_change_fail_content');
+                $response = $this->handleActivePeriodSubmit($formActivePeriod);
+                if($response['Error']){
+                    $this->addFlash('message_title','period_change_fail');
+                    $this->addFlash('message_body','period_change_fail_content');
+                }elseif($response['Same']){
+                    $this->addFlash('message_title','same_period');
+                    $this->addFlash('message_body','same_period_content');
+                }elseif($response['Success']){
+                    $this->addFlash('message_title','success_period_change');
+                    $this->addFlash('message_body','success_period_change_content');
                 }
-
             }
 
             $formPeriod->handleRequest($request);
             if($formPeriod->isSubmitted() and $formPeriod->isValid()){
-                $tempCode = $formPeriod->get('period')->getData();
-                try {
-                    if ($em->getRepository("AppBundle:Period")->findOneBy(
-                            array('code' => $tempCode)
-                        ) != null
-                    ) {
-                        $this->addFlash(
-                            'message_title',
-                            'app.period_already_exist'
-                        );
-                        $this->addFlash(
-                            'message_body',
-                            'app.period_already_exist_content'
-                        );
-                    } else {
-                        $period = new Period();
-                        $period->setCode($tempCode);
-                        $plataform->addPeriod($period);
-                        $em->persist($plataform);
-                        $em->flush();
-                        $this->addFlash(
-                            'message_title',
-                            'app.success_period_add'
-                        );
-                        $this->addFlash(
-                            'message_body',
-                            'app.success_period_add_content'
-                        );
-                    }
-                }catch(Exception $e){
-                    $this->addFlash('message_title','app.period_add_fail');
-                    $this->addFlash('message_body','app.period_add_fail_content');
+                $response = $this->handleNewPeriodSubmit($formPeriod);
+                if($response['Error']){
+                    $this->addFlash('message_title','period_add_fail');
+                    $this->addFlash('message_body','period_add_fail_content');
+                }elseif($response['Exist']){
+                    $this->addFlash('message_title', 'period_already_exist');
+                    $this->addFlash('message_body', 'period_already_exist_content');
+                }elseif($response['Success']){
+                    $this->addFlash('message_title', 'success_period_add');
+                    $this->addFlash('message_body', 'success_period_add_content');
                 }
+
             }
 
             $formCoursesDocument->handleRequest($request);
@@ -158,50 +91,24 @@ class AdminController extends Controller
             if ($formCoursesDocument->isValid() and $formCoursesDocument->isSubmitted()) {
 
             }
-
-            $query3 = $em->createQueryBuilder();
-            $query3->select('cl');
-            $query3
-                ->from("AppBundle:ClassCourse",'cl')
-                ->join('cl.courseCourse','c')
-                ->join('c.courseHasfaculty','f')
-                ->where('cl.activePeriod = ?1')
-                ->andWhere('f.facultyFaculty = ?2')
-                ->setParameter('1',$plataform->getActivePeriod())
-                ->setParameter('2',$faculty);
-            $query4=$em->createQueryBuilder();
-            $query4->select('c,COUNT(c.idCourse) AS count_classes');
-            $query4->from('AppBundle:Course','c')->join('c.classes','cl')->join('c.courseHasfaculty','f')
-                ->where('cl.activePeriod = ?1')->andWhere('f.facultyFaculty = ?2')
-                ->groupBy('c.idCourse')
-                ->setParameter('1',$plataform->getActivePeriod())
-                ->setParameter('2',$faculty);
-            /** @var QueryBuilder $query5 */
-            $query5 = $em->createQueryBuilder();
-            $query5->select('t');
-            $query5
-                ->from('AppBundle:Teacher','t')
-                ->join('t.teacherDictatesCourses','c')->join('c.courseCourse','cc')->join('cc.courseHasfaculty','cf')->join('t.teacherHasfaculty','f')->join('c.classes','cll')->join('cll.classClass','cl')
-                ->where('cl.activePeriod = ?1')->andWhere('f.facultyFaculty = ?2')->andWhere('cf.facultyFaculty = ?2')
-//                    ->join('t.teacherDictatesCourses','c')->join('t.teacherHasfaculty','f')->join('c.classes','cll')->join('cll.classClass','cl')
-//                    ->where('cl.activePeriod = ?1')->andWhere('f.facultyFaculty = ?2')
-                ->groupBy('t.idTeacher')
-                ->setParameter('1',$plataform->getActivePeriod())
-                ->setParameter('2',$faculty);
+            $activePeriod = $platform->getActivePeriod();
+            $activeCourses = $faculty->getActiveCourses($activePeriod);
+            $activeClasses = $this->getActiveClasses($faculty);
+            $activeTeachers = $this->getActiveTeachers($faculty);
 
             return $this->render('@App/Admin/admin_dashboard.html.twig',array(
                 'formAddCourses'=>$formCoursesDocument->createView(),
-                'activeCourses'=>$query4->getQuery()->getResult(),
-                'activeClasses'=>$query3->getQuery()->getResult(),
-                'activeTeachers'=>$query5->getQuery()->getResult(),
-                'courses'=>$facultyHasCourses,
-                'teachers'=>$facultyHasTeachers,
+                'activeCourses'=>$activeCourses,
+                'activeClasses'=>$activeClasses,
+                'activeTeachers'=>$activeTeachers,
+                'courses'=>$courses,
+                'teachers'=>$teachers,
                 'lastCourseCreated'=>$lastCourse,
                 'lastTeacherCreated'=>$lastTeacher,
                 'faculty'=>$faculty,
                 'periodAdd'=>$formPeriod->createView(),
                 'activePeriod'=>$formActivePeriod->createView(),
-                'plataform'=>$plataform,
+                'platform'=>$platform,
             ));
         }else{
             $this->createAccessDeniedException();
@@ -209,11 +116,69 @@ class AdminController extends Controller
         $this->redirectToRoute('dashboard',array(),307);
     }
 
+    private function handleNewPeriodSubmit(Form $formPeriod){
+        /** @var ObjectManager $em */
+        $em = $this->getManager();
+        /** @var Platform $platform */
+        $platform = $this->getPlatform();
+        $tempPeriod = $formPeriod->get('period')->getData();
+        try {
+            if ($em->getRepository("AppBundle:Period")->findOneBy(array('code' => $tempPeriod)) != null) {
+                return array('Error'=>false,'Exist'=>true);
+            } else {
+                $period = new Period();
+                $period->setCode($tempPeriod);
+                $platform->addPeriod($period);
+                $em->persist($platform);
+                $em->flush();
+                return array('Error'=>false,'Exist'=>false,'Success'=>true);
+            }
+        }catch(Exception $e){
+            return array('Error'=>true);
+        }
+    }
+
+
+    private function handleActivePeriodSubmit(Form $formActivePeriod){
+        /** @var Period $tempPeriod */
+        $tempPeriod = $formActivePeriod->get('activePeriod')->getData();
+        /** @var Platform $platform */
+        $platform = $this->getPlatform();
+        try{
+            if($tempPeriod->getCode()!= $platform->getActivePeriod()){
+                /** @var ObjectManager $em */
+                $em = $this->getManager();
+                /** @var Period $activePeriod */
+                $activePeriod = $platform->getActivePeriod();
+                $ccos = $em->getRepository('AppBundle:CourseContributesOutcome')->findBy(array('activePeriod'=>$activePeriod));
+                $platform->setActivePeriod($tempPeriod->getCode());
+                $newCcos = $em->getRepository('AppBundle:CourseContributesOutcome')->findBy(array('activePeriod'=>$tempPeriod));
+                if(count($newCcos)==0){
+                    /** @var CourseContributesOutcome $cco */
+                    foreach ($ccos as $cco) {
+                        $newCCO = new CourseContributesOutcome($cco->getBloomLevel(),$tempPeriod,$cco->getCourse(),$cco->getExStudentPercentageValue(),$cco->getOutcome());
+                        $cco->getOutcome()->addCourseContributesOutcome($newCCO);
+                        $em->persist($newCCO);
+                    }
+                }
+                $em->persist($platform);
+                $em->flush();
+                return array('Error'=>false,'Same'=>false,'Success'=>true);
+            }else{
+                return array('Error'=>false,'Same'=>true);
+
+            }
+        }catch(Exception $e){
+            return array('Error'=>true);
+        }
+    }
+
+
     public function lookupCoursesAction($active,Request $request)
     {
         if($this->isGranted('ROLE_ADMIN')){
             $em = $this->getDoctrine()->getManager();
-            $plataform = $em->getRepository("AppBundle:Plataform")->find(1);
+            $plataform = $em->getRepository("Platform.php")->find(1);
             $faculty = $this->getUser()->getPersonPerson()->getTeacher()->getTeacherHasfaculty()->first()->getFacultyFaculty();
 
 
@@ -269,7 +234,7 @@ class AdminController extends Controller
     {
         if($this->isGranted('ROLE_ADMIN')){
             $em = $this->getDoctrine()->getManager();
-            $plataform = $em->getRepository("AppBundle:Plataform")->find(1);
+            $plataform = $em->getRepository("Platform.php")->find(1);
             $faculty = $this->getUser()->getPersonPerson()->getTeacher()->getTeacherHasfaculty()->first()->getFacultyFaculty();
             $formTeachersInfo= $this->createForm(addDocument::class);
             $formTeachersInfo
@@ -329,7 +294,7 @@ class AdminController extends Controller
         if($this->isGranted('ROLE_ADMIN')){
 
             $em = $this->getDoctrine()->getManager();
-            $plataform = $em->getRepository("AppBundle:Plataform")->find(1);
+            $plataform = $em->getRepository("Platform.php")->find(1);
             $faculty = $this->getUser()->getPersonPerson()->getTeacher()->getTeacherHasfaculty()->first()->getFacultyFaculty();
 
             $formClassesInfo= $this->createForm(addDocument::class);

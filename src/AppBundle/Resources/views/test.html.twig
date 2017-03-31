@@ -1,0 +1,126 @@
+{% extends "@App/Admin/admin_dashboard_base.html.twig" %}
+    {% trans_default_domain 'FOSUserBundle' %}
+
+     {% block stylesheets %}
+         {{ parent() }}
+     {% endblock stylesheets %}
+
+    {% block page_title %}
+        Test
+    {% endblock%}
+
+
+    {% block page_content %}
+        {{ form_start(activePeriod) }}
+        {{ form_end(activePeriod) }}
+        {{ form_start(periodAdd) }}
+        {{ form_end(periodAdd) }}
+        {#<!-- ACTIVE PERIOD FORM -->#}
+        {#<div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count noPadding text-center" style="height:113px;">#}
+            {#<h3 style="margin: 5% 0;font-size: 30px;color: #5a738e;">{{ 'app.active_period'|trans }}</h3>#}
+            {#<div>#}
+                {#<div class="col-md-6 noPadding">#}
+                    {#<h1 style="margin: 5px 0px 0px 20px; padding: 0;font-size: 30px;">{{ platform.activePeriod }}</h1>#}
+                {#</div>#}
+                {#<div class="col-md-6 noPadding">#}
+                    {#<div id="change_active_period" class="btn-arepa" data-toggle="modal" data-target="#modalChangePeriod" style="margin: 5px 20px 0 0;padding: 4px 15px;font-size: 16px" >#}
+                        {#{{ 'app.change'|trans }}#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+            {#<!-- ACTIVE PERIOD MODAL -->#}
+            {#<div class="modal fade" id="modalChangePeriod" tabindex="-1" style="top: auto;bottom: auto" role="dialog" aria-labelledby="modalChangePeriodLabel" aria-hidden="true">#}
+                {#<div class="modal-dialog" style="min-width: 300px;width: 300px;" role="document">#}
+                    {#<div class="modal-content" >#}
+                        {#<div class="modal-header" style="padding: 6px;">#}
+                            {#<button type="button" class="close" data-dismiss="modal" aria-label="Close">#}
+                                {#<span aria-hidden="true" style="font-size: 23px">&times;</span>#}
+                            {#</button>#}
+                            {#<h4 class="modal-title" id="modalChangePeriodLabel" style="font-size: 20px">{{ 'app.change_active_period'|trans }}</h4>#}
+                        {#</div>#}
+                        {#<div class="modal-body">#}
+                            {#{{ form_start(form) }}#}
+                            {#<div>#}
+                                {#<div id="errorChangePeriod" class="col-md-12 noPadding" >#}
+                                {#</div>#}
+                                {#<div class="col-md-12">#}
+                                    {#{{ form_widget(form.activePeriod,{'placeholder':'app.select_period'|trans,'attr':{'style':'height: 24px;width: 50%'}}) }}#}
+                                    {#{{ form_widget(form.submit,{'label':'app.select'|trans,'attr':{'style':'width: 35%'}}) }}#}
+                                {#</div>#}
+                            {#</div>#}
+                            {#{{ form_end(form) }}#}
+                            {#{{ form_start(form2) }}#}
+                            {#<div>#}
+                                {#<div id="errorAddPeriod" class="col-md-12 noPadding" >#}
+                                {#</div>#}
+                                {#<div class="col-md-12">#}
+                                    {#{{ form_widget(form2.period,{'attr':{'placeholder':'app.period_code'|trans,'style':'border-radius: 5px;width: 50%'}}) }}#}
+                                    {#{{ form_widget(form2.submit,{'label':'app.add'|trans,'attr':{'style':'width: 35%'}}) }}#}
+                                {#</div>#}
+
+                            {#</div>#}
+
+                            {#{{ form_end(form2) }}#}
+                        {#</div>#}
+                        {#<div class="modal-footer" style="padding: 6px;">#}
+                            {#<button type="button" class="btn btn-secondary" style="background-color: #36546f;font-size: 16px; color: white" data-dismiss="modal">{{ 'app.close'|trans }}</button>#}
+                        {#</div>#}
+                    {#</div>#}
+                {#</div>#}
+            {#</div>#}
+            {#<!-- END ACTIVE PERIOD MODAL -->#}
+        {#</div>#}
+        {#<!-- END ACTIVE PERIOD -->#}
+
+
+
+
+    {% endblock %}
+
+    {% block scriptImport %}
+        <script>
+            {#jQuery(document).ready(function () {#}
+                {#$.getScript("{{ asset('assets/vendors/jquery-validation/dist/jquery.validate.min.js') }}").done(function () {#}
+                    {#var validator1;#}
+                    {#var validator2;#}
+                    {#jQuery.validator.setDefaults({#}
+                        {#errorPlacement: function (error, element) {#}
+                            {#if(element.attr("name")=='new_period_form[period]')#}
+                                {#error.appendTo('#errorAddPeriod');#}
+                            {#if(element.attr("name")=='active_period_form[period]')#}
+                                {#error.appendTo('#errorChangePeriod');#}
+                        {#}#}
+                    {#});#}
+                    {#validator1 = $("form[name='new_period_form']").validate({#}
+                        {#rules: {#}
+                            {#"new_period_form[period]": {required: true, minlength: 4,digits:true}#}
+                        {#},#}
+                        {#messages: {#}
+                            {#"new_period_form[period]": {required: "{{ 'required'|trans }}",minlength: "{{ 'minlength'|trans }}",digits:"{{ 'numeric'|trans }}" }#}
+                        {#}#}
+                    {#});#}
+                    {#validator2 = $("form[name='active_period_form']").validate({#}
+                        {#rules: {#}
+                            {#"active_period_form[period]": {required: true}#}
+                        {#},#}
+                        {#messages: {#}
+                            {#"active_period_form[period]": {required: "{{ 'required'|trans }}" }#}
+                        {#}#}
+                    {#});#}
+                {#});#}
+
+                {#$("form[name='form']").on('submit',function (e) {#}
+                    {#e.preventDefault();#}
+                    {#var form = $("form");#}
+                    {#var flagValid = true;#}
+                    {#if (!form.valid()) {#}
+                        {#return;#}
+                    {#}#}
+                {#});#}
+
+                {#$.getScript("{{ asset('assets/js/adminDashboard.js') }}").done(function () {#}
+                    {#startAdmin();#}
+                {#});#}
+            {#});#}
+        </script>
+    {% endblock %}

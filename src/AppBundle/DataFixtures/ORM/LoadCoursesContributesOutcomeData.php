@@ -39,7 +39,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $bloomLevel2 = $manager->getRepository("AppBundle:BloomLevel")->find(2);
         $bloomLevel3 = $manager->getRepository("AppBundle:BloomLevel")->find(3);
 
-        $activePeriod = $manager->getRepository("AppBundle:Plataform")->find(1)->getActivePeriod();
+        $activePeriod = $manager->getRepository("Platform.php")->find(1)->getActivePeriod();
 
         // Outcome A
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'004206'));

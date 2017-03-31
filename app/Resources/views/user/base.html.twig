@@ -16,7 +16,7 @@
         <link href="{{ asset('assets/vendors/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.min.css') }}" rel="stylesheet"/>
     {% block stylesheets %}
     {% endblock %}
-    <!-- Custom Theme Style -->
+    {#<!-- Custom Theme Style -->#}
     <link href="{{ asset('assets/css/custom.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/css/new_design.css') }}" rel="stylesheet">
 </head>
@@ -63,9 +63,9 @@
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true" style="font-size: 23px">&times;</span>
                                     </button>
-                                    <h4 class="modal-title" id="modalFlagLabel" style="font-size: 20px">{{  success_message|trans }}</h4>
+                                    <h4 class="modal-title" id="modalFlagLabel" style="font-size: 20px">{{ success_message|trans }}</h4>
                                 </div>
-                                <div class="modal-body" style="font-size: 16px">
+                                <div class="modal-body" style="font-size: 16px;overflow: scroll;">
                                     {{ app.session.flashBag.get('message_body')[0]|trans }}
                                 </div>
                                 <div class="modal-footer" style="padding: 6px;">

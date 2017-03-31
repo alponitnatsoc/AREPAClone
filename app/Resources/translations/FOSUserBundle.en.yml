@@ -1,3 +1,32 @@
+#form translations
+add: 'Add'
+required: 'This field is required'
+minlength: 'The value is to short'
+numeric: 'The value must be numeric'
+
+#form period
+addPeriod: 'Enter the period'
+activePeriod: 'Active Period'
+periodCode: 'Period Code'
+
+gender: 'Gender'
+
+#flash messages
+period_change_fail: 'Failed to change period'
+period_change_fail_content: 'An unexpected error occurred.'
+same_period: 'Equal periods'
+same_period_content: 'The period selected was equal to the current active period.'
+success_period_add: 'Period added successfully'
+success_period_add_content: 'The period has been correctly added.'
+success_period_change: 'Active period changed'
+success_period_change_content: 'The active period was succesfully changed.'
+period_already_exist: 'Fail to add period'
+period_already_exist_content: 'The period you tried to add already exists.'
+period_add_fail: 'Fail to add period'
+period_add_fail_content: 'An unexpected error occurred.'
+
+
+
 courses_step_1: Enter to Javeriana portal page:
 portal_javeriana: Javeriana Portal
 courses_step_2: Write your user and password
@@ -28,13 +57,12 @@ registration:
 form:
     person:
         firstName: 'First Name:'
-    required: 'This field is required'
-    minlength: 'The value is to short'
+
     select_file: 'Please select an Excel file'
-    numeric: 'The value must be numeric'
+
     invalid_file_type: 'Plese select a valid file type'
 app:
-    add: 'Add'
+
     select: 'Select'
     save: 'Save'
     edit: 'Edit'
@@ -109,18 +137,8 @@ app:
     import_teachers_success_content: 'Teachers information has been correctly updated.'
     import_teachers_fail: 'Teachers update failed'
     import_teachers_fail_content: 'Teachers information update fail, document had errors.'
-    success_period_change: 'Active period changed'
-    success_period_change_content: 'The active period was succesfully changed.'
-    period_already_exist: 'Fail to add period'
-    period_already_exist_content: 'The period that you tried to add already exists.'
-    success_period_add: 'Period added successfully'
-    success_period_add_content: 'The period has been correctly added.'
-    same_period: 'Equal periods'
-    same_period_content: 'The period selected was equal to the current active period.'
-    period_change_fail: 'Failed to change period'
-    period_change_fail_content: 'An unexpected error occurred.'
-    period_add_fail: 'Fail to add period'
-    period_add_fail_content: 'An unexpected error occurred.'
+
+
     download_info: 'Download Information'
     active_courses: 'Active Courses'
     active_classes: 'Active Classes'

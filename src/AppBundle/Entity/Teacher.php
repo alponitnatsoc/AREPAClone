@@ -75,7 +75,6 @@ class Teacher extends Role
         $this->evaluationModels = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
-
     /**
      * get class
      * returns the name of the class

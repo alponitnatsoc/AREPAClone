@@ -1,3 +1,30 @@
+#form translations
+add: 'Agregar'
+required: 'Este campo no puede estar vacio'
+minlength: 'El valor es muy corto'
+numeric: 'El valor debe ser numérico'
+
+#form period
+addPeriod: 'Digite el periodo'
+activePeriod: 'Periodo activo'
+
+gender: 'Genero'
+
+#flash messages
+period_change_fail: 'No se pudo cambiar el periodo'
+period_change_fail_content: 'Ocurrió un error inesperado.'
+same_period: 'Períodos iguales'
+same_period_content: 'El período seleccionado era igual al periodo activo actual.'
+success_period_add: 'Período agregado correctamente'
+success_period_add_content: 'El período se ha añadido correctamente'
+success_period_change: 'Se cambio el periodo activo'
+success_period_change_content: 'El período activo fué modificado correctamente.'
+period_already_exist: 'Falló agregar período'
+period_already_exist_content: 'El período que intentó agregar ya existe.'
+period_add_fail: 'Falló agregar período'
+period_add_fail_content: 'Ocurrió un error inesperado.'
+
+
 courses_step_1: Entrar a la página del portal de la Javeriana:
 portal_javeriana: Portal Javeriana
 courses_step_2: Ingrese su usuario y contraseña
@@ -36,10 +63,9 @@ registration:
 form:
     person:
         firstName: 'Primer Nombre:'
-    required: 'Este campo no puede estar vacio'
-    minlength: 'El valor es muy corto'
+
     select_file: 'Por favor seleccione un archivo de Excel'
-    numeric: 'El valor debe ser numérico'
+
     invalid_file_type: 'Porfavor seleccione un tipo de archivo valido'
 app:
     add: 'Agregar'
@@ -117,18 +143,10 @@ app:
     import_teachers_success_content: 'La información de los profesores fué actualizada correctamente.'
     import_teachers_fail: 'Actualización de información falló'
     import_teachers_fail_content: 'La actualización de información de profesores falló, el documento tiene errores.'
-    success_period_change: 'Se cambio el periodo activo'
-    success_period_change_content: 'El período activo fué modificado correctamente.'
-    period_already_exist: 'Falló agregar período'
-    period_already_exist_content: 'El período que ha intentado añadir ya existe.'
-    success_period_add: 'Período agregado correctamente'
-    success_period_add_content: 'El período se ha añadido correctamente'
-    same_period: 'Períodos iguales'
-    same_period_content: 'El período seleccionado era igual al periodo activo actual.'
-    period_change_fail: 'No se pudo cambiar el periodo'
-    period_change_fail_content: 'Ocurrió un error inesperado.'
-    period_add_fail: 'Falló agregar período'
-    period_add_fail_content: 'Ocurrió un error inesperado.'
+
+
+
+
     download_info: 'Descargar Información'
     active_courses: 'Cursos Activos'
     active_classes: 'Clases Activas'

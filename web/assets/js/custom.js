@@ -7,6 +7,7 @@
 var CURRENT_URL = window.location.href.split('?')[0],
     $BODY = $('body'),
     $MAIN_CONTAINER = $('.main_container'),
+    $CONTAINER = $('.container'),
     $LEFT_COL = $('.left_col'),
     $RIGHT_COL = $('.right_col'),
     $MENU_TOGGLE = $('#menu_toggle'),
@@ -14,78 +15,50 @@ var CURRENT_URL = window.location.href.split('?')[0],
     $SIDEBAR_FOOTER = $('.sidebar-footer'),
     $NAV_MENU = $('.nav_menu'),
     $FOOTER = $('footer'),
-    $CONTAINER = $('.container'),
-    InitialHeight = $('.main_container').height();
+    $MINHEIGHT = 300,
+    FullHeight = $MAIN_CONTAINER.height(),
+    InitialHeight = $CONTAINER.height();
+
+function setContentHeight() {
+    $MAIN_CONTAINER.css('height',InitialHeight);
+    var windowHeight = $(window).height(),
+        container = $CONTAINER.height(),
+        footerHeight= $FOOTER.outerHeight(),
+        leftCol = $LEFT_COL.height(),
+        mainContainer = container<windowHeight ? windowHeight : container+footerHeight,
+        minHeight = Math.max(windowHeight,container,leftCol,$MINHEIGHT);
+
+    if(parseFloat($('.modal-header').height())>0){
+        var $modalHeaderH = Math.min(parseFloat($('.modal-header').height()),29);
+        var $modalFooterH = Math.min(parseFloat($('.modal-footer').height()),42);
+    }else{
+        var $modalHeaderH = 29;
+        var $modalFooterH = 42;
+    }
+
+    $LEFT_COL.css('minHeight',windowHeight);
+    $LEFT_COL.css('maxHeight',windowHeight);
+    $MAIN_CONTAINER.css('height',(container+footerHeight) > minHeight ? container + footerHeight : minHeight);
+    $MAIN_CONTAINER.css('min-height', $(window).height());
+    $('#modalFlag').css('overflow-y','auto');
+    $('#modalFlag').css('minHeight',windowHeight);
+    $('.modal-dialog').css('minHeight',windowHeight*0.8);
+    $('.modal-content').css('maxHeight',windowHeight*0.8);
+    $('.modal-header').css('minHeight',$modalHeaderH);
+    $('.modal-footer').css('minHeight',$modalFooterH);
+
+    $modalB = parseFloat(windowHeight*.8)-30-parseFloat($modalHeaderH)-parseFloat($modalFooterH);
+    $('.modal-body').css('maxHeight',$modalB);
+
+};
+
 
 
 // Sidebar
 $(window).on('focus change click resize',function () {
-    $MAIN_CONTAINER.css('height',InitialHeight);
-    var windowHeight = $(window).height(),
-        container=$CONTAINER.height(),
-        footerHeight= $FOOTER.outerHeight(),
-        leftCol = $LEFT_COL.outerHeight(),
-        mainContainer = container<windowHeight ? windowHeight : container+footerHeight,
-        minHeight = Math.max(windowHeight,container,leftCol);
-    $('.modal-dialog').css('height',windowHeight);
-    $('.modal-dialog').css('maxHeight',windowHeight);
-    $('.modal-content').css('maxHeight',windowHeight*0.85);
-    $(".modal-body").css('maxHeight',windowHeight*0.70);
-    $LEFT_COL.css('minHeight',windowHeight);
-    $LEFT_COL.css('maxHeight',windowHeight);
-    $MAIN_CONTAINER.css('height',(container+footerHeight) > minHeight ? container + footerHeight : minHeight);
+    setContentHeight();
 });
 $(document).ready(function() {
-    // TODO: This is some kind of easy fix, maybe we can improve this
-    var setContentHeight = function () {
-        $MAIN_CONTAINER.css('height',InitialHeight);
-        var windowHeight = $(window).height(),
-            container=$CONTAINER.height(),
-            footerHeight= $FOOTER.outerHeight(),
-            leftCol = $LEFT_COL.outerHeight(),
-            mainContainer = container<windowHeight ? windowHeight : container+footerHeight,
-            minHeight = Math.max(windowHeight,container,leftCol);
-        $('.modal-dialog').css('height',windowHeight);
-        $('.modal-dialog').css('maxHeight',windowHeight);
-        $('.modal-content').css('maxHeight',windowHeight*0.85);
-        $(".modal-body").css('maxHeight',windowHeight*0.70);
-        $LEFT_COL.css('minHeight',windowHeight);
-        $LEFT_COL.css('maxHeight',windowHeight);
-        $MAIN_CONTAINER.css('height',(container+footerHeight) > minHeight ? container + footerHeight : minHeight);
-        // $MAIN_CONTAINER.css('min-height', $(window).height());
-        // var bodyHeight = $BODY.outerHeight(),
-        //     footerHeight = ,
-        //     leftColHeight = $LEFT_COL.eq(1).height() + $SIDEBAR_FOOTER.height(),
-        //     contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
-        //
-        // // normalize content
-        // contentHeight -=footerHeight;
-        // $RIGHT_COL.css('min-height', contentHeight);
-    };
-
-    $SIDEBAR_MENU.find('a').on('click', function(ev) {
-        var $li = $(this).parent();
-
-        if ($li.is('.active')) {
-            $li.removeClass('active active-sm');
-            $('ul:first', $li).slideUp(function() {
-                setContentHeight();
-            });
-        } else {
-            // prevent closing menu if we are on child menu
-            if (!$li.parent().is('.child_menu')) {
-                $SIDEBAR_MENU.find('li').removeClass('active active-sm');
-                $SIDEBAR_MENU.find('li ul').slideUp();
-            }
-
-            $li.addClass('active');
-
-            $('ul:first', $li).slideDown(function() {
-                setContentHeight();
-            });
-        }
-    });
-
     // toggle small or large menu
     $MENU_TOGGLE.on('click', function() {
         if ($BODY.hasClass('nav-md')) {
@@ -95,31 +68,43 @@ $(document).ready(function() {
             $SIDEBAR_MENU.find('li.active-sm ul').show();
             $SIDEBAR_MENU.find('li.active-sm').addClass('active').removeClass('active-sm');
         }
-
         $BODY.toggleClass('nav-md nav-sm');
-
-        setContentHeight();
     });
-
+    //sidebar option toggle action
+    $SIDEBAR_MENU.find('a').on('click', function(ev) {
+        var $li = $(this).parent();
+        if ($li.is('.active')) {
+            $li.removeClass('active active-sm');
+            $('ul:first', $li).slideUp(function() {
+            });
+        } else {
+            // prevent closing menu if we are on child menu
+            if (!$li.parent().is('.child_menu')) {
+                $SIDEBAR_MENU.find('li').removeClass('active active-sm');
+                $SIDEBAR_MENU.find('li ul').slideUp();
+            }
+            $li.addClass('active');
+            $('ul:first', $li).slideDown(function() {
+            });
+        }
+    });
     // check active menu
     $SIDEBAR_MENU.find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('current-page');
 
     $SIDEBAR_MENU.find('a').filter(function () {
         return this.href == CURRENT_URL;
     }).parent('li').addClass('current-page').parents('ul').slideDown(function() {
-        setContentHeight();
     }).parent().addClass('active');
-
     setContentHeight();
 
     // fixed sidebar
-    if ($.fn.mCustomScrollbar) {
-        $('.menu_fixed').mCustomScrollbar({
-            autoHideScrollbar: true,
-            theme: 'minimal',
-            mouseWheel:{ preventDefault: false }
-        });
-    }
+    // if ($.fn.mCustomScrollbar) {
+    //     $('.menu_fixed').mCustomScrollbar({
+    //         autoHideScrollbar: true,
+    //         theme: 'minimal',
+    //         mouseWheel:{ preventDefault: false }
+    //     });
+    // }
 });
 // /Sidebar
 
@@ -145,7 +130,6 @@ $(document).ready(function() {
 
     $('.close-link').click(function () {
         var $BOX_PANEL = $(this).closest('.x_panel');
-
         $BOX_PANEL.remove();
     });
 });

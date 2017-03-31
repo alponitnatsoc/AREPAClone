@@ -11,7 +11,7 @@ namespace AppBundle\Controller;
 use AppBundle\Entity\ClassCourse;
 use AppBundle\Entity\Faculty;
 use AppBundle\Entity\Period;
-use AppBundle\Entity\Plataform;
+use AppBundle\Entity\Platform;
 use AppBundle\Entity\Teacher;
 use AppBundle\Entity\TeacherDictatesClassCourse;
 use AppBundle\Entity\TeacherDictatesCourse;
@@ -27,8 +27,8 @@ class TeacherController extends Controller
         dump('TEACHER');die;
         if($this->isGranted('ROLE_TEACHER')){
             $em = $this->getDoctrine()->getManager();
-            /** @var Plataform $plataform */
-            $plataform = $em->getRepository("AppBundle:Plataform")->find(1);
+            /** @var Platform $plataform */
+            $plataform = $em->getRepository("AppBundle:Platform")->find(1);
             /** @var User $user */
             $user = $this->getUser();
             /** @var Faculty $faculty */

@@ -152,7 +152,7 @@ Initializing the database
 To initialize the database you need to download all the reports from javeriana peopleSoft for courses, teachers, students, faculties and classes.  
 When everything is downloaded and it's placed in the correct web/Uploads/Files/ directory you can run one by one the next commands:
     
-    php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/LoadPlataformData.php --append
+    php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/LoadPlatformData.php --append
     php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/LoadSecurityRolesData.php --append
     php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/LoadDocumentTypeData.php --append
     php bin/console doctrine:fixtures:load --fixtures=src/AppBundle/DataFixtures/ORM/LoadOutcomeData.php --append

@@ -1,4 +1,6 @@
 function startAdmin() {
+
+
     $("#help_courses_import").on('click',function () {
         $("#courses_step_1").show();
         $("#courses_step_2").hide();

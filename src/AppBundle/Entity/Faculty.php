@@ -73,8 +73,7 @@ class Faculty
      */
     public function getTeachers()
     {
-        $criteria = Criteria::create()->where(Criteria::expr()->eq("Class",'Teacher'));
-        return $this->roles->matching($criteria);
+        return $this->roles->filter(function($role){return $role->getClass()=='Teacher';});
     }
 
     /**
@@ -84,8 +83,7 @@ class Faculty
      */
     public function getStudents()
     {
-        $criteria = Criteria::create()->where(Criteria::expr()->eq("Class",'Student'));
-        return $this->roles->matching($criteria);
+        return $this->roles->filter(function($role){return $role->getClass()=='Student';});
     }
 
     /**
@@ -95,8 +93,7 @@ class Faculty
      */
     public function getTeacherAssistants()
     {
-        $criteria = Criteria::create()->where(Criteria::expr()->eq("Class",'TeacherAssistant'));
-        return $this->roles->matching($criteria);
+        return $this->roles->filter(function($role){return $role->getClass()=='TeacherAssistant';});
     }
 
 
@@ -318,5 +315,19 @@ class Faculty
     public function hasStudent(Student $student){
         return $this->roles->contains($student);
     }
+
+    /**
+     * @param string $activePeriod
+     * @return \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
+     */
+    public function getActiveCourses($activePeriod)
+    {
+        return $this->courses->filter(function($course)use($activePeriod){
+            return $course->getClassCourses()->filter(function($classCourse) use ($activePeriod){
+                    return $classCourse->getActivePeriod() == $activePeriod;
+            })->count()>0;
+        });
+    }
+
 
 }
