@@ -1,12 +1,17 @@
 #form translations
 add: 'Agregar'
+select: 'Seleccionar'
 required: 'Este campo no puede estar vacio'
 minlength: 'El valor es muy corto'
 numeric: 'El valor debe ser numérico'
+email: 'Email'
+username: 'Nombre de usuario'
+
 
 #form period
 addPeriod: 'Digite el periodo'
 activePeriod: 'Periodo activo'
+select_period: 'Seleccione el periodo'
 
 gender: 'Genero'
 
@@ -24,20 +29,7 @@ period_already_exist_content: 'El período que intentó agregar ya existe.'
 period_add_fail: 'Falló agregar período'
 period_add_fail_content: 'Ocurrió un error inesperado.'
 
-
-courses_step_1: Entrar a la página del portal de la Javeriana:
-portal_javeriana: Portal Javeriana
-courses_step_2: Ingrese su usuario y contraseña
-courses_step_3: Seleccione la opción 'INGRESO A SAE'
-courses_step_4: Seleccione la opción 'Catálogo de Consultas SAE'
-courses_step_5: Muavase por los módulos hasta el módulo 7 "QA"
-courses_step_6: Ejecute la opcion 3 "Componentes asignatura"
-courses_step_7: Llene la consulta como se muestra en la imagen
-courses_step_8: Exporte la tabla en formato de Excel
-courses_step_9:
-courses_step_10:
-courses_step_11:
-
+#security
 security:
     login:
         login_title: 'Inicio de sesión'
@@ -60,6 +52,30 @@ registration:
     send_request: 'Confirmar registro'
     confirm_request: 'Registro completado'
     confirmed: 'felicidades %username%, tu cuenta ha sido activada'
+    password: 'Contraseña'
+    password_confirmation: 'Repita la contraseña'
+
+#period constrains
+period:
+    code:
+        not_blank: 'El periodo esta vacio.'
+        not_numeric: 'El periodo _value_ debe ser de tipo _type_.'
+
+
+courses_step_1: Entrar a la página del portal de la Javeriana:
+portal_javeriana: Portal Javeriana
+courses_step_2: Ingrese su usuario y contraseña
+courses_step_3: Seleccione la opción 'INGRESO A SAE'
+courses_step_4: Seleccione la opción 'Catálogo de Consultas SAE'
+courses_step_5: Muavase por los módulos hasta el módulo 7 "QA"
+courses_step_6: Ejecute la opcion 3 "Componentes asignatura"
+courses_step_7: Llene la consulta como se muestra en la imagen
+courses_step_8: Exporte la tabla en formato de Excel
+courses_step_9:
+courses_step_10:
+courses_step_11:
+
+
 form:
     person:
         firstName: 'Primer Nombre:'
@@ -68,8 +84,7 @@ form:
 
     invalid_file_type: 'Porfavor seleccione un tipo de archivo valido'
 app:
-    add: 'Agregar'
-    select: 'Seleccionar'
+    action: 'Acción'
     save: 'Guardar'
     edit: 'Editar'
     change: 'Cambiar'
@@ -93,7 +108,7 @@ app:
     go_to_course: 'Ir al Curso'
     select_rubric: 'Seleccionar Rubrica'
     change_rubric: 'Cambiar Rúbrica'
-    rubrics: 'Rubricas'
+    evaluationModels: 'Modelos de Evaluación'
     create: 'Crear'
     name: 'Nombre'
     final_grade: 'Nota Final'
@@ -152,7 +167,7 @@ app:
     active_classes: 'Clases Activas'
     active_teachers: 'Profesores Activos'
     active_period: 'Periodo Activo'
-    select_period: 'Seleccione el periodo'
+
     period_code: 'Código del periodo'
     change_active_period: 'Cambiar periodo activo'
     import_classes_title: 'Importar clases'

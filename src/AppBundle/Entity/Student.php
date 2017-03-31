@@ -190,4 +190,12 @@ class Student extends Role
     {
         return ($this->grades->filter(function($grade){return $grade->getClass()=='DefGrade';})->count>0)?$this->grades->filter(function($grade){return $grade->getClass()=='DefGrade';}):null;
     }
+
+    public function getDefGradeByClassCourse(ClassCourse $classCourse){
+        return ($this->grades->filter(function ($grade)use($classCourse){
+            return $grade->getClass()=='DefGrade' and $grade->getClassCourse()==$classCourse;
+        })->count()>0)?$this->grades->filter(function ($grade)use($classCourse){
+            return $grade->getClass()=='DefGrade' and $grade->getClassCourse()==$classCourse;
+        })->first():null;
+    }
 }

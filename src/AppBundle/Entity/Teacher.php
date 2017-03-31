@@ -239,4 +239,40 @@ class Teacher extends Role
     public function dictatesCourse(Course $course){
         return $this->courses->contains($course);
     }
+
+    /**
+     * returns all the PREG courses dictated by the teacher
+     *
+     * @return \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
+     */
+    public function getPregCourses()
+    {
+        return $this->courses->filter(function ($course){
+            return $course->getAcademicGrade()=='PREG';
+        });
+    }
+
+    /**
+     * @param string $activePeriod
+     * @return \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
+     */
+    public function getActiveCourses($activePeriod)
+    {
+        return $this->courses->filter(function($course)use($activePeriod){
+            return $course->getClassCourses()->filter(function($classCourse) use ($activePeriod){
+                    return $classCourse->getActivePeriod() == $activePeriod and $classCourse->getTeachers()->contains($this);
+                })->count()>0 and $course->getAcademicGrade()=='PREG';
+        });
+    }
+
+    /**
+     * @param Course $course
+     * @return \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
+     */
+    public function getEvaluationModelsByCourse(Course $course)
+    {
+        return $this->evaluationModels->filter(function($evaluationModel)use($course){
+            return $evaluationModel->getCourse()==$course;
+        });
+    }
 }

@@ -1,0 +1,4 @@
+evaluation_model_api:
+    type: rest
+    resource: '@AppBundle/Controller/EvaluationModelController.php'
+    name_prefix: api_public_

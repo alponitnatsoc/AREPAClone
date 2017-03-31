@@ -18,10 +18,10 @@ use Doctrine\ORM\Mapping as ORM;
 class DefGrade extends Grade
 {
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Course")
-     * @ORM\JoinColumn(name="course_id",referencedColumnName="id_course")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ClassCourse")
+     * @ORM\JoinColumn(name="class_course_id",referencedColumnName="id_class_course")
      */
-    private $course;
+    private $classCourse;
 
     /**
      * get class
@@ -36,26 +36,26 @@ class DefGrade extends Grade
     /**
      * DefGrade constructor.
      * @param Student|null $student
-     * @param Course|null $course
+     * @param ClassCourse|null $classCourse
      * @param float|null $value
      */
-    public function __construct(Student $student = null, Course $course = null, $value = null)
+    public function __construct(Student $student = null, ClassCourse $classCourse = null, $value = null)
     {
         $this->student = $student;
-        $this->course = $course;
+        $this->classCourse = $classCourse;
         $this->value = $value;
     }
 
     /**
      * Set course
      *
-     * @param \AppBundle\Entity\Course $course
+     * @param \AppBundle\Entity\ClassCourse $classCourse
      *
      * @return DefGrade
      */
-    public function setCourse(\AppBundle\Entity\Course $course = null)
+    public function setClassCourse(\AppBundle\Entity\ClassCourse $classCourse = null)
     {
-        $this->course = $course;
+        $this->classCourse = $classCourse;
 
         return $this;
     }
@@ -63,10 +63,10 @@ class DefGrade extends Grade
     /**
      * Get course
      *
-     * @return \AppBundle\Entity\Course
+     * @return \AppBundle\Entity\ClassCourse
      */
-    public function getCourse()
+    public function getClassCourse()
     {
-        return $this->course;
+        return $this->classCourse;
     }
 }

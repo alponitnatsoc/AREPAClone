@@ -329,5 +329,31 @@ class Faculty
         });
     }
 
+    /**
+     * returns all the courses that match the academic grade and the activePeriod strings
+     * @param string $activePeriod
+     * @param string $academicGrade
+     * @return \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
+     */
+    public function getActiveCoursesByAcademicGrade($activePeriod,$academicGrade)
+    {
+        return $this->courses->filter(function($course)use($activePeriod,$academicGrade){
+            return $course->getClassCourses()->filter(function($classCourse) use ($activePeriod,$academicGrade){
+                    return $classCourse->getActivePeriod() == $activePeriod;
+                })->count()>0 and $course->getAcademicGrade() == $academicGrade;
+        });
+    }
+
+    /**
+     * return all the PREG courses dictated in the faculty
+     * @return \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
+     */
+    public function getPregCourses()
+    {
+        return $this->courses->filter(function ($course){
+            return $course->getAcademicGrade()=='PREG';
+        });
+    }
+
 
 }

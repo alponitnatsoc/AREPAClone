@@ -8,12 +8,18 @@
 
 namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\UniqueConstraint;
 
 /**
  * Class EvaluationModel
  * @package AppBundle\Entity
  *
- * @ORM\Table(name="evaluation_model")
+ * @ORM\Table(name="evaluation_model",
+ *      uniqueConstraints={
+ *          @UniqueConstraint(
+ *              name="unique_course_period", columns={"active_period","course_id"}
+ *          )}
+ * )
  * @ORM\Entity()
  */
 class EvaluationModel
@@ -28,13 +34,20 @@ class EvaluationModel
     private $idEvaluationModel;
 
     /**
+     * @var string
+     * @ORM\Column(name="active_period",type="string",nullable=TRUE)
+     */
+    private $activePeriod;
+
+    /**
      * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Teacher", inversedBy="evaluationModels", cascade={"persist"})
      * @ORM\JoinColumn(name="role_id",referencedColumnName="id_role", nullable=TRUE)
      */
     private $owner;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\Course",mappedBy="evaluationModel", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Course", inversedBy="evaluationModels", cascade={"persist"})
+     * @ORM\JoinColumn(name="course_id",referencedColumnName="id_course", nullable=TRUE)
      */
     private $course;
 
@@ -137,5 +150,29 @@ class EvaluationModel
     public function getAssessmentComponent()
     {
         return $this->assessmentComponent;
+    }
+
+    /**
+     * Set activePeriod
+     *
+     * @param string $activePeriod
+     *
+     * @return EvaluationModel
+     */
+    public function setActivePeriod($activePeriod)
+    {
+        $this->activePeriod = $activePeriod;
+
+        return $this;
+    }
+
+    /**
+     * Get activePeriod
+     *
+     * @return string
+     */
+    public function getActivePeriod()
+    {
+        return $this->activePeriod;
     }
 }

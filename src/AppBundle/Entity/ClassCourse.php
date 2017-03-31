@@ -227,4 +227,8 @@ class ClassCourse
     public function hasStudent($student){
         return $this->roles->contains($student);
     }
+
+    public function hasTeacher($teacher){
+        return $this->roles->contains($teacher);
+    }
 }

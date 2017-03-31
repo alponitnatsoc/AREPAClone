@@ -14,10 +14,12 @@ class ActivePeriodForm extends AbstractType
     {
         $builder
             ->add('activePeriod',PeriodType::class, array(
-                'placeholder'=>'activePeriod',
+                'placeholder'=>'select_period',
                 'label'=>false,
             ))
-            ->add('submit',SubmitType::class);
+            ->add('submit',SubmitType::class,array(
+                'label'=>'select',
+            ));
 
     }
 

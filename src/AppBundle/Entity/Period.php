@@ -9,6 +9,7 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Class Section
@@ -32,6 +33,8 @@ class Period
      * @var string
      *
      * @ORM\Column(name="code",type="string", length=6, nullable=true, unique=true)
+     * @Assert\NotBlank(message="period.code.not_blank")
+     * @Assert\Type(type="numeric",message="period.code.not_numeric")
      */
     private $code;
 

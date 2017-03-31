@@ -18,26 +18,26 @@
             <section class="login_content" style="padding: 0px">
                 <h1>{{ 'registration.title'|trans }}</h1>
                 <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback" style="display: none">
-                    {{ form_label(form.username) }}
-                    {{ form_widget(form.username,{'attr':{'required':false,'class':'form-control has-feedback-left','placeholder':'form.username'|trans }}) }}
+                    {{ form_label(form.username,'username'|trans) }}
+                    {{ form_widget(form.username,{'attr':{'required':false,'class':'form-control has-feedback-left','placeholder':'username'|trans }}) }}
                     <span class="fa fa-user form-control-feedback left" aria-hidden="true" style="top: 22px;"></span>
                     <div style="color: darkred;">{{ form_errors(form.username) }}</div>
                 </div>
                 <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                    {{ form_label(form.email) }}
-                    {{ form_widget(form.email,{'attr':{'class':'form-control has-feedback-left','placeholder':'form.email'|trans}}) }}
+                    {{ form_label(form.email,'email'|trans) }}
+                    {{ form_widget(form.email,{'attr':{'class':'form-control has-feedback-left','placeholder':'email'|trans}}) }}
                     <span class="fa fa-envelope-o form-control-feedback left" aria-hidden="true" style="top: 22px;"></span>
                     <div style="color: darkred;">{{ form_errors(form.email) }}</div>
                 </div>
                 <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                    {{ form_label(form.plainPassword.first) }}
-                    {{ form_widget(form.plainPassword.first,{'attr':{'class':'form-control has-feedback-left','placeholder':'form.password'|trans}}) }}
+                    {{ form_label(form.plainPassword.first,'registration.password'|trans) }}
+                    {{ form_widget(form.plainPassword.first,{'attr':{'class':'form-control has-feedback-left','placeholder':'registration.password'|trans}}) }}
                     <span class="fa fa-lock form-control-feedback left" aria-hidden="true" style="top: 22px;"></span>
                     <div style="color: darkred;">{{ form_errors(form.plainPassword.first) }}</div>
                 </div>
                 <div class="col-md-12 col-sm-12 col-xs-12 form-group has-feedback">
-                    {{ form_label(form.plainPassword.second) }}
-                    {{ form_widget(form.plainPassword.second,{'attr':{'class':'form-control has-feedback-left','placeholder':'form.password_confirmation'|trans}}) }}
+                    {{ form_label(form.plainPassword.second,'registration.password_confirmation'|trans) }}
+                    {{ form_widget(form.plainPassword.second,{'attr':{'class':'form-control has-feedback-left','placeholder':'registration.password'|trans}}) }}
                     <span class="fa fa-unlock-alt form-control-feedback left" aria-hidden="true" style="top: 22px;"></span>
                     <div style="color: darkred;">{{ form_errors(form.plainPassword.second) }}</div>
                 </div>

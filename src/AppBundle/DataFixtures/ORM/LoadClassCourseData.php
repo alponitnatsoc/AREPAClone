@@ -130,6 +130,8 @@ class LoadClassCourseData extends AbstractFixture implements OrderedFixtureInter
                             $teacher = new Teacher(null,$teacherCode,new \DateTime());
                             $person->addPersonRole($teacher);
                             //echo '   [--Teacher with code '.$teacherCode.' created.--]'.PHP_EOL;
+                        }elseif(!$person->getPersonRole()->contains($teacher) and !$person->isTeacher()){
+                            $person->addPersonRole($teacher);
                         }
                         $manager->persist($person);
                         $courseCode = $data[$count][2];//getting the course code
@@ -167,9 +169,10 @@ class LoadClassCourseData extends AbstractFixture implements OrderedFixtureInter
                         $classCourse = $manager->getRepository("AppBundle:ClassCourse")->findOneBy(array('classCode'=> $classCode,'activePeriod' =>$activePeriod));
                         if(!$classCourse){
                             $classCourse = new ClassCourse($classCode,$activePeriod,$course);
+                        }if(!$classCourse->hasTeacher($teacher)){
                             $classCourse->addRole($teacher);
-                            $manager->persist($classCourse);
                         }
+                        $manager->persist($classCourse);
                         $manager->flush();
                         $manager->clear();
                     }

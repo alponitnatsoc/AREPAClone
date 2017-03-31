@@ -102,10 +102,9 @@ Class Course
     private $section;
 
     /**
-     * @ORM\OneToOne(targetEntity="AppBundle\Entity\EvaluationModel",inversedBy="course",cascade={"persist"})
-     * @ORM\JoinColumn(name="evaluation_model_id", referencedColumnName="id_evaluation_model", unique=TRUE)
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\EvaluationModel",mappedBy="course", cascade={"persist"})
      */
-    private $evaluationModel;
+    private $evaluationModels;
 
 
     /**
@@ -141,6 +140,7 @@ Class Course
         $this->faculties = new \Doctrine\Common\Collections\ArrayCollection();
         $this->teachers = new \Doctrine\Common\Collections\ArrayCollection();
         $this->courseContributesOutcome = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->evaluationModels = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -481,29 +481,7 @@ Class Course
     {
         return $this->section;
     }
-
-    /**
-     * Set evaluationModel
-     *
-     * @param \AppBundle\Entity\EvaluationModel $evaluationModel
-     *
-     * @return Course
-     */
-    public function setEvaluationModel(\AppBundle\Entity\EvaluationModel $evaluationModel = null)
-    {
-        $this->evaluationModel = $evaluationModel;
-        return $this;
-    }
-
-    /**
-     * Get evaluationModel
-     *
-     * @return \AppBundle\Entity\EvaluationModel
-     */
-    public function getEvaluationModel()
-    {
-        return $this->evaluationModel;
-    }
+    
 
     /**
      * Returns true if the course belongs to the faculty
@@ -514,4 +492,66 @@ Class Course
     {
         return $this->faculties->contains($faculty);
     }
+
+    /**
+     * @param string $activePeriod
+     * @return \Doctrine\Common\Collections\ArrayCollection|\Doctrine\Common\Collections\Collection
+     */
+    public function getActiveCourseContributeOutcome($activePeriod)
+    {
+        return $this->courseContributesOutcome->filter(function($courseContributeOutcome)use($activePeriod){
+            return $courseContributeOutcome->getActivePeriod()==$activePeriod;
+        });
+    }
+
+    /**
+     * Add evaluationModel
+     *
+     * @param \AppBundle\Entity\EvaluationModel $evaluationModel
+     *
+     * @return Course
+     */
+    public function addEvaluationModel(\AppBundle\Entity\EvaluationModel $evaluationModel)
+    {
+        $evaluationModel->setCourse($this);
+        $this->evaluationModels[] = $evaluationModel;
+        return $this;
+    }
+
+    /**
+     * Remove evaluationModel
+     *
+     * @param \AppBundle\Entity\EvaluationModel $evaluationModel
+     */
+    public function removeEvaluationModel(\AppBundle\Entity\EvaluationModel $evaluationModel)
+    {
+        $this->evaluationModels->removeElement($evaluationModel);
+    }
+
+    /**
+     * Get evaluationModels
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getEvaluationModels()
+    {
+        return $this->evaluationModels;
+    }
+
+
+    /**
+     * get the actual evaluation model for the course if exist
+     * @param string $activePeriod
+     * @return \AppBundle\Entity\EvaluationModel|null
+     */
+    public function getActiveEvaluationModel($activePeriod)
+    {
+        return ($this->evaluationModels->filter(function($evaluationModel)use($activePeriod){
+            return $evaluationModel->getActivePeriod()==$activePeriod;
+        })->count()==0)?null:$this->evaluationModels->filter(function($evaluationModel)use($activePeriod){
+            return $evaluationModel->getActivePeriod()==$activePeriod;
+        })->first();
+    }
+
+
 }

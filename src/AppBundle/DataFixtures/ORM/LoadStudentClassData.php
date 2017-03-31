@@ -111,7 +111,7 @@ class LoadStudentClassData extends AbstractFixture implements OrderedFixtureInte
                         }
                         if($data[$count][9] != null and $data[$count][9] != ''){
                             $defGradeValue = floatval($data[$count][9]);
-                            $defGrade = new DefGrade($student,$course,$defGradeValue);
+                            $defGrade = new DefGrade($student,$classCourse,$defGradeValue);
                             $student->addGrade($defGrade);
                             $manager->persist($student);
                         }

@@ -78,12 +78,12 @@
                         {% for course in courses %}
                             <tr>
                                 <td>{{ count }}</td>
-                                <td><a href="{{ path('course_info',{'courseCode':course.courseCode}) }}">{{ course.nameCourse }}</a></td>
+                                <td><a href="{{ path('course_info',{'courseCode':course.courseCode,'active':false}) }}">{{ course.nameCourse }}</a></td>
                                 <td>{{ course.courseCode }}</td>
                                 <td>{{ course.academicGrade }}</td>
                                 <td>{{ course.component }}</td>
                                 <td>{{ course.credits }}</td>
-                                <td><a class="btn-arepa" style="width: 80%;font-size: 15px" href="{{ path('course_info',{'courseCode':course.courseCode}) }}">{{ 'app.go_to_course'|trans }}</a></td>
+                                <td><a class="btn-arepa" style="width: 80%;font-size: 15px" href="{{ path('course_info',{'courseCode':course.courseCode,'active':false}) }}">{{ 'app.go_to_course'|trans }}</a></td>
                             </tr>
                             {% set count = count + 1 %}
                         {% endfor %}

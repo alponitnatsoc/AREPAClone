@@ -3,6 +3,16 @@ app_routing:
     resource: "@AppBundle/Resources/config/routing.yml"
     prefix: /
 
+arepa_public_api:
+    type:   rest
+    prefix: /api/public
+    resource: "@AppBundle/Resources/config/api-routing.yml"
+
+arepa_secured_api:
+    type:   rest
+    prefix: /api/secured
+    resource: "@AppBundle/Resources/config/api-secured-routing.yml"
+
 app:
     resource: "@AppBundle/Controller/"
     type:     annotation

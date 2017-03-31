@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\ClassCourse;
 use AppBundle\Entity\Course;
 use AppBundle\Entity\CourseContributesOutcome;
 use AppBundle\Entity\Faculty;
@@ -14,7 +13,6 @@ use AppBundle\Entity\User;
 use AppBundle\Form\ActivePeriodForm;
 use AppBundle\Form\addDocument;
 use AppBundle\Form\NewPeriodType;
-use AppBundle\Form\Type\PeriodType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\QueryBuilder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -40,10 +38,8 @@ class AdminController extends Controller
             $facultyCode = 'DPT-ISIST';
             /** @var Faculty $faculty */
             $faculty = $this->getFacultyByCode($facultyCode);
-
-            $courses = $faculty->getCourses();
+            $courses = $faculty->getPregCourses();
             $teachers = $faculty->getTeachers();
-
             /** @var Course $lastCourse */
             $lastCourse = $this->getLastCourse($faculty);
             /** @var Teacher $lastTeacher */
@@ -88,13 +84,14 @@ class AdminController extends Controller
 
             $formCoursesDocument->handleRequest($request);
 
-            if ($formCoursesDocument->isValid() and $formCoursesDocument->isSubmitted()) {
+            if ($formCoursesDocument->isSubmitted() and $formCoursesDocument->isValid()) {
 
             }
             $activePeriod = $platform->getActivePeriod();
-            $activeCourses = $faculty->getActiveCourses($activePeriod);
+            $activeCourses = $faculty->getActiveCoursesByAcademicGrade($activePeriod,'PREG');
             $activeClasses = $this->getActiveClasses($faculty);
             $activeTeachers = $this->getActiveTeachers($faculty);
+
 
             return $this->render('@App/Admin/admin_dashboard.html.twig',array(
                 'formAddCourses'=>$formCoursesDocument->createView(),
@@ -180,7 +177,6 @@ class AdminController extends Controller
             $em = $this->getDoctrine()->getManager();
             $plataform = $em->getRepository("Platform.php")->find(1);
             $faculty = $this->getUser()->getPersonPerson()->getTeacher()->getTeacherHasfaculty()->first()->getFacultyFaculty();
-
 
             $formCoursesInfo= $this->createForm(addDocument::class);
             $formCoursesInfo

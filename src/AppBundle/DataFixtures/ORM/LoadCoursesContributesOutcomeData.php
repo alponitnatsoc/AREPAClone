@@ -8,10 +8,7 @@
 
 namespace AppBundle\DataFixtures\ORM;
 
-use AppBundle\Entity\ContentContributesOutcome;
 use AppBundle\Entity\CourseContributesOutcome;
-use AppBundle\Entity\Outcome;
-use AppBundle\Entity\RoleType;
 use Doctrine\Common\DataFixtures\AbstractFixture;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -39,7 +36,7 @@ class LoadCoursesContributesOutcomeData extends AbstractFixture implements Order
         $bloomLevel2 = $manager->getRepository("AppBundle:BloomLevel")->find(2);
         $bloomLevel3 = $manager->getRepository("AppBundle:BloomLevel")->find(3);
 
-        $activePeriod = $manager->getRepository("Platform.php")->find(1)->getActivePeriod();
+        $activePeriod = $manager->getRepository("AppBundle:Platform")->find(1)->getActivePeriod();
 
         // Outcome A
         $course = $manager->getRepository("AppBundle:Course")->findOneBy(array('courseCode'=>'004206'));

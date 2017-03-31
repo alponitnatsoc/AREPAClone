@@ -1,13 +1,17 @@
 #form translations
 add: 'Add'
+select: 'Select'
 required: 'This field is required'
 minlength: 'The value is to short'
 numeric: 'The value must be numeric'
+email: 'Email'
+username: 'Username'
 
 #form period
 addPeriod: 'Enter the period'
 activePeriod: 'Active Period'
 periodCode: 'Period Code'
+select_period: 'Select period'
 
 gender: 'Gender'
 
@@ -25,20 +29,7 @@ period_already_exist_content: 'The period you tried to add already exists.'
 period_add_fail: 'Fail to add period'
 period_add_fail_content: 'An unexpected error occurred.'
 
-
-
-courses_step_1: Enter to Javeriana portal page:
-portal_javeriana: Javeriana Portal
-courses_step_2: Write your user and password
-courses_step_3: Select option 'INGRESO A SAE'
-courses_step_4: Select option 'Catálogo de Consultas SAE'
-courses_step_5: Move througth modeules until module 7 "QA"
-courses_step_6: Execute option 3 "Componentes asignatura"
-courses_step_7: Fill the query as shown in the picture
-courses_step_8: Export the table in Excel format
-courses_step_9:
-courses_step_10:
-courses_step_11:
+#security
 security:
     login:
         login_title: 'User login'
@@ -54,6 +45,29 @@ registration:
     already_member: 'Already a member?'
     send_request: 'Confirm registration'
     confirm_request: 'Registration completed'
+    password: 'Password'
+    password_confirmation: 'Confirm password'
+
+#period constrains
+period:
+    code:
+        not_blank: 'The period is empty.'
+        not_numeric: 'The period _value_ must be of type _type_.'
+
+
+courses_step_1: Enter to Javeriana portal page:
+portal_javeriana: Javeriana Portal
+courses_step_2: Write your user and password
+courses_step_3: Select option 'INGRESO A SAE'
+courses_step_4: Select option 'Catálogo de Consultas SAE'
+courses_step_5: Move througth modeules until module 7 "QA"
+courses_step_6: Execute option 3 "Componentes asignatura"
+courses_step_7: Fill the query as shown in the picture
+courses_step_8: Export the table in Excel format
+courses_step_9:
+courses_step_10:
+courses_step_11:
+
 form:
     person:
         firstName: 'First Name:'
@@ -62,8 +76,7 @@ form:
 
     invalid_file_type: 'Plese select a valid file type'
 app:
-
-    select: 'Select'
+    action: 'action'
     save: 'Save'
     edit: 'Edit'
     change: 'Change'
@@ -78,7 +91,7 @@ app:
     percentage: 'Percentage'
     course: 'Course '
     contributes: 'Contributes'
-    rubrics: 'Rubrics'
+    evaluationModels: 'Evaluation Models'
     create: 'Create'
     delete: 'Delete'
     name: 'Name'
@@ -144,7 +157,6 @@ app:
     active_classes: 'Active Classes'
     active_teachers: 'Active Teachers'
     period_code: 'Period code'
-    select_period: 'Select period'
     active_period: 'Active Period'
     change_active_period: 'Change active period'
     import_classes_title: 'Import classes'

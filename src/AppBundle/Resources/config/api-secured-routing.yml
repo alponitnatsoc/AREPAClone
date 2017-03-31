@@ -1,0 +1,4 @@
+secured_evaluation_model_api:
+    type: rest
+    resource: '@AppBundle/Controller/EvaluationModelSecureController.php'
+    name_prefix: api_secured_

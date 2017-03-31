@@ -129,6 +129,8 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
                         if($teacher == null){
                             $teacher = new Teacher(null,$teacherCode,new \DateTime());
                             $person->addPersonRole($teacher);
+                        }elseif(!$person->getPersonRole()->contains($teacher) and !$person->isTeacher()){
+                            $person->addPersonRole($teacher);
                         }
                         $manager->persist($person);
                         $courseCode = $data[$count][4];
@@ -169,9 +171,10 @@ class LoadTeachersData extends AbstractFixture implements OrderedFixtureInterfac
                         $classCourse = $manager->getRepository("AppBundle:ClassCourse")->findOneBy(array('classCode'=> $classCode,'activePeriod' =>$activePeriod));
                         if(!$classCourse){
                             $classCourse = new ClassCourse($classCode,$activePeriod,$course);
+                        }if(!$classCourse->hasTeacher($teacher)){
                             $classCourse->addRole($teacher);
-                            $manager->persist($classCourse);
                         }
+                        $manager->persist($classCourse);
                         $manager->flush();
                         $manager->clear();
                     }

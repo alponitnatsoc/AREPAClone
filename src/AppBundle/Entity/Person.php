@@ -8,9 +8,7 @@
 
 namespace AppBundle\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping\UniqueConstraint;
-use AppBundle\Entity\Role;
 use Doctrine\ORM\Mapping as ORM;
 
 /**

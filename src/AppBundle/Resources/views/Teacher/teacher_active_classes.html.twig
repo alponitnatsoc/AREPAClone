@@ -77,11 +77,11 @@
                         {% for class in activeClasses %}
                             <tr>
                                 <td>{{ count }}</td>
-                                <td><a href="{{ path('view_class',{'idClass':class.idClass}) }}">{{ class.classCode }}</a></td>
+                                <td><a href="{{ path('view_class',{'idClass':class.idClassCourse}) }}">{{ class.classCode }}</a></td>
                                 <td>{{ class.activePeriod }}</td>
-                                <td>{{ class.courseCourse.courseCode }}</td>
-                                <td>{{ class.courseCourse.nameCourse }}</td>
-                                <td><a class="btn-arepa" style="width: 100px;font-size: 15px" href="{{ path('view_class',{'idClass':class.idClass}) }}">{{ 'app.go_to_class'|trans }}</a></td>
+                                <td>{{ class.course.courseCode }}</td>
+                                <td>{{ class.course.nameCourse }}</td>
+                                <td><a class="btn-arepa" style="width: 100px;font-size: 15px" href="{{ path('view_class',{'idClass':class.idClassCourse}) }}">{{ 'app.go_to_class'|trans }}</a></td>
                             </tr>
                             {% set count = count + 1 %}
                         {% endfor %}
