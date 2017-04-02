@@ -6,9 +6,13 @@
     {% endblock stylesheets %}
 
     {% block page_title %}
-        {{ 'app.course'|trans }}{{ course.nameCourse }} {{ 'app.dashboard.course_code_code'|trans }}: {{ course.courseCode }}
+        <div class="col-md-15" style="display: inline-flex">
+            <div class="title_border_name">{{ 'course'|trans }}</div>
+            <div class="title_border_content_middle">{{ course.nameCourse }}</div>
+            <div class="title_border_name_middle">{{ 'course_code'|trans }}</div>
+            <div class="title_border_content_end">{{ course.courseCode }}</div>
+        </div>
     {%  endblock%}
-
 
     {% block page_content %}
         <style>
@@ -25,43 +29,63 @@
                 padding: 1px 5px;
                 font-size: 12px;
             }
+            .tooltip-inner {
+                max-width: 500px;
+                width: 300px;
+                text-align: justify;
+                white-space: pre-line;
+            }
         </style>
         {% if courseContributesOutcomes is defined and courseContributesOutcomes|length > 0 %}
-            <h3>{{ 'app.contributes'|trans }}</h3>
+            <div class="col-md-15" style="display: inline-flex">
+                <div class="title_border_name">{{ 'contributes'|trans }}</div>
+                <div class="title_border_content_end">{{ courseContributesOutcomes|length }}</div>
+            </div>
         {% endif %}
         <div class="row tile_count">
-            {% for courseContributesOutcome in courseContributesOutcomes %}
-                <!-- COURSE OUTCOME -->
-                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="width: 10%;height: 80px;">
+            {% if courseContributesOutcomes is defined and courseContributesOutcomes|length > 0 %}
+                <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="width: {{ max(120,(courseContributesOutcomes|length * 20)) }}px; height: 80px;">
                     <div class="text-center">
-                        <span class="count_top"><i class="fa fa-line-chart"></i> {{ 'app.outcome'|trans }}</span>
-                        <div class="count text-center"><a href="#">{{ courseContributesOutcome.outcome }}</a></div>
-                        {#<span class="count_bottom">{{ 'app.dashboard.last_add'|trans }}: <br>{{ lastTeacherCourse.courseCourse.createdAt|date('d M',"America/Bogota") }}</span>#}
+                        <span class="count_top"><i class="fa fa-line-chart"></i> {% if courseContributesOutcomes|length == 1 %}{{ 'outcome'|trans }}{% else %}{{ 'outcomes'|trans }}{% endif %}</span>
+                        <span class="count_top" data-toggle="tooltip" data-placement="right" title="{{ 'info_outcomes_content'|trans }}">
+                            <i class="fa fa-question-circle"></i>
+                        </span>
+                        <div class="count text-center" style="font-size: 22px;line-height: 23px;display: flex">
+                        {% for courseContributesOutcome in courseContributesOutcomes %}
+                        <!-- COURSE OUTCOME -->
+                            <div style="margin: auto;">
+                                <div>
+                                    <a href="#" data-toggle="tooltip" data-placement="right"
+                                       title="outcome: {{  courseContributesOutcome.outcome.name }}&#10;Bloom Level: {{ courseContributesOutcome.bloomLevel }}&#10;{% for performance in courseContributesOutcome.outcome.PerformanceIndicatorsByBloomLevel(courseContributesOutcome.bloomLevel) %}
+                                        {% if app.request.locale == 'en' %}
+                                            - {{ performance.descriptionEN }}
+                                        {% elseif app.request.locale == 'es' %}
+                                            - {{ performance.descriptionES }}
+                                        {% endif %}
+                                    {% endfor %}">{{ courseContributesOutcome.outcome }}</a>
+                                </div>
+                                <div>
+                                    {{ courseContributesOutcome.bloomLevel }}
+                                </div>
+                            </div>
+                        <!-- END COURSE OUTCOME -->
+                        {% endfor %}
+                        </div>
                     </div>
                 </div>
-                <!-- END COURSE OUTCOME -->
-            {% endfor %}
+            {% endif %}
             <!-- ACTIVE CLASSES -->
-            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="width: 13%;height: 80px;">
+            <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="width:100px;height: 80px;">
                 <div class="text-center">
-                    <span class="count_top"><i class="fa fa-line-chart"></i> {{ 'app.active_classes'|trans }}</span>
+                    <span class="count_top"><i class="fa fa-line-chart"></i>{% if active %} {{ 'active_classes'|trans }}{%  else %}{{ 'classes'|trans }}{% endif %}</span>
                     <div class="count text-center">{{ activeClasses|length }}</div>
-                    {#<span class="count_bottom">{{ 'app.dashboard.last_add'|trans }}: <br>{{ lastTeacherCourse.courseCourse.createdAt|date('d M',"America/Bogota") }}</span>#}
                 </div>
             </div>
             <!-- END ACTIVE CLASSES -->
-            {#<!-- RUBRICS -->#}
-            {#<div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count" style="width: 9%;height: 80px;">#}
-                {#<div class="text-center">#}
-                    {#<span class="count_top"><i class="fa fa-table"></i> {{ 'app.rubrics'|trans }}</span>#}
-                    {#<div class="count text-center">{{ otherRubrics|length }}</div>#}
-                {#</div>#}
-            {#</div>#}
-            {#<!-- END RUBRICS -->#}
             <!-- MY RUBRICS -->
             <div class="col-md-3 col-sm-4 col-xs-6 tile_stats_count" style="width: 17%;height: 80px;">
                 <div class="text-center">
-                    <h3 style="margin: 0% 0;font-size: 20px;color: #5a738e;"><i class="fa fa-table"></i> {{ 'app.my_rubrics'|trans }}</h3>
+                    <h3 style="margin: 0% 0;font-size: 20px;color: #5a738e;"><i class="fa fa-table"></i> {{ 'evaluation_models'|trans }}</h3>
                     <div style="margin: 10px 0;">
                         <div class="col-md-6 noPadding">
                             <h1 style="margin: 0px 0px 0px 0px; padding: 0;font-size: 30px;">{{ myEvaluationModels|length }}</h1>
@@ -69,13 +93,13 @@
                         {% if myEvaluationModels|length > 0 %}
                             <div class="col-md-6 noPadding">
                                 <div id="create_rubric" class="btn-arepa" data-toggle="modal" data-target="#modalCreateRubric" style="padding: 4px 15px;font-size: 16px" >
-                                    {{ 'app.add'|trans }}
+                                    {{ 'add'|trans }}
                                 </div>
                             </div>
                         {% else %}
                             <div class="col-md-6 noPadding">
                                 <div id="create_rubric" class="btn-arepa" data-toggle="modal" data-target="#modalCreateRubric" style="padding: 4px 15px;font-size: 16px" >
-                                    {{ 'app.create'|trans }}
+                                    {{ 'create'|trans }}
                                 </div>
                             </div>
                         {% endif %}
@@ -91,7 +115,7 @@
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true" style="font-size: 23px">&times;</span>
                             </button>
-                            <h4 class="modal-title" id="modalCreateRubricLabel" style="font-size: 20px">{{ 'app.create_rubric'|trans }}</h4>
+                            <h4 class="modal-title" id="modalCreateRubricLabel" style="font-size: 20px">{{ 'create_evaluation_model'|trans }}</h4>
                         </div>
                         {#<div class="modal-body">#}
                             {#{{ form_start(formRubric,{'attr':{'novalidate':'false'}}) }}#}
@@ -142,7 +166,7 @@
                             {#{{ form_end(formRubric) }}#}
                         {#</div>#}
                         <div class="modal-footer" style="padding: 6px;">
-                            <button type="button" class="btn btn-secondary" style="background-color: #36546f;font-size: 16px; color: white" data-dismiss="modal">{{ 'app.close'|trans }}</button>
+                            <button type="button" class="btn btn-secondary" style="background-color: #36546f;font-size: 16px; color: white" data-dismiss="modal">{{ 'close'|trans }}</button>
                         </div>
                     </div>
                 </div>
@@ -151,11 +175,19 @@
         </div>
         <!-- ACTIVE CLASSES INFO -->
         <div class="col-md-12 col-sm-12 col-xs-12">
+            <div>
+                <h3>{% if active %}{{ 'active_class_list'|trans }}{%  else %}{{ 'list_classes'|trans }}{% endif %}</h3>
+            </div>
             {% set classCount = 0 %}
             {% for class in activeClasses %}
                 <div class="x_panel">
                     <div class="x_title">
-                        <h2>{{ 'app.dashboard.class_code'|trans }}: {{ class.classCode }} {{ 'activePeriod'|trans }}: {{ class.activePeriod }}</h2>
+                        <div style="display: inline-flex">
+                            <div class="title_border_name">{{ 'class_code'|trans }}</div>
+                            <div class="title_border_content_middle">{{ class.classCode }}</div>
+                            <div class="title_border_name_middle">{{ 'active_period'|trans }}</div>
+                            <div class="title_border_content_end">{{ class.activePeriod }}</div>
+                        </div>
                         <ul class="nav navbar-right panel_toolbox" style="min-width: 20px">
                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                             </li>
@@ -164,18 +196,18 @@
                     </div>
                     <div class="x_content">
                         <p class="text-muted font-13 m-b-30">
-                            {{ 'app.dashboard.lookup.class_lookup_message'|trans }}
+                            {{ 'class_lookup_message'|trans }}
                         </p>
-                        <table id="datatable-fixed-header" class="table table-striped table-bordered" style="margin-bottom: 30px">
+                        <table id="datatable-fixed-header-{{ classCount }}" class="table table-striped table-bordered" style="margin-bottom: 30px">
                             <thead>
                             <tr>
                                 <th>Nº</th>
-                                <th>{{ 'app.student_code'|trans }}</th>
-                                <th>{{ 'app.student_name'|trans }}</th>
-                                <th>{{ 'app.student_document'|trans }}</th>
-                                <th>{{ 'app.dashboard.document_type'|trans }}</th>
-                                <th>{{ 'app.student_email'|trans }}</th>
-                                <th>{{ 'app.final_grade'|trans }}</th>
+                                <th>{{ 'student_code'|trans }}</th>
+                                <th>{{ 'student_name'|trans }}</th>
+                                <th>{{ 'student_document'|trans }}</th>
+                                <th>{{ 'document_type'|trans }}</th>
+                                <th>{{ 'student_email'|trans }}</th>
+                                <th>{{ 'final_grade'|trans }}</th>
                             </tr>
                             </thead>
                             <tbody>

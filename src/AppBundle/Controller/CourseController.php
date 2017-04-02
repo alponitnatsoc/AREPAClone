@@ -170,6 +170,7 @@ class CourseController extends Controller
                 'activeClasses'=>$activeClasses,
                 'myEvaluationModels'=>$myEvaluationModels,
                 'formRubric'=>$formRubric->createView(),
+                'active'=>$active,
 //                'editRubric'=>$editRubric,
             ));
 

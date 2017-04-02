@@ -32,10 +32,10 @@
             {% embed 'user/sidebar.html.twig' %}
                 {% trans_default_domain 'FOSUserBundle' %}
                 {% block main_menu %}
-                    <li class=""><a><i class="fa fa-calendar"></i>{{ 'app.dashboard.agenda'|trans }}<span class="fa fa-chevron-down"></span></a>
+                    <li class=""><a><i class="fa fa-calendar"></i>{{ 'agenda'|trans }}<span class="fa fa-chevron-down"></span></a>
                         <ul class="nav child_menu" style="display: none;">
-                            <li><a href="{{ path('home') }}">{{ 'app.dashboard.calendar'|trans }}</a></li>
-                            <li><a href="{{ path('home') }}">{{ 'app.dashboard.contacts'|trans }}</a></li>
+                            <li><a href="{{ path('home') }}">{{ 'calendar'|trans }}</a></li>
+                            <li><a href="{{ path('home') }}">{{ 'contacts'|trans }}</a></li>
                         </ul>
                     </li>
                 {% endblock %}
@@ -69,7 +69,7 @@
                                     {{ app.session.flashBag.get('message_body')[0]|trans }}
                                 </div>
                                 <div class="modal-footer" style="padding: 6px;">
-                                    <button type="button" class="btn btn-secondary" style="background-color: #36546f;font-size: 16px; color: white" data-dismiss="modal">{{ 'app.close'|trans }}</button>
+                                    <button type="button" class="btn btn-secondary" style="background-color: #36546f;font-size: 16px; color: white" data-dismiss="modal">{{ 'close'|trans }}</button>
                                 </div>
                             </div>
                         </div>
@@ -80,7 +80,7 @@
             <!-- END FLAGBAG MODAL-->
             {% block top_content_header %}
                 <div class="page-title">
-                    <div class="title_left">
+                    <div class="title_left" style="width: 70%">
                         <h3>{% block page_title %}Page Title{% endblock page_title %}</h3>
                     </div>
                     {#<div class="title_right">#}

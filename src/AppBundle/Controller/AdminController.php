@@ -38,6 +38,9 @@ class AdminController extends Controller
             $facultyCode = 'DPT-ISIST';
             /** @var Faculty $faculty */
             $faculty = $this->getFacultyByCode($facultyCode);
+            //for PREG and GRAD courses use the next line
+//            $courses = $faculty->getCourses();
+            //for only PREG courses use the next line
             $courses = $faculty->getPregCourses();
             $teachers = $faculty->getTeachers();
             /** @var Course $lastCourse */

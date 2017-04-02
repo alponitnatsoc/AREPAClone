@@ -1,19 +1,133 @@
-#form translations
+#forms
 add: 'Agregar'
 select: 'Seleccionar'
+save: 'Guardar'
+edit: 'Editar'
+change: 'Cambiar'
+create: 'Crear'
+import: 'Importar'
+close: 'Cerrar'
+ok: 'Ok'
+acept: 'Aceptar'
+upload: 'Subir'
+update: 'Actualizar'
+delete: 'Eliminar'
+continue: 'Continuar'
+help: 'Ayuda'
+
+#base
+all_rigths: 'Todos los Derechos Reservados'
+privacy_and_terms: 'Terminos y Condiciones'
+I_want_to_go_back: 'Quiero regresar'
+to_login: 'Inicio de sesión'
+return_to: 'Regresar a'
+go_to: 'Ir a'
+lenguages: 'Idiomas'
+spanish: 'Español'
+english: 'Ingles'
+settings: 'Ajustes'
+profile: 'Perfil'
+logout: 'Salir'
+welcome: 'Bienvenido'
+
+#app
+agenda: 'Agénda'
+developer: 'DESARROLLO'
+documentation: 'Documentación'
+calendar: 'Calendario'
+contacts: 'Contactos'
 required: 'Este campo no puede estar vacio'
 minlength: 'El valor es muy corto'
 numeric: 'El valor debe ser numérico'
-email: 'Email'
+email: 'Correo'
+emails: 'Correos'
 username: 'Nombre de usuario'
+usernames: 'Nombres de usuario'
+action: 'Acción'
+gender: 'Genero'
+course: 'Curso'
+courses: 'Cursos'
+class: 'Clase'
+classes: 'Clases'
+course_class: 'Clase del Curso'
+course_classes: 'Clases del Curso'
+outcome: 'Outcome'
+outcomes: 'Outcomes'
+teacher: 'Profesor'
+teachers: 'Profesores'
+evaluation_model: 'Modelo de evaluación'
+evaluation_models: 'Modelos de evaluación'
+active_course: 'Curso Activo'
+active_courses: 'Cursos Activos'
+active_class: 'Clase Activa'
+active_classes: 'Clases Activas'
+active_teacher: 'Profesor Activo'
+active_teachers: 'Profesores Activos'
+percentage: 'Porcentage'
+percentages: 'Porcentages'
+name: 'Nombre'
+names: 'Nombres'
+full_name: 'Nombre completo'
+grade: 'Nota'
+grades: 'Notas'
+final_grade: 'Nota Final'
+document: 'Número de documento'
+document_type: 'Tipo de documento'
+id: 'Id'
+code: 'Código'
+credits: 'Creditos'
+component: 'Componente'
+academic_grade: 'Grado academico'
+contributes: 'Contrinbuye'
 
+
+student_code: 'Código Estudiante'
+student_name: 'Nombre del Estudiante'
+student_email: 'Correo del Estudiante'
+student_document: 'Número de Documento del estudiante'
+teacher_code: 'Código Profesor'
+teacher_name: 'Nombre del Profesor'
+teacher_email: 'Correo del Profesor'
+teacher_document: 'Número de Documento del Profesor'
+last_add: 'Último creado el'
+course_code: 'Código del Curso'
+course_name: 'Nombre del Curso'
+course_credits: 'Créditos del Curso'
+course_description: 'Descripción del Curso'
+class_code: 'Código Clase'
+
+#admin_base
+searches: 'Busquedas'
+list_classes: 'Listado de Clases'
+list_courses: 'Listado de Cursos'
+class_lookup_message: 'La siguiente lista muestra la información de las clases'
+course_lookup_message: 'La siguiente lista muestra la información de los cursos'
+teacher_lookup_message: 'La siguiente lista muestra la información de los profesores'
+list_teachers: 'Lista de profesores'
+
+#teacher base
+my_evaluation_models: 'Mis Modelos de Evaluación'
+active_course_list: 'Listado de Cursos Activos'
+active_class_list: 'Listado de Clases Activas'
+info_courses: 'Información de los cursos'
+info_courses_content: 'El número de cursos corresponde a todos los cursos que ha impartido desde 2009.'
+info_active_courses: 'Información de cursos activos'
+info_active_courses_content: 'El número de cursos activos corresponde a todos los cursos que imparte en este periodo.'
+info_classes_content: 'EL número de clases corresponde a todas las clases que ha impartido desde el periodo activo 0910.'
+info_active_classes_content: 'El número de clases activas corresponde a todas las clases que imparte en este periodo.'
+info_outcomes_content: 'Los outcomes a los que contribuye este outcome para el periodo activo.'
 
 #form period
-addPeriod: 'Digite el periodo'
-activePeriod: 'Periodo activo'
+change_active_period: 'Cambiar periodo activo'
+add_period: 'Digite el periodo'
+active_period: 'Periodo activo'
+period_code: 'Código del periodo'
 select_period: 'Seleccione el periodo'
 
-gender: 'Genero'
+#form evaluation model
+create_evaluation_model: 'Crear Modelo de Evaluación'
+modify_evaluation_model: 'Modificar Modelo de Evaluación'
+evaluation_model_percentage: '% Modelo de evaluación'
 
 #flash messages
 period_change_fail: 'No se pudo cambiar el periodo'
@@ -29,37 +143,28 @@ period_already_exist_content: 'El período que intentó agregar ya existe.'
 period_add_fail: 'Falló agregar período'
 period_add_fail_content: 'Ocurrió un error inesperado.'
 
-#security
-security:
-    login:
-        login_title: 'Inicio de sesión'
-        reset: "¿Perdiste tu contraseña?"
-        new_to_site: '¿Eres un nuevo usuario?'
-        create_account: 'Crear una cuenta'
-resetting:
-    request:
-        title: 'Cambiar Contraseña'
-        sent: 'Solicitud enviada'
-    check_email: |
-            Se te ha enviado un email. Contiene un enlace de activación que debes presionar para restablecer tu contraseña.
-            Nota: Solo puedes solicitar un cambio de contraseña cada %tokenLifetime% horas.
-
-            Si no recibes el email revisa la carpeta de spam o intentalo de nuevo.
-
-registration:
-    title: 'Crear Cuenta'
-    already_member: '¿Ya tengo un usuario?'
-    send_request: 'Confirmar registro'
-    confirm_request: 'Registro completado'
-    confirmed: 'felicidades %username%, tu cuenta ha sido activada'
-    password: 'Contraseña'
-    password_confirmation: 'Repita la contraseña'
-
 #period constrains
 period:
     code:
         not_blank: 'El periodo esta vacio.'
         not_numeric: 'El periodo _value_ debe ser de tipo _type_.'
+
+#datatables
+table_display: 'Mostrando _MENU_ entradas'
+zero_record: 'Lo sentimos - no se encontro ninguna entrada'
+table_info: 'Mostrando página _PAGE_ de _PAGES_'
+info_empty: 'Ningun resultado disponible'
+info_filtered: '(filtrados de un total de _MAX_ resultados)'
+info_search: 'Buscar: '
+processing: 'Procesando...'
+loading: 'Cargando...'
+first: 'Primero'
+last: 'Último'
+previous: 'Anterior'
+next: 'Siguiente'
+empty_table: 'No hay datos en la tabla'
+sortAsc: ': Orden ascendente'
+sortDesc: ': Orden Descendente'
 
 
 courses_step_1: Entrar a la página del portal de la Javeriana:
@@ -79,46 +184,20 @@ courses_step_11:
 form:
     person:
         firstName: 'Primer Nombre:'
-
     select_file: 'Por favor seleccione un archivo de Excel'
-
     invalid_file_type: 'Porfavor seleccione un tipo de archivo valido'
 app:
-    action: 'Acción'
-    save: 'Guardar'
-    edit: 'Editar'
-    change: 'Cambiar'
-    close: 'Cerrar'
-    ok: 'Ok'
-    acept: 'Aceptar'
-    import: 'Importar'
-    upload: 'Subir'
-    update: 'Actualizar'
-    outcome: 'Outcome'
-    outcome: 'Outcomes'
-    percentage: 'Porcentage'
-    course: 'Curso '
-    class_course: 'Clase'
-    rubric_percentage: '% Rúbrica'
     contents_name: 'Nombre del Contenido'
     contents_info: 'Descripción del Contenido'
     content_total: '% Total'
-    contributes: 'Contrinbuye'
+
     go_to_class: 'Ir a la Clase'
     go_to_course: 'Ir al Curso'
     select_rubric: 'Seleccionar Rubrica'
     change_rubric: 'Cambiar Rúbrica'
-    evaluationModels: 'Modelos de Evaluación'
-    create: 'Crear'
-    name: 'Nombre'
-    final_grade: 'Nota Final'
-    grade: 'Nota'
-    student_code: 'Código Estudiante'
-    student_name: 'Nombre del Estudiante'
-    student_email: 'Correo del Estudiante'
-    student_document: 'Número de Documento del estudiante'
+
     contents_percentage: '% contenido'
-    delete: 'Eliminar'
+
     my_rubrics: 'Mis Rubricas'
     other_assessment: 'Otras Herramientas'
     my_rubric: 'Mi rúbrica'
@@ -143,7 +222,7 @@ app:
     success_delete_type: 'Herramienta de Evaluación Eliminado'
     success_delete_type_content: 'La herramienta de evaluación fué eliminada correctamente'
     no_types: "No tienes ninguna herramienta de evaluación."
-    create_rubric: 'Crear Rubrica'
+
     success_type_add: 'Herramienta de Evaluación Creada'
     success_type_add_content: 'La herramienta de evaluación fué creada correctamente.'
     fail_type_delete: 'Error al eliminar'
@@ -163,13 +242,12 @@ app:
 
 
     download_info: 'Descargar Información'
-    active_courses: 'Cursos Activos'
-    active_classes: 'Clases Activas'
-    active_teachers: 'Profesores Activos'
+
+
     active_period: 'Periodo Activo'
 
-    period_code: 'Código del periodo'
-    change_active_period: 'Cambiar periodo activo'
+
+
     import_classes_title: 'Importar clases'
     import_courses_title: 'Importar cursos'
     import_teachers_title: 'Importar profesores'
@@ -178,8 +256,7 @@ app:
     import_teachers_help_title: '¿Como importar profesores?'
     import_teachers_info_title: 'Importar información de profesores'
     select_document: 'Seleccione un archivo de Excel'
-    active_course_list: 'Listado de Cursos Activos'
-    active_class_list: 'Listado de Clases Activas'
+
     import_courses_success: 'Cursos actualizados correctamente'
     import_courses_success_content: 'La información de los cursos fué actualizada correctamente.'
     import_courses_fail: 'Actualización de información falló'
@@ -189,77 +266,42 @@ app:
     import_classes_fail: 'Actualización de información falló'
     import_classes_fail_content: 'La actualización de información de las clases falló, el documento tiene errores.'
     messages:
-        all_rigths: 'Todos los Derechos Reservados'
-        privacy_and_terms: 'Terminos y Condiciones'
-        go_back: '¿Quiero regresar?'
-        to_login: 'Inicio de sesión'
-        return_to: 'Regresar a'
-        go_to: 'Ir a'
-        continue: 'Continuar'
-        lenguages: 'Idiomas'
-        spanish: 'Español'
-        english: 'Ingles'
-        help: 'Ayuda'
-        settings: 'Ajustes'
-        profile: 'Perfil'
-        logout: 'Salir'
-        welcome: 'Bienvenido'
+
     dashboard:
-        classes: 'Clases'
-        agenda: 'Agénda'
-        developer: 'DESARROLLO'
-        documentation: 'Documentación'
-        calendar: 'Calendario'
-        contacts: 'Contactos'
-        last_add: 'Último creado el'
-        courses: 'Cursos'
-        teachers: 'Profesores'
-        table_display: 'Mostrando _MENU_ entradas'
-        zero_record: 'Lo sentimos - no se encontro ninguna entrada'
-        table_info: 'Mostrando página _PAGE_ de _PAGES_'
-        info_empty: 'Ningun resultado disponible'
-        info_filtered: '(filtrados de un total de _MAX_ resultados)'
-        info_search: 'Buscar: '
-        processing: 'Procesando...'
-        loading: 'Cargando...'
-        first: 'Primero'
-        last: 'Último'
-        previous: 'Anterior'
-        next: 'Siguiente'
-        empty_table: 'No hay datos en la tabla'
-        sortAsc: ': Orden ascendente'
-        sortDesc: ': Orden Descendente'
-        lookup:
-            title: 'Busquedas'
-            list_classes: 'Listado de Clases'
-            list_courses: 'Listado de Cursos'
-            class_lookup_message: 'La siguiente lista muestra la información de las clases'
-            course_lookup_message: 'La siguiente lista muestra la información de los cursos'
-            teacher_lookup_message: 'La siguiente lista muestra la información de los profesores'
-            list_teachers: 'Lista de profesores'
-        course_id: 'Id'
-        academic_grade: 'Grado academico'
-        course_code: 'Código'
-        course_code_code: 'Código curso'
-        course_name: 'Nombre'
-        component: 'Componente'
-        course_credits: 'Créditos'
-        course_description: 'Descripción'
-        teacher_id: 'Id'
-        teacher_full_name: 'Nombre completo'
-        teacher_code: 'Código'
-        teacher_code_code: 'Código Profesor'
-        teacher_name: 'Nombre Profesor'
-        document: 'Número de documento'
-        document_type: 'Tipo de documento'
-        email: 'Email'
-        class_id: 'Id'
-        class_code: 'Código Clase'
-        class_period: 'Periodo Activo'
+
+
+
     students: 'Estudiantes'
-    action: 'Accion'
+
     success_rubric_change: 'La rúbrica fúe '
     success_rubric_change_content: 'Rubric has been changed succesfully'
     rubrics: 'Rubricas'
     class_grade: 'Nota'
     history_classes: 'History of Classes'
+
+#FOSUserBundle
+security:
+    login:
+        login_title: 'Inicio de sesión'
+        reset: "¿Perdiste tu contraseña?"
+        new_to_site: '¿Eres un nuevo usuario?'
+        create_account: 'Crear una cuenta'
+        error:
+            invalid_credential: 'Recuerde utilizar solo el nombre de usuario sin @javeriana.edu.co'
+resetting:
+    request:
+        title: 'Cambiar Contraseña'
+        sent: 'Solicitud enviada'
+    check_email: |
+            Se te ha enviado un email. Contiene un enlace de activación que debes presionar para restablecer tu contraseña.
+            Nota: Solo puedes solicitar un cambio de contraseña cada %tokenLifetime% horas.
+
+            Si no recibes el email revisa la carpeta de spam o intentalo de nuevo.
+registration:
+    title: 'Crear Cuenta'
+    already_member: '¿Ya tengo un usuario?'
+    send_request: 'Confirmar registro'
+    confirm_request: 'Registro completado'
+    confirmed: 'felicidades %username%, tu cuenta ha sido activada'
+    password: 'Contraseña'
+    password_confirmation: 'Repita la contraseña'

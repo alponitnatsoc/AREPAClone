@@ -12,22 +12,22 @@
         {% embed 'user/sidebar.html.twig' %}
             {% trans_default_domain 'FOSUserBundle' %}
             {% block main_menu %}
-                <li class=""><a><i class="fa fa-search"></i>{{ 'app.dashboard.lookup.title'|trans }}<span class="fa fa-chevron-down"></span></a>
+                <li class=""><a><i class="fa fa-search"></i>{{ 'searches'|trans }}<span class="fa fa-chevron-down"></span></a>
                     <ul class="nav child_menu" style="display: none">
-                        <li><a href="{{ path('course_lookup') }}"><i class="fa fa-book"></i>{{ 'app.dashboard.courses'|trans }}</a></li>
-                        <li><a href="{{ path('course_lookup',{'active':true}) }}"><i class="fa fa-book"></i>{{ 'app.active_courses'|trans }}</a></li>
-                        <li><a href="{{ path('teacher_lookup') }}"><i class="fa fa-users"></i>{{ 'app.dashboard.teachers'|trans }}</a></li>
-                        <li><a href="{{ path('teacher_lookup',{'active':true}) }}"><i class="fa fa-users"></i>{{ 'app.active_teachers'|trans }}</a></li>
-                        <li><a href="{{ path('class_lookup') }}"><i class="fa fa-address-book-o"></i>{{ 'app.dashboard.classes'|trans }}</a></li>
+                        <li><a href="{{ path('course_lookup') }}"><i class="fa fa-book"></i>{{ 'courses'|trans }}</a></li>
+                        <li><a href="{{ path('course_lookup',{'active':true}) }}"><i class="fa fa-book"></i>{{ 'active_courses'|trans }}</a></li>
+                        <li><a href="{{ path('teacher_lookup') }}"><i class="fa fa-users"></i>{{ 'teachers'|trans }}</a></li>
+                        <li><a href="{{ path('teacher_lookup',{'active':true}) }}"><i class="fa fa-users"></i>{{ 'active_teachers'|trans }}</a></li>
+                        <li><a href="{{ path('class_lookup') }}"><i class="fa fa-address-book-o"></i>{{ 'course_classes'|trans }}</a></li>
                     </ul>
                 </li>
             {% endblock %}
             {% block side_menu %}
                 {#<div class="menu_section">#}
-                    {#<h3>{{ 'app.dashboard.developer'|trans }}</h3>#}
+                    {#<h3>{{ 'developer'|trans }}</h3>#}
                     {#<ul class="nav side-menu">#}
                     {#<li>#}
-                        {#<a><i class="fa fa-book"></i>{{ 'app.dashboard.documentation'|trans }}<span class="fa fa-chevron-down"></span></a>#}
+                        {#<a><i class="fa fa-book"></i>{{ 'documentation'|trans }}<span class="fa fa-chevron-down"></span></a>#}
                         {#<ul class="nav child_menu">#}
                             {#<li><a class="symfony-docs" href="http://symfony.com/doc/current/index.html">Symfony</a></li>#}
                         {#</ul>#}
@@ -51,28 +51,7 @@
                     if ($("#datatable-buttons").length) {
                         $("#datatable-buttons").DataTable({
                             dom: "Bfrtip",
-                            buttons: [
-                                {
-                                    extend: "copy",
-                                    className: "btn-sm"
-                                },
-                                {
-                                    extend: "csv",
-                                    className: "btn-sm"
-                                },
-                                {
-                                    extend: "excel",
-                                    className: "btn-sm"
-                                },
-                                {
-                                    extend: "pdfHtml5",
-                                    className: "btn-sm"
-                                },
-                                {
-                                    extend: "print",
-                                    className: "btn-sm"
-                                },
-                            ],
+                            buttons: [{extend: "copy", className: "btn-sm"}, {extend: "csv", className: "btn-sm"}, {extend: "excel", className: "btn-sm"}, {extend: "pdfHtml5", className: "btn-sm"}, {extend: "print", className: "btn-sm"}],
                             responsive: true
                         });
                     }
@@ -103,27 +82,27 @@
                 TableManageButtons.init();
                 var table = $('#datatable-fixed-header').DataTable({
                     "language": {
-                        "sProcessing":     "{{ 'app.dashboard.processing'|trans }}",
-                        "sLengthMenu":     "{{ 'app.dashboard.table_display'|trans }}",
-                        "sZeroRecords":    "{{ 'app.dashboard.zero_record'|trans }}",
-                        "sEmptyTable":     "{{ 'app.dashboard.empty_table'|trans }}",
-                        "sInfo":           "{{ 'app.dashboard.table_info'|trans }}",
-                        "sInfoEmpty":      "{{ 'app.dashboard.info_empty'|trans }}",
-                        "sInfoFiltered":   "{{ 'app.dashboard.info_filtered'|trans }}",
+                        "sProcessing":     "{{ 'processing'|trans }}",
+                        "sLengthMenu":     "{{ 'table_display'|trans }}",
+                        "sZeroRecords":    "{{ 'zero_record'|trans }}",
+                        "sEmptyTable":     "{{ 'empty_table'|trans }}",
+                        "sInfo":           "{{ 'table_info'|trans }}",
+                        "sInfoEmpty":      "{{ 'info_empty'|trans }}",
+                        "sInfoFiltered":   "{{ 'info_filtered'|trans }}",
                         "sInfoPostFix":    "",
-                        "sSearch":         "{{ 'app.dashboard.info_search'|trans }}",
+                        "sSearch":         "{{ 'info_search'|trans }}",
                         "sUrl":            "",
                         "sInfoThousands":  ",",
-                        "sLoadingRecords": "{{ 'app.dashboard.loading'|trans }}",
+                        "sLoadingRecords": "{{ 'loading'|trans }}",
                         "oPaginate": {
-                            "sFirst":    "{{ 'app.dashboard.first'|trans }}",
-                            "sLast":     "{{ 'app.dashboard.last'|trans }}",
-                            "sNext":     "{{ 'app.dashboard.next'|trans }}",
-                            "sPrevious": "{{ 'app.dashboard.previous'|trans }}"
+                            "sFirst":    "{{ 'first'|trans }}",
+                            "sLast":     "{{ 'last'|trans }}",
+                            "sNext":     "{{ 'next'|trans }}",
+                            "sPrevious": "{{ 'previous'|trans }}"
                         },
                         "oAria": {
-                            "sSortAscending": "{{ 'app.dashboard.sortAsc'|trans }}",
-                            "sSortDescending": "{{ 'app.dashboard.sortDesc'|trans }}"
+                            "sSortAscending": "{{ 'sortAsc'|trans }}",
+                            "sSortDescending": "{{ 'sortDesc'|trans }}"
                         }
                     },
                     fixedHeader: true

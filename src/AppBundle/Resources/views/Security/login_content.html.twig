@@ -5,7 +5,7 @@
         <div class="animate form login_form">
             <section class="login_content">
                 {% if error %}
-                        <div style="color: red;font-style: italic;"><strong>{{ error.messageKey|trans(error.messageData, 'security') }}</strong></div>
+                        <div style="color: red;font-style: italic;"><strong>{{ error.messageKey|trans(error.messageData, 'security') }}{% if error.code ==0 %}<br>{{ 'security.login.error.invalid_credential'|trans }}{% endif %}</strong></div>
                     <br/>
                 {% endif %}
                 <form action="{{ path("fos_user_security_check") }}" method="POST">
@@ -38,7 +38,7 @@
                         {#</div>#}
                         <div class="clearfix"></div>
                         <br/>
-                        <p>©2016 {{ 'app.messages.all_rigths'|trans }}. <a href="">{{ 'app.messages.privacy_and_terms'|trans }}</a></p>
+                        <p>©2016 {{ 'all_rigths'|trans }}. <a href="">{{ 'privacy_and_terms'|trans }}</a></p>
                     </div>
                 </form>
             </section>

@@ -1,0 +1,51 @@
+{% trans_default_domain 'FOSUserBundle' %}
+<div class="row tile_count">
+    <!-- COURSE COUNT -->
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+        <div class="text-center">
+            <span class="count_top"><i class="fa fa-book"></i> {{ 'courses'|trans }}</span>
+            <span class="count_top" data-toggle="tooltip" data-placement="right" title="{{ 'info_courses_content'|trans }}">
+                <i class="fa fa-question-circle"></i>
+            </span>
+            <div class="count text-center"><a href="{{ path('teacher_dashboard',{'type':1}) }}">{{ courses|length }}</a></div>
+        </div>
+    </div>
+    <!-- END CURSE COUNT -->
+    <!-- COURSE COUNT -->
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+        <div class="text-center">
+            <span class="count_top"><i class="fa fa-book"></i> {{ 'active_courses'|trans }}</span>
+            <span class="count_top" data-toggle="tooltip" data-placement="right" title="{{ 'info_active_courses_content'|trans }}">
+                <i class="fa fa-question-circle"></i>
+            </span>
+            <div class="count text-center"><a href="{{ path('teacher_dashboard',{'type':0}) }}">{{ activeCourses|length }}</a></div>
+        </div>
+    </div>
+    <!-- END CURSE COUNT -->
+    <!-- CLASS COUNT -->
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+        <div class="text-center">
+            <span class="count_top"><i class="fa fa-address-book-o"></i> {{ 'classes'|trans }}</span>
+            <span class="count_top" data-toggle="tooltip" data-placement="right" title="{{ 'info_classes_content'|trans }}">
+                <i class="fa fa-question-circle"></i>
+            </span>
+            <div class="count text-center"><a href="{{ path('teacher_dashboard',{'type':3}) }}">{{ classes|length }}</a></div>
+        </div>
+    </div>
+    <!-- END CLASS COUNT -->
+    <!-- ACTIVE CLASS COUNT -->
+    <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+        <div class="text-center">
+            <span class="count_top"><i class="fa fa-book"></i> {{ 'active_classes'|trans }}</span>
+            <span class="count_top" data-toggle="tooltip" data-placement="right" title="{{ 'info_active_classes_content'|trans }}">
+                <i class="fa fa-question-circle"></i>
+            </span>
+            <div class="count text-center"><a href="{{ path('teacher_dashboard',{'type':2}) }}">{{ activeClasses|length }}</a></div>
+        </div>
+    </div>
+    <!-- END ACTIVE CLASS COUNT -->
+</div>
+
+
+
+

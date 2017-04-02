@@ -20,7 +20,7 @@ class NewPeriodType extends AbstractType
                 'required'=>true,
                 'property_path'=>'code',
                 'attr'=>array(
-                    'placeholder'=>'addPeriod',
+                    'placeholder'=>'add_period',
                 ),
                 'translation_domain' => 'FOSUserBundle'
 
