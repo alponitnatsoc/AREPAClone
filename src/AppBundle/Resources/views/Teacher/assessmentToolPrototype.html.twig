@@ -1,6 +1,6 @@
 {% trans_default_domain 'FOSUserBundle' %}
     <td style="width: 10%" class="no-padding">
-        {{ form_row(form.type,{'attr':{'style':'width: 100%'}}) }}
+        {{ form_row(form.name,{'attr':{'style':'width: 100%'}}) }}
     </td>
 
     <td style="width: 6%" class="no-padding">
@@ -8,14 +8,14 @@
     </td>
     <td colspan="4" style="width: 70%;" class="no-padding">
         <div id="content-field-list-__name__" style="width: 100%" class="add_prototype_assessment" data-prototype="
-                                {% filter escape%}
-                                    {{ include('@App/Teacher/contentPrototype.html.twig',{'form':form.content.vars.prototype|e}) }}
-                                {% endfilter %}">
+            {% filter escape%}
+                {{ include('@App/Teacher/contentPrototype.html.twig',{'form':form.content.vars.prototype|e}) }}
+            {% endfilter %}">
 
         </div>
         <div class="text-center" style="width: 100%">
-            <a id="add_content_link___name__" style="color:#5a738e;;text-decoration: none;"><span class="btn btn-grey" style="display: inline;"><i class="fa fa-plus-circle" style="color:#5a738e;"></i> {{ 'app.add'|trans }} {{ 'app.dashboard.component'|trans }}</span></a>
-            <a id="remove_content_link___name__" style="color:#b93737;text-decoration: none;"><span class="btn btn-grey" style="display: inline;"><i class="fa fa-minus-circle " style="color:#b93737;"></i> {{ 'app.delete'|trans }} {{ 'app.dashboard.component'|trans }}</span></a>
+            <a id="add_content_link___name__" style="color:#5a738e;;text-decoration: none;"><span class="btn btn-grey" style="display: inline;"><i class="fa fa-plus-circle" style="color:#5a738e;"></i> {{ 'add'|trans }} {{ 'component'|trans }}</span></a>
+            <a id="remove_content_link___name__" style="color:#b93737;text-decoration: none;"><span class="btn btn-grey" style="display: inline;"><i class="fa fa-minus-circle " style="color:#b93737;"></i> {{ 'delete'|trans }} {{ 'component'|trans }}</span></a>
         </div>
     </td>
     <td style="width: 5%" class="no-padding">

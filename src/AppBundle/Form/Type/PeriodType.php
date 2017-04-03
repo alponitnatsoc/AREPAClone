@@ -12,6 +12,7 @@ class PeriodType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
+            'label'=>false,
             'class'=>'AppBundle\Entity\Period',
             'query_builder' => function (EntityRepository $er) {
                 return $er->createQueryBuilder('p')

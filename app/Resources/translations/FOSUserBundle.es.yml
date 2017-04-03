@@ -124,10 +124,17 @@ active_period: 'Periodo activo'
 period_code: 'Código del periodo'
 select_period: 'Seleccione el periodo'
 
+#form assessment content
+content_name: 'Nombre del Contenido'
+content_description: 'Descripción del contenido'
+outcomes_description: 'Outcomes a los que contribuye este contenido. Si no contribuye, no seleccionar ninguno.'
+
 #form evaluation model
 create_evaluation_model: 'Crear Modelo de Evaluación'
 modify_evaluation_model: 'Modificar Modelo de Evaluación'
 evaluation_model_percentage: '% Modelo de evaluación'
+my_evaluation_model: 'Mi Modelo de Evaluación'
+valid: 'El formulario es valido'
 
 #flash messages
 period_change_fail: 'No se pudo cambiar el periodo'
@@ -210,7 +217,7 @@ app:
     select_only_one_type: 'Seleccione solo un tipo'
     tool_types: 'de Evaluación'
     my_types: 'Mis tipos'
-    valid: 'El formulario es valido'
+
     accumulated_percentage: 'Porcentaje Acumulado'
     other_types: 'Otros tipos'
     outcome_errors: 'Debe seleccionar al menos una vez cada outcome'

@@ -124,10 +124,17 @@ active_period: 'Active Period'
 period_code: 'Period Code'
 select_period: 'Select period'
 
+#form assessment content
+content_name: 'Content Name'
+content_description: 'Content description'
+outcomes_description: "Outcomes which this content contributes. If it doesn't contribute, don't select any. "
+
 #form evaluation model
 create_evaluation_model: 'Create Evaluation Model'
 modify_evaluation_model: 'Modify Evaluation Model'
 evaluation_model_percentage: 'Evaluation Model %'
+my_evaluation_model: 'My Evaluation Model'
+valid: 'Form is valid'
 
 #flash messages
 period_change_fail: 'Failed to change period'
@@ -205,7 +212,7 @@ app:
     myTypes: 'My types'
     select_type: 'Select one type'
     my_types: 'My types'
-    valid: 'Form is valid'
+
     other_types: 'Other types'
     select_option: 'Select an option'
     contents: 'Contents'

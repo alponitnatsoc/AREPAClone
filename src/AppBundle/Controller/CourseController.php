@@ -2,13 +2,18 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\AssessmentContent;
 use AppBundle\Entity\AssessmentTool;
 use AppBundle\Entity\ClassCourse;
 use AppBundle\Entity\Course;
 use AppBundle\Entity\Outcome;
 use AppBundle\Entity\Teacher;
 use AppBundle\Entity\User;
+use AppBundle\Form\ActivePeriodForm;
 use AppBundle\Form\NewRubric;
+use AppBundle\Form\Type\AssessmentContentType;
+use AppBundle\Form\Type\AssessmentToolType;
+use AppBundle\Form\Type\EvaluationModelType;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -48,8 +53,34 @@ class CourseController extends Controller
             }
             $myEvaluationModels =$teacher->getEvaluationModelsByCourse($course);
             $courseEvalutaionModel = $course->getActiveEvaluationModel($activePeriod);
-            $formRubric = $this->get('form.factory')->createNamedBuilder('myForm')
-            ->add('tittle',TextType::class)->getForm();
+
+            $formRubric = $this->createForm(EvaluationModelType::class,null,array(
+                'course'=>$course, 'period'=>$activePeriod, 'teacher'=>$teacher
+            ))->add('submit',SubmitType::class,array('label'=>'create'));
+            $formRubric->get('owner')->setData($teacher);
+            $formRubric->get('course')->setData($course);
+
+            dump($formRubric->get('course')->getData());
+//
+//            $content = new AssessmentContent();
+//            $content->setPercentage(1.2);
+//            $tool->addAssessmentComponent($content);
+//            dump($content->canHavePercentage());
+//            dump($tool->getPercentage());die;
+
+            if($formRubric->isSubmitted() and $formRubric->isValid()){
+                dump('entro');
+                dump($formRubric);die;
+            }elseif($formRubric->getErrors()->count()>0){
+               dump($formRubric->getErrors());die;
+            }
+
+            return $this->render('AppBundle::test.html.twig',array(
+                'formRubric'=>$formRubric->createView(),
+            ));
+
+//            $formRubric = $this->get('form.factory')->createNamedBuilder('myForm')
+//            ->add('tittle',TextType::class)->getForm();
 
 //            $formRubric = $this->createForm(NewRubric::class,null,array(
 //                'course'=>$course,

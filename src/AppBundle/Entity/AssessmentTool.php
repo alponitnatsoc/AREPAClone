@@ -7,6 +7,7 @@
  */
 
 namespace AppBundle\Entity;
+use Assetic\Exception\Exception;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -44,13 +45,18 @@ class AssessmentTool extends AssessmentComponent
      * Add assessmentComponent
      *
      * @param \AppBundle\Entity\AssessmentComponent $assessmentComponent
-     *
      * @return AssessmentTool
+     * @throws \Exception
      */
     public function addAssessmentComponent(\AppBundle\Entity\AssessmentComponent $assessmentComponent)
     {
-        $assessmentComponent->setAssessmentTool($this);
-        $this->assessmentComponents[] = $assessmentComponent;
+        if($this->percentage += $assessmentComponent->getPercentage()<=1){
+            $assessmentComponent->setAssessmentTool($this);
+            $this->percentage += $assessmentComponent->getPercentage();
+            $this->assessmentComponents[] = $assessmentComponent;
+        }else{
+            throw new \Exception('The assessment component exceeds the allowed percentage for this assessment tool');
+        }
         return $this;
     }
 

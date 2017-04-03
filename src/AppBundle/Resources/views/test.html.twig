@@ -11,7 +11,60 @@
 
 
     {% block page_content %}
-
+        <div class="modal-body">
+        {{ form_start(formRubric,{'attr':{'novalidate':'false'}}) }}
+            <div class="row" style="display: inline-block;margin: 5px 0px 10px 0px">
+                <div class="col-md-4" style="width: 300px;padding: 10px 10px">
+                    {{ form_row(formRubric.name,{'attr':{'placeholder':'my_evaluation_models'|trans,'style':'font-size:14px;'},'label':('name'|trans ~ ':'),'label_attr':{'style':'font-size: 16px;vertical-align:middle; margin-right: 20px'}}) }}
+                </div>
+                <div class="col-md-4" style="width: 350px;padding: 10px 10px">
+                    {{ form_row(formRubric.assessmentPercentage,{'attr':{'placeholder':'0','style':'font-size:14px;width:60px'},'label':('app.accumulated_percentage'|trans ~ ':'),'label_attr':{'style':'font-size: 16px;vertical-align: middle;width:200px; margin-right: 20px'}}) }}
+                </div>
+            </div>
+            <table class="table table-striped table-bordered table-rubric" style="margin-bottom: 2px">
+                <thead class="text-center">
+                    <tr>
+                        <th rowspan="2" style="width: 10%;">{{ 'app.assessments'|trans }}</th>
+                        <th rowspan="2" style="width: 6%;">{{ 'app.rubric_percentage'|trans }}</th>
+                        <th colspan="4">{{ 'app.contents'|trans }}</th>
+                        <th rowspan="2" style="width: 5%;">{{ 'app.content_total'|trans }}</th>
+                        <th rowspan="2" style="width: 9%;">{{ 'outcomes'|trans }}</th>
+                        {#<th>{{ ''|trans }}</th>#}
+                    </tr>
+                    <tr>
+                        <th style="width: 10%;">{{ 'app.contents_name'|trans }}</th>
+                        <th style="width: 45%;">{{ 'app.contents_info'|trans }}</th>
+                        <th style="width: 7%;">{{ 'app.contents_percentage'|trans }}</th>
+                        <th style="width: 8%;">{{ 'contributes'|trans }}</th>
+                        {#<th>{{ ''|trans }}</th>#}
+                    </tr>
+                </thead>
+                    <tbody id="tool-field-list" class="add_prototype_assessment" data-prototype="
+                        {% filter escape%}
+                        {{ include('@App/Teacher/assessmentToolPrototype.html.twig',{'form':formRubric.assessmentTools.vars.prototype|e}) }}
+                        {% endfilter %}">
+                    </tbody>
+            </table>
+            <div class="text-center" style=" width: 100%;margin: 17px 0px 0px;">
+                <a id="add_tool_link" style="background-color: #30455a; border: 1px solid black; color: rgb(255, 255, 255); padding: 8px; text-decoration: none;">
+                    <span id="add_tool_span" class="btn btn-grey" style="display: inline;">
+                        <i class="fa fa-plus-circle" style="color:rgb(255, 255, 255);"></i>
+                        {{ 'add'|trans }} {{ 'app.assessments'|trans }}
+                    </span>
+                </a>
+                <a id="remove_tool_link" style="background-color: #b93737; border: 1px solid #290000; color: rgb(255, 255, 255); padding: 8px; text-decoration: none;">
+                    <span id="delete_tool_span" class="btn btn-grey" style="display: inline;">
+                        <i class="fa fa-minus-circle " style="color:rgb(255, 255, 255);"></i>
+                        {{ 'delete'|trans }} {{ 'app.assessments'|trans }}</span></a>
+            </div>
+            <div class="col-md-12 text-center" style="margin: 10px auto;font-size: 16px; padding: 0 40%">
+                {{ form_row(formRubric.outcomeChecked,{'label':'valid'|trans,'attr':{'style':'font-size:20px;margin: 1px 10px;'},'label_attr':{'style':'font-size:20px;margin:1px 5px'}}) }}
+            </div>
+            <div class="text-center" style=" width: 100%;margin: 17px 0px 0px;">
+            {{ form_row(formRubric.submit,{'label':'save'|trans,'attr':{'class':'btn-arepa','style':'width:15%'}}) }}
+            </div>
+        {{ form_end(formRubric) }}
+        </div>
 
     {% endblock %}
 

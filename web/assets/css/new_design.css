@@ -115,6 +115,20 @@
     vertical-align: middle;
     font-weight: 600;
 }
+span[id='add_tool_span']{
+    font-weight: 600;
+}
+span[id='delete_tool_span']{
+    font-weight: 600;
+}
+span[id='add_tool_span']:hover{
+    font-weight: 600;
+    color: greenyellow!important;
+}
+span[id='delete_tool_span']:hover{
+    font-weight: 600;
+    color: greenyellow!important;
+}
 
 
 

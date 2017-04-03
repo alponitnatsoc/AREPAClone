@@ -341,4 +341,9 @@ class CourseContributesOutcome
     {
         return $this->assessmentComponents;
     }
+
+    public function __toString()
+    {
+        return $this->outcome->getName();
+    }
 }

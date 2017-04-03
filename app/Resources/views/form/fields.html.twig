@@ -1,6 +1,6 @@
 {%  block gender_widget %}
     {% spaceless %}
-        {%  if expanded %}
+        {% if expanded %}
             <ul {{ block('widget_container_attributes') }}>
             {% for child in form %}
                 <li>
@@ -17,7 +17,7 @@
 
 {%  block period_widget %}
     {% spaceless %}
-        {%  if expanded %}
+        {% if expanded %}
             <ul {{ block('widget_container_attributes') }}>
                 {% for child in form %}
                     <li>
@@ -31,3 +31,40 @@
         {% endif %}
     {% endspaceless %}
 {% endblock %}
+
+{% block percent_widget %}
+    {% spaceless %}
+        {% set type = type|default('text') %}
+        {{- block('form_widget_simple') -}}
+    {% endspaceless %}
+{% endblock percent_widget %}
+
+
+{% block form_row %}
+    {% spaceless %}
+        {% if form.vars.unique_block_prefix =='_assessment_tool_outcomes' or form.vars.unique_block_prefix =='_assessment_content_outcomes' %}
+            {{ form_errors(form) }}
+            <div style="display: inline-flex">
+                {% for child in form.children %}
+                    <div style="margin: 0 2px">
+                        <div style="margin: 0;padding: 0">
+                            {{ form_widget(child) }}
+                        </div>
+                        <div style="margin: -9px 0 0;padding: 0;text-align: center">
+                            {{ form_label(child) }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+
+        {% else %}
+            <div>
+                {{ form_label(form) }}
+                {{ form_widget(form) }}
+                {{ form_errors(form) }}
+            </div>
+        {% endif %}
+    {% endspaceless %}
+{% endblock form_row %}
+
+

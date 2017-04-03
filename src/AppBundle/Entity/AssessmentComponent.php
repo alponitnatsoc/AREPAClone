@@ -264,4 +264,9 @@ abstract class AssessmentComponent
     {
         return $this->courseContributeOutcomes;
     }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 }
