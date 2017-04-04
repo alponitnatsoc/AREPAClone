@@ -77,9 +77,13 @@ class EvaluationModelType extends AbstractType
                 'attr'=>array(
                     'style'=> 'width:40px;',
                 ),
+                'required'=>true,
             ))
             ->add('outcomeChecked',CheckboxType::class,array(
                 'label'=>false,
+                'attr'=>array(
+                    'style'=> 'display:none;',
+                ),
             ));
 
 

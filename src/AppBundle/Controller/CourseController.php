@@ -21,6 +21,8 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Traits\PlatformMethodTrait;
+use Symfony\Component\Translation\Loader\ArrayLoader;
+use Symfony\Component\Translation\Translator;
 
 class CourseController extends Controller
 {
@@ -51,7 +53,8 @@ class CourseController extends Controller
             }else{
                 $activeClasses = array_reverse($this->getCourseClassesByTeacher($course,$teacher));
             }
-            $myEvaluationModels =$teacher->getEvaluationModelsByCourse($course);
+
+            $myEvaluationModels = $teacher->getEvaluationModelsByCourse($course);
             $courseEvalutaionModel = $course->getActiveEvaluationModel($activePeriod);
 
             $formRubric = $this->createForm(EvaluationModelType::class,null,array(
@@ -59,23 +62,39 @@ class CourseController extends Controller
             ))->add('submit',SubmitType::class,array('label'=>'create'));
             $formRubric->get('owner')->setData($teacher);
             $formRubric->get('course')->setData($course);
+            $translator = $this->get('translator');
+            $evaluationModel = $translator->trans('evaluation_model',array(),'FOSUserBundle',$translator->getLocale());
+            $formRubric->get('name')->setData($evaluationModel.' '.$course->getShortNameCourse());
 
-            dump($formRubric->get('course')->getData());
-//
-//            $content = new AssessmentContent();
-//            $content->setPercentage(1.2);
-//            $tool->addAssessmentComponent($content);
-//            dump($content->canHavePercentage());
-//            dump($tool->getPercentage());die;
 
-            if($formRubric->isSubmitted() and $formRubric->isValid()){
-                dump('entro');
-                dump($formRubric);die;
-            }elseif($formRubric->getErrors()->count()>0){
-               dump($formRubric->getErrors());die;
+            $formRubric->handleRequest($request);
+
+            if($formRubric->isSubmitted() and $formRubric->isValid() ){
+                $rubricName = $formRubric->get('name')->getData();
+                $rubricOwner = $formRubric->get('owner')->getData();
+                $assessments = $formRubric->get('assessmentTools')->getData();
+                dump($assessments);
+                foreach ($assessments as $assessment) {
+                    $name = $assessment['name'];
+                    $description = $assessment['description'];
+                    $contents = (key_exists('contents',$assessment))?$assessment['contents']:null;
+                    if(count($contents)>0){
+                        foreach ($contents as $content) {
+                            $contentName = $content['name'];
+                            $contentDescription = (key_exists('description',$content))?$content['description']:null;
+                            $contentPercentage = (key_exists('percentage',$content))?$content['percentage']:null;
+                            $contentOutcomes = (key_exists('outcomes',$content))?$content['outcomes']:null;
+                        }
+                    }
+                    $percentage = $assessment['percentage'];
+                    $contentPercentage = (key_exists('contentPercentages',$assessment))?$assessment['contentPercentages']:null;
+                    $outcomes = (key_exists('outcomes',$assessment))?$assessment['outcomes']:null;
+                }
+                die;
             }
 
             return $this->render('AppBundle::test.html.twig',array(
+                'myEvaluationModels'=>$myEvaluationModels,
                 'formRubric'=>$formRubric->createView(),
             ));
 

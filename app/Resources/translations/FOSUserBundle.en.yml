@@ -15,6 +15,18 @@ delete: 'Delete'
 continue: 'Continue'
 help: 'Help'
 
+#validator
+required: 'This field is required.'
+min_length: 'This field must have at least %limit% characters.'
+symbols_not_allowed: 'Symbols are not allowed.'
+total_percentage_required: 'The total percentage must be 100%.'
+total_percentage_min_value: "The total percentage can't be lower than 100%."
+total_percentage_max_value: "The total percentage can't be greater than 100%."
+percentage_required: 'This field is required.'
+percentage_min_value: "The total percentage can't be lower than 1%."
+percentage_max_value: "The total percentage can't be greater than 100%."
+number_required: 'Percentage must be a number.'
+
 #base
 all_rigths: 'All Rigths Reserved'
 privacy_and_terms: 'Privacy and Terms'
@@ -36,7 +48,6 @@ developer: 'DEVELOPER'
 documentation: 'Documentation'
 calendar: 'Calendar'
 contacts: 'Contacts'
-required: 'This field is required'
 minlength: 'The value is to short'
 numeric: 'The value must be numeric'
 email: 'Email'
@@ -79,7 +90,8 @@ credits: 'Credits'
 component: 'Component'
 academic_grade: 'Academic grade'
 contributes: 'Contributes'
-
+assessments: 'Assessment Tools'
+contents: 'Contents'
 
 student_code: 'Student Code'
 student_name: 'Student Name'
@@ -132,9 +144,15 @@ outcomes_description: "Outcomes which this content contributes. If it doesn't co
 #form evaluation model
 create_evaluation_model: 'Create Evaluation Model'
 modify_evaluation_model: 'Modify Evaluation Model'
-evaluation_model_percentage: 'Evaluation Model %'
 my_evaluation_model: 'My Evaluation Model'
 valid: 'Form is valid'
+at_least_one_time_checked: 'The results to which this course contributes, should be selected at least once.'
+assessment_tool_percentage: 'Tool %'
+assessment_tool_description: 'Assessment Tool Description'
+total_percentage: 'Total %'
+contents_percentages: 'Contents %'
+assessment_name: 'Tool Name'
+contents_total_percentage: 'Contents Total %'
 
 #flash messages
 period_change_fail: 'Failed to change period'
@@ -207,7 +225,7 @@ app:
     other_assessment: 'Other Assessment'
     my_rubric: 'My rubric'
     my_assessment: 'My Assessment'
-    assessments: 'Assessment Tools'
+
     type_name: 'Tool type name'
     myTypes: 'My types'
     select_type: 'Select one type'
@@ -215,11 +233,11 @@ app:
 
     other_types: 'Other types'
     select_option: 'Select an option'
-    contents: 'Contents'
+
     rubric_percentage: 'Rubric %'
     accumulated_percentage: 'Accumulated Percentage'
-    contents_percentage: 'Content %'
-    content_total: 'Total %'
+
+
     contents_info: 'Content Description'
     success_delete: 'Successfull delete'
     content_name: 'Content Name'

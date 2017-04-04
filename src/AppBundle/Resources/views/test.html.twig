@@ -1,4 +1,4 @@
-{% extends "@App/Admin/admin_dashboard_base.html.twig" %}
+{% extends "@App/Teacher/teacher_dashboard_base.html.twig" %}
     {% trans_default_domain 'FOSUserBundle' %}
 
      {% block stylesheets %}
@@ -11,53 +11,72 @@
 
 
     {% block page_content %}
-        <div class="modal-body">
+        <style>
+            .table-rubric>thead>tr>th{
+                padding: 1px 2px;
+                vertical-align: middle;
+                text-align: center;
+                background-color: #30455a;
+                color: white;
+            }
+            .table-rubric>tbody>tr>td{
+                padding: 0px;
+            }
+            .error{
+                color: darkred;
+                padding: 1px 5px;
+                font-size: 12px;
+            }
+            .tooltip-inner {
+                max-width: 500px;
+                width: 300px;
+                text-align: justify;
+                white-space: pre-line;
+            }
+        </style>
+        <div>
+
         {{ form_start(formRubric,{'attr':{'novalidate':'false'}}) }}
             <div class="row" style="display: inline-block;margin: 5px 0px 10px 0px">
-                <div class="col-md-4" style="width: 300px;padding: 10px 10px">
-                    {{ form_row(formRubric.name,{'attr':{'placeholder':'my_evaluation_models'|trans,'style':'font-size:14px;'},'label':('name'|trans ~ ':'),'label_attr':{'style':'font-size: 16px;vertical-align:middle; margin-right: 20px'}}) }}
+                <div class="col-md-5" style="width: 450px;padding: 10px 10px">
+                    {{ form_row(formRubric.name,{'attr':{'placeholder':'my_evaluation_models'|trans,'style':'font-size:14px;width: 340px'},'label':('name'|trans ~ ':'),'label_attr':{'style':'font-size: 16px;vertical-align:middle; margin-right: 20px'}}) }}
                 </div>
-                <div class="col-md-4" style="width: 350px;padding: 10px 10px">
+                <div class="col-md-5" style="width: 350px;padding: 10px 10px">
                     {{ form_row(formRubric.assessmentPercentage,{'attr':{'placeholder':'0','style':'font-size:14px;width:60px'},'label':('app.accumulated_percentage'|trans ~ ':'),'label_attr':{'style':'font-size: 16px;vertical-align: middle;width:200px; margin-right: 20px'}}) }}
                 </div>
             </div>
+            <div style="text-align: center;margin: 5px 0px 10px 0px" id="form_invalid"></div>
+            <div id="new_evaluation_model_errors"></div>
             <table class="table table-striped table-bordered table-rubric" style="margin-bottom: 2px">
                 <thead class="text-center">
                     <tr>
-                        <th rowspan="2" style="width: 10%;">{{ 'app.assessments'|trans }}</th>
-                        <th rowspan="2" style="width: 6%;">{{ 'app.rubric_percentage'|trans }}</th>
-                        <th colspan="4">{{ 'app.contents'|trans }}</th>
-                        <th rowspan="2" style="width: 5%;">{{ 'app.content_total'|trans }}</th>
-                        <th rowspan="2" style="width: 9%;">{{ 'outcomes'|trans }}</th>
-                        {#<th>{{ ''|trans }}</th>#}
-                    </tr>
-                    <tr>
-                        <th style="width: 10%;">{{ 'app.contents_name'|trans }}</th>
-                        <th style="width: 45%;">{{ 'app.contents_info'|trans }}</th>
-                        <th style="width: 7%;">{{ 'app.contents_percentage'|trans }}</th>
-                        <th style="width: 8%;">{{ 'contributes'|trans }}</th>
+                        <th rowspan="1" style="width: 10%;">{{ 'assessments'|trans }}</th>
+                        <th rowspan="1" style="width: 7%;">{{ 'assessment_tool_percentage'|trans }}</th>
+                        <th colspan="4">{{ 'assessment_tool_description'|trans }}</th>
+                        <th rowspan="1" style="width: 8%;">{{ 'contents_total_percentage'|trans }}</th>
+                        <th rowspan="1" style="width: 9%;">{{ 'outcomes'|trans }}</th>
                         {#<th>{{ ''|trans }}</th>#}
                     </tr>
                 </thead>
-                    <tbody id="tool-field-list" class="add_prototype_assessment" data-prototype="
-                        {% filter escape%}
-                        {{ include('@App/Teacher/assessmentToolPrototype.html.twig',{'form':formRubric.assessmentTools.vars.prototype|e}) }}
-                        {% endfilter %}">
-                    </tbody>
+                <tbody id="tool-field-list" class="add_prototype_assessment" data-prototype="
+                    {% filter escape%}
+                    {{ include('@App/Teacher/assessmentToolPrototype.html.twig',{'form':formRubric.assessmentTools.vars.prototype|e}) }}
+                    {% endfilter %}">
+                </tbody>
             </table>
             <div class="text-center" style=" width: 100%;margin: 17px 0px 0px;">
                 <a id="add_tool_link" style="background-color: #30455a; border: 1px solid black; color: rgb(255, 255, 255); padding: 8px; text-decoration: none;">
                     <span id="add_tool_span" class="btn btn-grey" style="display: inline;">
                         <i class="fa fa-plus-circle" style="color:rgb(255, 255, 255);"></i>
-                        {{ 'add'|trans }} {{ 'app.assessments'|trans }}
+                        {{ 'add'|trans }} {{ 'assessments'|trans }}
                     </span>
                 </a>
                 <a id="remove_tool_link" style="background-color: #b93737; border: 1px solid #290000; color: rgb(255, 255, 255); padding: 8px; text-decoration: none;">
                     <span id="delete_tool_span" class="btn btn-grey" style="display: inline;">
                         <i class="fa fa-minus-circle " style="color:rgb(255, 255, 255);"></i>
-                        {{ 'delete'|trans }} {{ 'app.assessments'|trans }}</span></a>
+                        {{ 'delete'|trans }} {{ 'assessments'|trans }}</span></a>
             </div>
-            <div class="col-md-12 text-center" style="margin: 10px auto;font-size: 16px; padding: 0 40%">
+            <div id="form_is_valid" class="col-md-12 text-center" style="margin: 10px auto;font-size: 16px; padding: 0 10%">
                 {{ form_row(formRubric.outcomeChecked,{'label':'valid'|trans,'attr':{'style':'font-size:20px;margin: 1px 10px;'},'label_attr':{'style':'font-size:20px;margin:1px 5px'}}) }}
             </div>
             <div class="text-center" style=" width: 100%;margin: 17px 0px 0px;">
@@ -69,5 +88,233 @@
     {% endblock %}
 
     {% block scriptImport %}
-        entro :D
+    <script>
+//        $("#form_is_valid").hide();
+        $(document).ready(function () {
+            $.getScript("{{asset('assets/vendors/jquery-validation/dist/jquery.validate.min.js')}}").done(function () {
+                $.getScript("{{ asset('assets/vendors/jquery-validation/dist/additional-methods.min.js') }}").done(function () {
+                    var validator;
+                    jQuery.validator.setDefaults({
+                        errorPlacement: function (error, element) {
+                            if(element.is('[name="evaluation_model[outcomeChecked]"]'))
+                                error.appendTo('#form_invalid');
+                            else
+                                error.appendTo(element.parent());
+                        }
+                    });
+                    jQuery.validator.addMethod(
+                        "regex",
+                        function(value, element, regexp) {
+                            var re = new RegExp(regexp);
+                            return this.optional(element) || re.test(value);
+                        },
+                        "Please check your input."
+                    );
+                    validator = $("form[name=evaluation_model]").validate({
+                        rules: {
+                            "evaluation_model[outcomeChecked]":{required: true}
+                        },
+                        messages:{
+                            "evaluation_model[outcomeChecked]":{required: '{{ "at_least_one_time_checked"|trans }}' }
+                        }
+                    });
+                });
+            });
+
+            $.getScript("{{ asset('assets/js/newRubric.js') }}").done(function () {
+                createRubric();
+                {% if myEvaluationModels|length == 0 %}
+                $('#create_rubric').trigger("click");
+                {% endif %}
+            });
+
+            $("#evaluation_model_submit").on('click',function (e) {
+                e.preventDefault();
+                var $eMP = $("#evaluation_model_assessmentPercentage"),
+                    $eMTPE = $("#evaluation_model_assessmentPercentage-error"),
+                    $eMN = $("input[name ='evaluation_model[name]']"),
+                    $eATN = $("input[name^='evaluation_model[assessmentTools]['][name$='][name]']").not($("input[name*='][content][']")),
+                    $eATP = $("input[name^='evaluation_model[assessmentTools]['][name$='][percentage]']").not($("input[name*='][content][']")),
+                    $eACTP =$("input[name^='evaluation_model[assessmentTools]['][name$='][contentPercentages]']");
+
+                var name = false,//evaluation model name variable
+                    tP=false,//total percentage evaluation model variable
+                    aTN=true,//assessment tools names variable
+                    outcomes =false;
+
+                //EVALUATION MODEL NAME VALIDATION
+                $eMN.rules('add',{
+                    required: true,
+                    minlength: 3,
+                    regex: "^[-_ a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+$",
+                    messages: {
+                        required: '{{ "required"|trans }}',
+                        minlength:'{{ "min_length"|trans({'%limit%':3}) }}',
+                        regex: '{{ "symbols_not_allowed"|trans }}'
+                    }
+                });
+
+                //EACH ASSESSMEN TOOL PERCENTAGE
+                $("input[name^='evaluation_model[assessmentTools]['][name$='][percentage]']").not("[name*='][content][']").each(function () {
+
+                    $(this).rules('add',{
+                        required: true,
+                        number: true,
+                        max: 100,
+                        min:1,
+                        messages:{
+                            required: '{{ "percentage_required"|trans }}',
+                            min: '{{ "percentage_min_value"|trans }}',
+                            max: '{{ "percentage_max_value"|trans }}',
+                            number: '{{ "number_required"|trans }}'
+                        }
+                    });
+                });
+
+                //EVALUATION MODEL TOTAL PERCENTAGE VALIDATION
+                if(!$("input[name='evaluation_model[name]']").valid()){
+                    name = true;
+                }
+                if($eMP.val() == 0 ){
+                    $eMTPE.html('{{ "total_percentage_required"|trans }}');
+                    $eMTPE.show();
+                    return;
+                }else if($eMP.val()<100){
+                    $eMTPE.html('{{ "total_percentage_min_value"|trans }}');
+                    $eMTPE.show();
+                    return;
+                }else if($eMP.val()>100){
+                    $eMTPE.html('{{ "percentage_max_value"|trans }}');
+                    $eMTPE.show();
+                    return;
+                }else if($eMP.val()==100){
+                    $eMTPE.hide();
+                    tP = true;
+                }
+
+                //EACH ASSESSMENT CONTENT PERCENTAGE TOTAL
+                $("input[name^='evaluation_model[assessmentTools]['][name$='][contentPercentages]']").each(function () {
+                    console.log($(this).attr('id'));
+                    $(this).rules('add',{
+                        required: true,
+                        number: true,
+                        max: 100,
+                        min:100,
+                        messages:{
+                            required: '{{ "percentage_required"|trans }}',
+                            min: '{{ "percentage_min_value"|trans }}',
+                            max: '{{ "percentage_max_value"|trans }}',
+                            number: '{{ "number_required"|trans }}'
+                        }
+                    });
+                });
+
+                //EACH ASSESSMENT TOOL NAME VALIDATION
+                $eATN.each(function () {
+                    $(this).rules('add',{
+                        required: true,
+                        minlength: 3,
+                        regex: "^[-_ a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+$",
+                        messages: {
+                            required: '{{ "required"|trans }}',
+                            minlength:'{{ "min_length"|trans({'%limit%':3}) }}',
+                            regex: '{{ "symbols_not_allowed"|trans }}'
+                        }
+                    });
+                    if(!$(this).valid()){
+                        aTN = false;
+                    }
+                });
+
+                //EACH ASSESSMENT CONTENT NAME
+                $("input[name^='evaluation_model[assessmentTools]['][name*='][content]['][name$='][name]']").each(function () {
+                    $(this).rules('add',{
+                        required: true,
+                        regex: "^[-_ a-zA-Z0-9áéíóúÁÉÍÓÚñÑ]+$",
+                        minlength: 3,
+                        messages:{
+                            required: '{{ "required"|trans }}',
+                            minlength:'{{ "min_length"|trans({'%limit%':3}) }}',
+                            regex: '{{ "symbols_not_allowed"|trans }}'
+                        }
+                    });
+                });
+
+                //EACH ASSESSMENT CONTENT PERCENTAGE
+                $("input[name^='evaluation_model[assessmentTools]['][name*='][content]['][name$='][percentage]']").each(function () {
+                    $(this).rules('add',{
+                        required: true,
+                        number: true,
+                        max: 100,
+                        min:0,
+                        messages:{
+                            required: '{{ "percentage_required"|trans }}',
+                            min: '{{ "percentage_min_value"|trans }}',
+                            max: '{{ "percentage_max_value"|trans }}',
+                            number: '{{ "number_required"|trans }}'
+                        }
+                    });
+                });
+
+                if($("form[name=evaluation_model]").valid()){
+                    $("form[name=evaluation_model]").submit();
+                }
+
+
+            });
+        });
+    </script>
+
+
+
+        {#//EACH ASSESSMENT CONTENT DESCRIPTION#}
+        {#$("input[name^='new_rubric[assessmentTool]['][name*='][content]['][name$='][info]']").each(function () {#}
+        {#$(this).rules('add',{#}
+        {#required: true, minlength: 10#}
+        {#});#}
+        {#if(!$(this).valid()){#}
+        {#$("input[id='new_rubric_outcomeChecked']").prop('checked',false);#}
+        {#}#}
+        {#});#}
+
+
+
+
+
+        {#$.each(complete,function (key, value) {#}
+        {#if(value==false){#}
+        {#$("input[id='new_rubric_outcomeChecked']").prop('checked',false);#}
+        {#}#}
+        {#});#}
+
+        {#var outcome = new Array();#}
+        {#$("input[id^='new_rubric_assessmentTool_'][id*='_outcomes_']").each(function () {#}
+        {#var index = $(this).attr('id').split('_')[5];#}
+        {#if($(this).is(':checked')){#}
+        {#outcome[index]=true;#}
+        {#}else if(outcome[index]!=true){#}
+        {#outcome[index]=false;#}
+        {#}else if(outcome[index]==null){#}
+        {#outcome[index]=false;#}
+        {#}#}
+        {#});#}
+        {#var flag = true;#}
+        {#$.each(outcome,function( key, value ) {#}
+        {#if(value==false){#}
+        {#$("input[id='new_rubric_outcomeChecked']").prop('checked',false);#}
+        {#flag = false;#}
+        {#}#}
+        {#});#}
+        {#if(flag){#}
+        {#$("input[id='new_rubric_outcomeChecked']").prop('checked',true);#}
+        {#}else{#}
+        {#$("input[id='new_rubric_outcomeChecked']").prop('checked',false);#}
+        {#}#}
+        {#if(form.valid()){#}
+        {#form.submit();#}
+        {#}#}
+        {#});#}
+
+
+        //            });
     {% endblock %}

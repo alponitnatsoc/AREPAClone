@@ -15,6 +15,18 @@ delete: 'Eliminar'
 continue: 'Continuar'
 help: 'Ayuda'
 
+#validator
+required: 'Este campo no puede estar vacio.'
+min_length: 'Este campo debe tener al menos %limit% caracteres.'
+symbols_not_allowed: 'Los symbolos no estan permitidos.'
+total_percentage_required: 'El porcentaje total debe ser 100%.'
+total_percentage_min_value: "El porcentaje total no puede ser menor a 100%."
+total_percentage_max_value: "El porcentaje total no puede ser mayor a 100%."
+percentage_required: "Este campo es requerido."
+percentage_min_value: "El porcentaje no puede ser menor a 1%."
+percentage_max_value: "El porcentaje no puede ser mayor a 100%."
+number_required: 'El porcentaje debe ser un número.'
+
 #base
 all_rigths: 'Todos los Derechos Reservados'
 privacy_and_terms: 'Terminos y Condiciones'
@@ -36,7 +48,6 @@ developer: 'DESARROLLO'
 documentation: 'Documentación'
 calendar: 'Calendario'
 contacts: 'Contactos'
-required: 'Este campo no puede estar vacio'
 minlength: 'El valor es muy corto'
 numeric: 'El valor debe ser numérico'
 email: 'Correo'
@@ -79,7 +90,8 @@ credits: 'Creditos'
 component: 'Componente'
 academic_grade: 'Grado academico'
 contributes: 'Contrinbuye'
-
+assessments: 'Herramientas de evaluación'
+contents: 'Contenidos'
 
 student_code: 'Código Estudiante'
 student_name: 'Nombre del Estudiante'
@@ -132,9 +144,15 @@ outcomes_description: 'Outcomes a los que contribuye este contenido. Si no contr
 #form evaluation model
 create_evaluation_model: 'Crear Modelo de Evaluación'
 modify_evaluation_model: 'Modificar Modelo de Evaluación'
-evaluation_model_percentage: '% Modelo de evaluación'
 my_evaluation_model: 'Mi Modelo de Evaluación'
 valid: 'El formulario es valido'
+at_least_one_time_checked: 'Los outcomes a los que aporta este curso, deben ser seleccionados por lo menos una vez.'
+assessment_tool_percentage: '% Herramienta'
+assessment_tool_description: 'Descripción de la Herramienta de Evaluación '
+total_percentage: '% Total'
+contents_percentages: '% contenidos'
+assessment_name: 'Nombre Herramienta'
+contents_total_percentage: '% Total Contenidos'
 
 #flash messages
 period_change_fail: 'No se pudo cambiar el periodo'
@@ -196,24 +214,23 @@ form:
 app:
     contents_name: 'Nombre del Contenido'
     contents_info: 'Descripción del Contenido'
-    content_total: '% Total'
 
     go_to_class: 'Ir a la Clase'
     go_to_course: 'Ir al Curso'
     select_rubric: 'Seleccionar Rubrica'
     change_rubric: 'Cambiar Rúbrica'
 
-    contents_percentage: '% contenido'
+
 
     my_rubrics: 'Mis Rubricas'
     other_assessment: 'Otras Herramientas'
     my_rubric: 'Mi rúbrica'
     my_assessment: 'Mis Herramientas'
-    assessments: 'Herramientas de evaluación'
+
     myTypes: 'Mis tipos'
     type_name: 'Nombre de la herramienta'
     select_type: 'Seleccione un tipo'
-    contents: 'Contenidos'
+
     select_only_one_type: 'Seleccione solo un tipo'
     tool_types: 'de Evaluación'
     my_types: 'Mis tipos'

@@ -28,17 +28,15 @@ class AssessmentToolType extends AbstractType
                     new NotBlank()
                 ),
                 'attr'=>array(
-                    'placeholder'=>'content_name',
+                    'placeholder'=>'assessment_name',
                 ),
-                'property_path'=>'name'
             ))
             ->add('description',TextType::class,array(
                 'required'=>false,
                 'label'=>false,
                 'attr'=>array(
-                    'placeholder'=>'content_description',
+                    'placeholder'=>'assessment_tool_description',
                 ),
-                'property_path'=>'description'
             ))
             ->add('content',CollectionType::class,array(
                 'entry_type'=> AssessmentContentType::class,
@@ -46,6 +44,7 @@ class AssessmentToolType extends AbstractType
                     'period'=>$period,
                     'course'=>$course,
                 ),
+                'required'=>false,
                 'label'=>false,
                 'allow_add'=>true,
                 'allow_delete'=>true,
@@ -55,9 +54,9 @@ class AssessmentToolType extends AbstractType
                 'required'=>true,
                 'label'=>false,
                 'attr'=>array(
-                    'style'=> 'width:40px;',
+                    'style'=> 'width:28px;',
+                    'placeholder'=>'0'
                 ),
-                "property_path"=>"percentage",
             ))
             ->add('contentPercentages',PercentType::class,array(
                 'attr'=>array(
@@ -76,9 +75,8 @@ class AssessmentToolType extends AbstractType
                         ->setParameter('1',$period)
                         ->setParameter('2',$course);
                 },
-                "property_path"=>"courseContributeOutcomes",
                 'label'=>false,
-                'required'=>false,
+                'required'=>true,
                 'multiple'=>true,
                 'expanded'=>true,
             ));
@@ -88,7 +86,6 @@ class AssessmentToolType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class'=>AssessmentTool::class,
             'translation_domain'=>'FOSUserBundle',
             'course'=>new Course(),
             'period'=>'',

@@ -42,9 +42,10 @@
 
 {% block form_row %}
     {% spaceless %}
-        {% if form.vars.unique_block_prefix =='_assessment_tool_outcomes' or form.vars.unique_block_prefix =='_assessment_content_outcomes' %}
+        {% if form.vars.unique_block_prefix =='_assessment_tool_outcomes' or form.vars.unique_block_prefix =='_assessment_content_outcomes' or
+        form.vars.unique_block_prefix =='_evaluation_model_assessmentTools_entry_outcomes' or form.vars.unique_block_prefix =='_evaluation_model_assessmentTools_entry_content_entry_outcomes' %}
             {{ form_errors(form) }}
-            <div style="display: inline-flex">
+            <div style="display: inline-flex;padding: 0;margin: -4px 0px">
                 {% for child in form.children %}
                     <div style="margin: 0 2px">
                         <div style="margin: 0;padding: 0">

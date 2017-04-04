@@ -27,9 +27,8 @@ class AssessmentContentType extends AbstractType
                     new NotBlank()
                 ),
                 'attr'=>array(
-                    'placeholder'=>'content_name',
+                    'placeholder'=>'name',
                 ),
-                'property_path'=>'name'
             ))
             ->add('description',TextType::class,array(
                 'required'=>false,
@@ -37,7 +36,6 @@ class AssessmentContentType extends AbstractType
                 'attr'=>array(
                     'placeholder'=>'content_description',
                 ),
-                'property_path'=>'description'
             ))
             ->add('percentage',PercentType::class,array(
                 'required'=>true,
@@ -45,7 +43,6 @@ class AssessmentContentType extends AbstractType
                 'attr'=>array(
                     'style'=> 'width:40px;',
                 ),
-                "property_path"=>"percentage",
             ))
             ->add('outcomes',EntityType::class,array(
                 'class'=>'AppBundle\Entity\CourseContributesOutcome',
@@ -56,7 +53,6 @@ class AssessmentContentType extends AbstractType
                         ->setParameter('1',$period)
                         ->setParameter('2',$course);
                 },
-                "property_path"=>"courseContributeOutcomes",
                 'label'=>'outcomes',
                 'required'=>false,
                 'multiple'=>true,
@@ -68,7 +64,6 @@ class AssessmentContentType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class'=>AssessmentContent::class,
             'translation_domain'=>'FOSUserBundle',
             'course'=>new Course(),
             'period'=>'',

@@ -1,27 +1,41 @@
 {% trans_default_domain 'FOSUserBundle' %}
-    <td style="width: 10%" class="no-padding">
-        {{ form_row(form.name,{'attr':{'style':'width: 100%'}}) }}
-    </td>
-
-    <td style="width: 6%" class="no-padding">
-        {{ form_widget(form.percentage,{'attr':{'style':'width: 45px'}}) }}
-    </td>
-    <td colspan="4" style="width: 70%;" class="no-padding">
-        <div id="content-field-list-__name__" style="width: 100%" class="add_prototype_assessment" data-prototype="
+{% dump form %}
+<td style="width: 10%" class="no-padding">
+    {{ form_widget(form.name,{'attr':{'style':'width: 100%'}}) }}
+</td>
+<td style="width: 7%" class="no-padding">
+    {{ form_widget(form.percentage,{'attr':{'style':'width: 35px'}}) }} %
+</td>
+<td colspan="4" style="width: 70%;" class="no-padding">
+    <div style="width: 100%">
+        {{ form_widget(form.description,{'attr':{'style':'width: 100%'}}) }}
+    </div>
+    <table id="content-field-list-table-__name__" class="table table-striped table-bordered table-rubric" style="display: none">
+        <thead class="text-center">
+        <tr>
+            <th class="no-padding" style="width: 10%;">{{ 'app.contents_name'|trans }}</th>
+            <th class="no-padding" style="width: 45%;">{{ 'app.contents_info'|trans }}</th>
+            <th class="no-padding" style="width: 7%;">{{ 'contents_percentages'|trans }}</th>
+            <th class="no-padding" style="width: 8%;">{{ 'contributes'|trans }}</th>
+            {#<th>{{ ''|trans }}</th>#}
+        </tr>
+        </thead>
+        <tbody id="content-field-list-__name__" style="width: 100%" class="add_prototype_assessment" data-prototype="
             {% filter escape%}
                 {{ include('@App/Teacher/contentPrototype.html.twig',{'form':form.content.vars.prototype|e}) }}
             {% endfilter %}">
-
-        </div>
-        <div class="text-center" style="width: 100%">
-            <a id="add_content_link___name__" style="color:#5a738e;;text-decoration: none;"><span class="btn btn-grey" style="display: inline;"><i class="fa fa-plus-circle" style="color:#5a738e;"></i> {{ 'add'|trans }} {{ 'component'|trans }}</span></a>
-            <a id="remove_content_link___name__" style="color:#b93737;text-decoration: none;"><span class="btn btn-grey" style="display: inline;"><i class="fa fa-minus-circle " style="color:#b93737;"></i> {{ 'delete'|trans }} {{ 'component'|trans }}</span></a>
-        </div>
-    </td>
-    <td style="width: 5%" class="no-padding">
-        {{ form_row(form.contentPercentages,{'attr':{'style':'width: 30px'}}) }}
-    </td>
-    <td style="text-align: center!important;width: 9%" class="no-padding">
-        {{ form_row(form.outcomes,{'attr':{'style':'width: 80px'}}) }}
-    </td>
+        </tbody>
+    </table>
+    <div class="text-center" style="width: 100%">
+        <a id="add_content_link___name__" style="color:#5a738e;;text-decoration: none;"><span class="btn btn-grey" style="display: inline;"><i class="fa fa-plus-circle" style="color:#5a738e;"></i> {{ 'add'|trans }} {{ 'component'|trans }}</span></a>
+        <a id="remove_content_link___name__" style="color:#b93737;text-decoration: none;"><span class="btn btn-grey" style="display: inline;"><i class="fa fa-minus-circle " style="color:#b93737;"></i> {{ 'delete'|trans }} {{ 'component'|trans }}</span></a>
+    </div>
+</td>
+</td>
+<td style="width: 5%" class="no-padding">
+    {{ form_widget(form.contentPercentages,{'attr':{'style':'width: 28px'}}) }}%
+</td>
+<td style="text-align: center!important;width: 9%" class="no-padding">
+    {{ form_row(form.outcomes,{'attr':{'style':'width: 80px'}}) }}
+</td>
 
